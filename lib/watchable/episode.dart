@@ -1,13 +1,19 @@
 
+import 'package:viddroid_flutter_desktop/util/link.dart';
+
+import '../util/media.dart';
+
 class Episode {
+
   final String _name;
   final int _index;
   final int _season;
-  final String? _poster;
+  final String? _thumbnail;
+  final String data;
 
-  Episode(this._name, this._index, this._season, this._poster);
+  Episode(this._name, this._index, this._season, this._thumbnail, this.data);
 
-  String? get poster => _poster;
+  String? get thumbnail => _thumbnail;
 
   int get season => _season;
 
@@ -17,9 +23,9 @@ class Episode {
 
   @override
   String toString() {
-    return 'Episode{_name: $_name, _index: $_index, _season: $_season, _poster: $_poster}';
+    return 'Episode{_name: $_name, _index: $_index, _season: $_season, _thumbnail: $_thumbnail}';
   }
 
   //TODO: Poster-path default
-  String? getSeasonPosterPath() => poster!;
+  String? getSeasonPosterPath() => thumbnail!;
 }

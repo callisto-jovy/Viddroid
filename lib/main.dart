@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viddroid_flutter_desktop/util/custom_scroll_behaviour.dart';
 import 'package:viddroid_flutter_desktop/views/main_view.dart';
 import 'package:viddroid_flutter_desktop/watchable/watchables.dart';
 
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
+      scrollBehavior: CustomScrollBehaviour(),
       home: const MainView(title: 'Viddroid'),
     );
   }

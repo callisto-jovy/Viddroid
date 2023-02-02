@@ -2,14 +2,16 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
+import 'package:viddroid_flutter_desktop/util/fetch.dart';
+import 'package:viddroid_flutter_desktop/util/link.dart';
 import 'package:viddroid_flutter_desktop/util/search.dart';
 
 import '../../constants.dart';
+import '../../util/media.dart';
 
 class MoviesCo extends SiteProvider {
   MoviesCo()
-      : super('Movies.co', 'https://www1.123movies.co',
-            [SearchType.tv, SearchType.movie], 'en');
+      : super('Movies.co', 'https://www1.123movies.co', [TvType.tv, TvType.movie], 'en');
 
   @override
   Future<List<SearchResponse>> search(String query) async {
@@ -27,9 +29,19 @@ class MoviesCo extends SiteProvider {
       if (isMovie) {
         return MovieSearchResponse(title, href, name, thumbnail: thumbnail);
       } else {
-        //TODO: Tv Searchresp
-        return MovieSearchResponse(title, href, name);
+        return TvSearchResponse(title, href, name, thumbnail: thumbnail);
       }
     }).toList();
+  }
+
+  @override
+  Future<FetchResponse> fetch(SearchResponse url) {
+    return Future.error('Not implemented yet for movies.co');
+  }
+
+  @override
+  Stream<LinkResponse> load(LoadRequest url) async* {
+    // TODO: implement load
+    throw UnimplementedError();
   }
 }
