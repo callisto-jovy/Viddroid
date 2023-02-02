@@ -1,0 +1,151 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
+import 'package:viddroid_flutter_desktop/constants.dart';
+
+import '../api.dart';
+import '../util/search.dart';
+import '../watchable/episode.dart';
+
+class TheMovieDBAPIEndpoints {
+  final String endpoint;
+
+  const TheMovieDBAPIEndpoints._internal(this.endpoint);
+
+  @override
+  String toString() => "TheMovieDBApi-Endpoint $endpoint";
+
+  String getEndpoint() => endpoint;
+
+  static const searchMovie = TheMovieDBAPIEndpoints._internal("/search/movie");
+  static const searchTV = TheMovieDBAPIEndpoints._internal("/search/tv");
+  static const tvDetails = TheMovieDBAPIEndpoints._internal("/tv");
+  static const movieDetails = TheMovieDBAPIEndpoints._internal("/movie");
+  static const searchMulti = TheMovieDBAPIEndpoints._internal("/search/multi/");
+}
+
+class TheMovieDBAPIImageWidth {
+  final String dimensions;
+
+  const TheMovieDBAPIImageWidth._internal(this.dimensions);
+
+  @override
+  String toString() => "Image Dimension $dimensions";
+
+  String getDimension() => dimensions;
+
+  static const width300 = TheMovieDBAPIImageWidth._internal("w300");
+  static const originalSize = TheMovieDBAPIImageWidth._internal("original");
+  static const width500 = TheMovieDBAPIImageWidth._internal("w500");
+}
+
+const String apiv3Endpoint = "https://api.themoviedb.org/3";
+
+String formatEndpointSearchRequest(TheMovieDBAPIEndpoints dbapiEndpoint, String query) =>
+    "$apiv3Endpoint${dbapiEndpoint.getEndpoint()}?api_key=$apiKey&page=1&query=${Uri.encodeFull(query)}";
+
+String formatRequest(TheMovieDBAPIEndpoints dbapiEndpoint, String query,
+        {String appendToResponse = '', List<String> appends = const <String>[]}) =>
+    "$apiv3Endpoint${dbapiEndpoint.getEndpoint()}/$query?api_key=$apiKey&append_to_response=${appendToResponse + appends.join(',')}";
+
+String formatPosterPath(TheMovieDBAPIImageWidth imageWidth, final String posterPath) =>
+    "https://image.tmdb.org/t/p/${imageWidth.getDimension()}$posterPath";
+
+String formatSeasonsApi(final String tvId, final int seasonIndex) =>
+    "$apiv3Endpoint/tv/$tvId/season/$seasonIndex?api_key=$apiKey";
+
+class TheMovieDbApi {
+  static final TheMovieDbApi _instance = TheMovieDbApi.ctor();
+
+  TheMovieDbApi.ctor();
+
+  factory TheMovieDbApi() => _instance;
+
+  Future<List<SearchResponse>> search(final String query) async {
+    if (query.isEmpty) return List.empty();
+
+    final List<SearchResponse> responses = [];
+
+    final dynamic results = await simpleGet(
+      formatEndpointSearchRequest(TheMovieDBAPIEndpoints.searchMulti, query),
+    ).then((value) => jsonDecode(value.body)['results']);
+    //Look up the results
+
+    for (dynamic result in results) {
+      final String mediaType = result['media_type'];
+      final int? id = result['id'];
+      //Skip entry
+      if (id == null) {
+        continue;
+      }
+
+      //Ping the different apis based on the media-type
+      final String requestUrl = formatRequest(
+          mediaType == 'tv'
+              ? TheMovieDBAPIEndpoints.tvDetails
+              : TheMovieDBAPIEndpoints.movieDetails,
+          id.toString());
+
+      final dynamic detailedResult =
+          await simpleGet(requestUrl).then((value) => jsonDecode(value.body));
+
+      final String? thumbnail = detailedResult['poster_path'] != null
+          ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, detailedResult['poster_path']!)
+          : null;
+
+      if (mediaType == 'tv') {
+        responses.add(TvSearchResponse(
+          detailedResult['name'] ?? 'N/A',
+          '',
+          '',
+          id: id,
+          thumbnail: thumbnail,
+        ));
+      } else {
+        responses.add(MovieSearchResponse(
+          detailedResult['title'] ?? 'N/A',
+          '',
+          '',
+          id: id,
+          thumbnail: thumbnail,
+        ));
+      }
+    }
+    return responses;
+  }
+
+  Future<List<Episode>> getEpisodes(final String id) async {
+    final String requestUrl = formatRequest(TheMovieDBAPIEndpoints.tvDetails, id);
+
+    final Response response = await simpleGet(requestUrl);
+    final dynamic seasonsArray = jsonDecode(response.body)['seasons'];
+    final List<Episode> episodes = [];
+
+    for (int i = 0; i < seasonsArray.length; i++) {
+      //Because tmdb does not send back episodes in one request, we have to ping the api again...
+      final dynamic response =
+          await simpleGet(formatSeasonsApi(id, i)).then((value) => jsonDecode(value.body));
+      final dynamic episodesArray = response['episodes'];
+
+      for (int j = 0; j < episodesArray.length; j++) {
+        final dynamic episode = episodesArray[j];
+
+        final int? episodeId = episode['id'];
+        if (episodeId == null) {
+          continue;
+        }
+        //TODO: Maybe index episodes in "real terms"
+        episodes.add(Episode(
+            episode['name'] ?? 'N/A',
+            j,
+            i,
+            episode['still_path'] != null
+                ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, episode['still_path'])
+                : null,
+            episodeId.toString()));
+      }
+    }
+
+    return episodes;
+  }
+}

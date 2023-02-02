@@ -26,7 +26,7 @@ class GeneralPurposeCard extends StatelessWidget {
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                    imageUrl: thumbnail ?? 'null',
+                    imageUrl: thumbnail == null || thumbnail!.isEmpty ? 'null' : thumbnail!,
                     progressIndicatorBuilder: (context, url, downloadProgress) =>
                         CircularProgressIndicator(value: downloadProgress.progress),
                     errorWidget: (context, url, error) => const Icon(Icons.error),

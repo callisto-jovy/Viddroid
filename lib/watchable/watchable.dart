@@ -50,3 +50,6 @@ class Movie extends Watchable {
       : super(json['id'], json['title'], json['overview'], json['backdrop_path'],
             json['poster_path']);
 }
+
+
+
