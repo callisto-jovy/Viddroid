@@ -65,16 +65,13 @@ class _TvWidgetState extends State<TvWidget> {
                       padding: const EdgeInsets.all(10),
                       child: InkWell(
                           onTap: () {
+                            //TODO: Switch to videoplayer view
+
                             Providers()
-                                .siteProviders
-                                .where((element) => widget._fetchResponse.apiName == element.name)
-                                .forEach((element) {
-                              element
-                                  .load(widget._fetchResponse
-                                      .toTvLoadRequest(episodes[index].season, index + 1))
-                                  .listen((event) {
-                                print(event);
-                              });
+                                .provider(widget._fetchResponse.apiName)
+                                .load(episodes[index].toLoadRequest())
+                                .listen((event) {
+                              print(event);
                             });
                           },
                           child: EpisodeCard(episodes[index])));

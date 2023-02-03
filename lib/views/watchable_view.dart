@@ -86,7 +86,7 @@ class _WatchableViewState extends State<WatchableView> {
               ),
               ElevatedButton(
                   onPressed: () => Providers()
-                      .load((fetchResponse as MovieFetchResponse).toLoadRequest(""))
+                      .load((fetchResponse as MovieFetchResponse).toLoadRequest())
                       .first
                       .then((value) => Navigator.push(
                           context,

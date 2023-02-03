@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/watchable/episode.dart';
 
@@ -22,8 +21,11 @@ class EpisodeCard extends StatelessWidget {
           children: [
             Expanded(
               child: _episode.thumbnail == null
-                  ? Image.asset(
-                      "images/ep-no-thumb.jpg",
+                  ? const Image(
+                      image: AssetImage("images/ep-no-thumb.jpg"),
+                      alignment: Alignment.center,
+                      height: double.infinity,
+                      width: double.infinity,
                       fit: BoxFit.fill,
                     )
                   : CachedNetworkImage(
@@ -31,14 +33,13 @@ class EpisodeCard extends StatelessWidget {
                       progressIndicatorBuilder: (context, url, downloadProgress) =>
                           CircularProgressIndicator(value: downloadProgress.progress),
                       errorWidget: (context, url, error) => Image.asset(
-                        "ep-no-thumb.jpg",
-                        fit: BoxFit.fill,
-                      ),
+                            "images/ep-no-thumb.jpg",
+                            fit: BoxFit.fill,
+                          ),
                       fit: BoxFit.fill,
                       filterQuality: FilterQuality.medium),
             ),
-            Text('Episode ${_episode.index}',
-                style: const TextStyle(fontWeight: FontWeight.w400)),
+            Text('Episode ${_episode.index}', style: const TextStyle(fontWeight: FontWeight.w400)),
             Text(_episode.name,
                 softWrap: true, style: const TextStyle(fontWeight: FontWeight.bold)),
           ],

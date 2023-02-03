@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:viddroid_flutter_desktop/watchable/season.dart';
 
@@ -50,6 +49,3 @@ class Movie extends Watchable {
       : super(json['id'], json['title'], json['overview'], json['backdrop_path'],
             json['poster_path']);
 }
-
-
-

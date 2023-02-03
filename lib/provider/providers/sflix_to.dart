@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
+import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
+import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
 import 'package:viddroid_flutter_desktop/util/fetch.dart';
 import 'package:viddroid_flutter_desktop/util/link.dart';
 import 'package:viddroid_flutter_desktop/util/search.dart';
+import 'package:viddroid_flutter_desktop/util/string_extension.dart';
 
 import '../../constants.dart';
 import '../../util/media.dart';
@@ -107,8 +110,8 @@ class SflixTo extends SiteProvider {
         });
       }
 
-      return TvFetchResponse(title, url, name, TvType.tv, dataId, seasons: seasonElements.length,
-          episodes: episodes, backgroundImage: backgroundUrl);
+      return TvFetchResponse(title, url, name, TvType.tv, dataId,
+          seasons: seasonElements.length, episodes: episodes, backgroundImage: backgroundUrl);
     }
   }
 
@@ -136,8 +139,14 @@ class SflixTo extends SiteProvider {
       if (response.body.isEmpty) return;
 
       final dynamic json = jsonDecode(response.body);
-      if (json['link'] != null) {
-        yield LinkResponse(json['link'], '', '', MediaQuality.unknown);
+      final String? link = json['link'];
+      if (link != null) {
+        print(link);
+        final Extractor? extractor = Extractors().findExtractor(link.extractMainUrl);
+        if (extractor != null) {
+          //TODO: Referrer
+          yield* extractor.extract(link);
+        }
       }
     }
   }

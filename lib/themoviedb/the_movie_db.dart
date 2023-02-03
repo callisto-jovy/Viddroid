@@ -142,7 +142,7 @@ class TheMovieDbApi {
             episode['still_path'] != null
                 ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, episode['still_path'])
                 : null,
-            episodeId.toString()));
+            id));
       }
     }
 

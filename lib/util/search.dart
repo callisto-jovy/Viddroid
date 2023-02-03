@@ -16,12 +16,14 @@ abstract class SearchResponse {
 
 class MovieSearchResponse extends SearchResponse {
   MovieSearchResponse(super.title, super.url, super.apiName,
-      {super.thumbnail, super.id, super.searchQuality, super.thumbnailHeaders}) : super(type: TvType.movie);
+      {super.thumbnail, super.id, super.searchQuality, super.thumbnailHeaders})
+      : super(type: TvType.movie);
 }
 
 class TvSearchResponse extends SearchResponse {
   TvSearchResponse(super.title, super.url, super.apiName,
-      {super.thumbnail, super.id, super.searchQuality, super.thumbnailHeaders}): super(type: TvType.tv);
+      {super.thumbnail, super.id, super.searchQuality, super.thumbnailHeaders})
+      : super(type: TvType.tv);
 }
 
 enum SearchQuality {

@@ -1,4 +1,3 @@
-
 import 'episode.dart';
 
 class Season {

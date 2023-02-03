@@ -23,6 +23,10 @@ class Providers {
     VidSrcMe(),
   ];
 
+  SiteProvider provider(final String apiName) {
+    return siteProviders.where((element) => element.name == apiName).first;
+  }
+
   Stream<List<SearchResponse>> search(final String query, final List<TvType> searchTypes) async* {
     for (final SiteProvider provider in siteProviders) {
       if (searchTypes.every((element) => provider.types.contains(element))) {

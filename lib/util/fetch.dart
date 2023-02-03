@@ -4,6 +4,8 @@ import '../watchable/episode.dart';
 import 'media.dart';
 
 abstract class FetchResponse {
+//TODO: More data to flush out the ui
+
   final String title;
   final String url;
   final String apiName;
@@ -23,19 +25,13 @@ abstract class FetchResponse {
   String toString() {
     return 'FetchResponse{title: $title, url: $url, apiName: $apiName, data: $data, type: $type, thumbnail: $thumbnail, year: $year, duration: $duration, backgroundImage: $backgroundImage, thumbnailHeaders: $thumbnailHeaders}';
   }
-
-  LoadRequest toLoadRequest(final String data);
-
-//TODO: More data to flush out the ui
-
 }
 
 class MovieFetchResponse extends FetchResponse {
   MovieFetchResponse(super.title, super.url, super.apiName, super.type, super.data,
       {super.year, super.thumbnail, super.duration, super.thumbnailHeaders, super.backgroundImage});
 
-  @override
-  LoadRequest toLoadRequest(final String unused) {
+  LoadRequest toLoadRequest() {
     return LoadRequest(data, type, apiName);
   }
 }
@@ -53,12 +49,7 @@ class TvFetchResponse extends FetchResponse {
       super.thumbnailHeaders,
       super.backgroundImage});
 
-  @override
-  LoadRequest toLoadRequest(final String data) {
-    return LoadRequest(data, type, apiName);
-  }
-
-  LoadRequest toTvLoadRequest(final int season, final int episode) {
+  LoadRequest toLoadRequest(final int season, final int episode) {
     return TvLoadRequest(data, type, apiName, episode: episode, season: season);
   }
 }
