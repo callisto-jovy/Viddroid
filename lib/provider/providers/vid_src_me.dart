@@ -28,15 +28,15 @@ class VidSrcMe extends SiteProvider {
   @override
   Future<FetchResponse> fetch(SearchResponse searchResponse) async {
     if (searchResponse.type == TvType.movie) {
-      return MovieFetchResponse(
-          searchResponse.title, searchResponse.url, searchResponse.apiName, TvType.movie, searchResponse.id.toString(),
+      return MovieFetchResponse(searchResponse.title, searchResponse.url, searchResponse.apiName,
+          TvType.movie, searchResponse.id.toString(),
           thumbnail: searchResponse.thumbnail, backgroundImage: searchResponse.thumbnail);
     } else {
       final List<Episode> episodes =
           await TheMovieDbApi().getEpisodes(searchResponse.id.toString());
 
-      return TvFetchResponse(
-          searchResponse.title, searchResponse.url, searchResponse.apiName, TvType.tv, searchResponse.id.toString(),
+      return TvFetchResponse(searchResponse.title, searchResponse.url, searchResponse.apiName,
+          TvType.tv, searchResponse.id.toString(),
           thumbnail: searchResponse.thumbnail,
           backgroundImage: searchResponse.thumbnail,
           episodes: episodes,
@@ -54,8 +54,11 @@ class VidSrcMe extends SiteProvider {
     //https://vidsrc.me/embed/tt0944947/2-3/
     if (loadRequest is TvLoadRequest) {
       yield* VidSrcExtractor().extract(
-          'https://vidsrc.me/embed/${loadRequest.data}/${loadRequest.season}-${loadRequest.episode}',
+          '$mainUrl/embed/${loadRequest.data}/${loadRequest.season}-${loadRequest.episode}',
           headers: loadRequest.headers);
+    } else if (loadRequest is MovieLoadRequest) {
+      yield* VidSrcExtractor()
+          .extract('$mainUrl/embed/${loadRequest.data}/', headers: loadRequest.headers);
     }
   }
 }

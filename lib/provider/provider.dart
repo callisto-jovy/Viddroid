@@ -1,11 +1,9 @@
-
 import '../util/fetch.dart';
 import '../util/link.dart';
 import '../util/media.dart';
 import '../util/search.dart';
 
-abstract class SiteProvider  {
-
+abstract class SiteProvider {
   final String name;
   final String mainUrl;
   final List<TvType> types;

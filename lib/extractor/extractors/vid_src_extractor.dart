@@ -17,11 +17,7 @@ class VidSrcExtractor extends Extractor {
 
     final List<String> servers = [];
 
-    print(url);
-
-    for (final Element element
-        in document.querySelectorAll("div.active_source.source")) {
-
+    for (final Element element in document.querySelectorAll("div.active_source.source")) {
       final String? dataHash = element.attributes['data-hash'];
       if (dataHash != null && dataHash.isNotEmpty) {
         final Response resp = await simpleGet("$mainUrl/srcrcp/$dataHash",
@@ -33,29 +29,23 @@ class VidSrcExtractor extends Extractor {
       }
     }
 
-    print(servers);
-
     for (final String server in servers) {
       final String fixedLink = server.replaceAll("https://vidsrc.xyz/", "https://embedsito.com/");
 
       if (fixedLink.contains("/srcrcp/")) {
-        print("ok!");
         final Response srcResp = await simpleGet(server, headers: {"referer": mainUrl});
         final String respBody = srcResp.body;
 
-        print(srcResp.statusCode);
-
-        final RegExp m3u8Regex = RegExp("((https:|http:)//.*\\.m3u8)");
+        final RegExp m3u8Regex = RegExp(r"((https:|http:)//.*\\.m3u8)");
 
         final String? srcm3u8 = m3u8Regex.stringMatch(respBody);
 
-        final RegExp passRegex = RegExp("""['"](.*set_pass[^"']*)""");
+        final RegExp passRegex = RegExp(r"""['"](.*set_pass[^"']*)""");
 
         final String? pass =
             passRegex.firstMatch(respBody)?.group(1)?.replaceAll("""^//""", 'https://');
 
         if (pass != null && srcm3u8 != null) {
-          print(LinkResponse(srcm3u8, "https://vidsrc.stream/", pass, MediaQuality.unknown).toString());
           yield LinkResponse(srcm3u8, "https://vidsrc.stream/", pass, MediaQuality.unknown);
         }
       } else {

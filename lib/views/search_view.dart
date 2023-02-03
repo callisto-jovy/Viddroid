@@ -91,12 +91,14 @@ class _SearchViewState extends State<SearchView> {
                           .where(
                               (element) => element.apiName == Providers().siteProviders[index].name)
                           .toList();
+
                       return StickyHeader(
                         header: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           alignment: Alignment.centerLeft,
-                          child: Text(Providers().siteProviders[index].name,
-                            style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                          child: Text(
+                            Providers().siteProviders[index].name,
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
                         content: GridView.builder(

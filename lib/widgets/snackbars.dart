@@ -8,19 +8,19 @@ SnackBar _defaultBar(Widget content) => SnackBar(
     content: content);
 
 SnackBar successSnackbar(String message) => _defaultBar(
-  AwesomeSnackbarContent(
-    title: 'Success!',
-    message: message,
-    contentType: ContentType.success,
-  ),
-);
+      AwesomeSnackbarContent(
+        title: 'Success!',
+        message: message,
+        contentType: ContentType.success,
+      ),
+    );
 
 SnackBar errorSnackbar(String message) => _defaultBar(
-  AwesomeSnackbarContent(
-    title: 'Oh Snap!',
-    message: message,
+      AwesomeSnackbarContent(
+        title: 'Oh Snap!',
+        message: message,
 
-    /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-    contentType: ContentType.failure,
-  ),
-);
+        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+        contentType: ContentType.failure,
+      ),
+    );

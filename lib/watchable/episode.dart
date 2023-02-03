@@ -1,10 +1,8 @@
+import 'package:viddroid_flutter_desktop/util/media.dart';
 
-import 'package:viddroid_flutter_desktop/util/link.dart';
-
-import '../util/media.dart';
+import '../util/link.dart';
 
 class Episode {
-
   final String _name;
   final int _index;
   final int _season;
@@ -28,4 +26,8 @@ class Episode {
 
   //TODO: Poster-path default
   String? getSeasonPosterPath() => thumbnail!;
+
+  LoadRequest toLoadRequest() {
+    return TvLoadRequest(data, TvType.tv, '', episode: index, season: season);
+  }
 }

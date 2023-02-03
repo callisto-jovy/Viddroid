@@ -42,3 +42,7 @@ class TvLoadRequest extends LoadRequest {
     return 'TvLoadRequest{season: $season, episode: $episode}';
   }
 }
+
+class MovieLoadRequest extends LoadRequest {
+  MovieLoadRequest(super.data, super.type, super.apiName, {super.headers});
+}

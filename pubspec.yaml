@@ -47,8 +47,9 @@ dependencies:
   cached_network_image: ^3.2.3
   loading_animation_widget: ^1.2.0+4
   shimmer: ^2.0.0
-  webview_windows: ^0.2.2
   sticky_headers: ^0.3.0+2
+
+
 
 dev_dependencies:
   flutter_test:
@@ -76,7 +77,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - images/ep-no-thumb.jpg
+    - images/ep-no-thumb.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
