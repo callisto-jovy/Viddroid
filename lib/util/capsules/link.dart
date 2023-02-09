@@ -37,10 +37,6 @@ class TvLoadRequest extends LoadRequest {
   TvLoadRequest(super.data, super.type, super.apiName,
       {required this.season, required this.episode, super.headers});
 
-  @override
-  String toString() {
-    return 'TvLoadRequest{season: $season, episode: $episode}';
-  }
 }
 
 class MovieLoadRequest extends LoadRequest {

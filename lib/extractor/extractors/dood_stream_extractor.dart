@@ -16,6 +16,7 @@ class DoodStreamExtractor extends Extractor {
           'https://dood.to',
           'https://dood.si',
           'https://dood.ws',
+          'https://dood.re',
         ]);
 
   @override

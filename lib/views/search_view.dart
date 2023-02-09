@@ -96,6 +96,7 @@ class _SearchViewState extends State<SearchView> {
                         header: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           alignment: Alignment.centerLeft,
+                          color: Theme.of(context).colorScheme.surfaceVariant,
                           child: Text(
                             Providers().siteProviders[index].name,
                             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
