@@ -1,4 +1,4 @@
-import '../util/link.dart';
+import '../util/capsules/link.dart';
 
 abstract class Extractor {
   final String name;

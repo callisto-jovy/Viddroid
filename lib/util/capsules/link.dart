@@ -1,4 +1,4 @@
-import 'package:viddroid_flutter_desktop/util/media.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
 
 class LinkResponse {
   final String? title;

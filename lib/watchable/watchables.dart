@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:viddroid_flutter_desktop/watchable/watchable.dart';
 
@@ -16,8 +15,8 @@ class Watchables {
 
   Future<void> init() async {
     await Hive.initFlutter();
-    settingsBox = await Hive.openBox<Watchable>("settings");
-    watchablesBox = await Hive.openBox("watchables");
+    settingsBox = await Hive.openBox<Watchable>('settings');
+    watchablesBox = await Hive.openBox('watchables');
 
     //Debug: Insert dummy data:
     /*

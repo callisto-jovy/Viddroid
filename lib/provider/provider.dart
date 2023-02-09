@@ -1,7 +1,7 @@
-import '../util/fetch.dart';
-import '../util/link.dart';
-import '../util/media.dart';
-import '../util/search.dart';
+import '../util/capsules/fetch.dart';
+import '../util/capsules/link.dart';
+import '../util/capsules/media.dart';
+import '../util/capsules/search.dart';
 
 abstract class SiteProvider {
   final String name;

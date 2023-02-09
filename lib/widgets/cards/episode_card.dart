@@ -22,7 +22,7 @@ class EpisodeCard extends StatelessWidget {
             Expanded(
               child: _episode.thumbnail == null
                   ? const Image(
-                      image: AssetImage("images/ep-no-thumb.jpg"),
+                      image: AssetImage('images/ep-no-thumb.jpg'),
                       alignment: Alignment.center,
                       height: double.infinity,
                       width: double.infinity,
@@ -33,7 +33,7 @@ class EpisodeCard extends StatelessWidget {
                       progressIndicatorBuilder: (context, url, downloadProgress) =>
                           CircularProgressIndicator(value: downloadProgress.progress),
                       errorWidget: (context, url, error) => Image.asset(
-                            "images/ep-no-thumb.jpg",
+                            'images/ep-no-thumb.jpg',
                             fit: BoxFit.fill,
                           ),
                       fit: BoxFit.fill,

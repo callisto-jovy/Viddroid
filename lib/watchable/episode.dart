@@ -1,6 +1,6 @@
-import 'package:viddroid_flutter_desktop/util/media.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
 
-import '../util/link.dart';
+import '../util/capsules/link.dart';
 
 class Episode {
   final String _name;

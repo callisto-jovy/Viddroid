@@ -38,8 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   uuid: ^3.0.7
   awesome_snackbar_content: ^0.1.0
-  settings_ui: ^2.0.2
-  file_picker: ^5.2.4
+  #settings_ui: ^2.0.2
+  #file_picker: ^5.2.4
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   html: ^0.15.1
@@ -48,8 +48,9 @@ dependencies:
   loading_animation_widget: ^1.2.0+4
   shimmer: ^2.0.0
   sticky_headers: ^0.3.0+2
-
-
+  puppeteer: ^2.22.0
+  requests: ^4.7.0
+  encrypt: ^5.0.1
 
 dev_dependencies:
   flutter_test:

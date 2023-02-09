@@ -1,7 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/util/fetch.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
 import 'package:viddroid_flutter_desktop/views/video_player.dart';
 
 import '../provider/providers.dart';

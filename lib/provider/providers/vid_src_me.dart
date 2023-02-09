@@ -1,16 +1,16 @@
 import 'package:viddroid_flutter_desktop/extractor/extractors/vid_src_extractor.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
-import 'package:viddroid_flutter_desktop/util/iterable_extension.dart';
-import 'package:viddroid_flutter_desktop/util/link.dart';
-import 'package:viddroid_flutter_desktop/util/media.dart';
-import 'package:viddroid_flutter_desktop/util/search.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
+import 'package:viddroid_flutter_desktop/util/extensions/iterable_extension.dart';
 import 'package:viddroid_flutter_desktop/watchable/episode.dart';
 
-import '../../themoviedb/the_movie_db.dart';
-import '../../util/fetch.dart';
+import '../../util/capsules/fetch.dart';
+import '../../util/movie_provider/the_movie_db.dart';
 
 class VidSrcMe extends SiteProvider {
-  VidSrcMe() : super("VidSrcMe", "https://v2.vidsrc.me", [TvType.tv, TvType.movie], 'en');
+  VidSrcMe() : super('VidSrcMe', 'https://v2.vidsrc.me', [TvType.tv, TvType.movie], 'en');
 
   @override
   Future<List<SearchResponse>> search(String query) async {
@@ -18,7 +18,7 @@ class VidSrcMe extends SiteProvider {
     final List<SearchResponse> responses = await TheMovieDbApi().search(query);
 
     for (var element in responses) {
-      element.url = "$mainUrl/embed/${element.url}";
+      element.url = '$mainUrl/embed/${element.url}';
       element.apiName = name;
     }
 

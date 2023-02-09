@@ -24,7 +24,7 @@ class WatchablesList extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             color: Colors.teal[100],
-            child: const Text("He'd have you all unravel at the"),
+            child: const Text('He\'d have you all unravel at the'),
           ),
           Container(
             padding: const EdgeInsets.all(8),

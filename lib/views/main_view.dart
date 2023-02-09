@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/views/search_view.dart';
 import 'package:viddroid_flutter_desktop/watchable/watchables.dart';
