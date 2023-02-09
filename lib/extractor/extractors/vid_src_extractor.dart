@@ -20,7 +20,7 @@ class VidSrcExtractor extends Extractor {
     for (final Element element in document.querySelectorAll('div.active_source.source')) {
       final String? dataHash = element.attributes['data-hash'];
       if (dataHash != null && dataHash.isNotEmpty) {
-        final Response resp = await simpleGet('$mainUrl/srcrcp/$dataHash',
+        final Response resp = await simpleGet('${mainUrl}srcrcp/$dataHash',
             headers: {'referer': 'https://rcp.vidsrc.me/'});
 
         if (resp.request != null) {
@@ -36,14 +36,14 @@ class VidSrcExtractor extends Extractor {
         final Response srcResp = await simpleGet(server, headers: {'referer': mainUrl});
         final String respBody = srcResp.body;
 
-        final RegExp m3u8Regex = RegExp(r'((https:|http:)//.*\\.m3u8)');
+        final RegExp m3u8Regex = RegExp(r'((https:|http:)//.*\.m3u8)');
 
         final String? srcm3u8 = m3u8Regex.stringMatch(respBody);
 
         final RegExp passRegex = RegExp(r"""['"](.*set_pass[^"']*)""");
 
         final String? pass =
-            passRegex.firstMatch(respBody)?.group(1)?.replaceAll(r'^//', 'https://');
+            passRegex.firstMatch(respBody)?.group(1)?.replaceAll("^//", 'https://');
 
         if (pass != null && srcm3u8 != null) {
           yield LinkResponse(srcm3u8, 'https://vidsrc.stream/', pass, MediaQuality.unknown);

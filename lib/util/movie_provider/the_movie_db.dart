@@ -21,7 +21,7 @@ class TheMovieDBAPIEndpoints {
   static const searchTV = TheMovieDBAPIEndpoints._internal('/search/tv');
   static const tvDetails = TheMovieDBAPIEndpoints._internal('/tv');
   static const movieDetails = TheMovieDBAPIEndpoints._internal('/movie');
-  static const searchMulti = TheMovieDBAPIEndpoints._internal('/search/multi/');
+  static const searchMulti = TheMovieDBAPIEndpoints._internal('/search/multi');
 }
 
 class TheMovieDBAPIImageWidth {
@@ -70,6 +70,7 @@ class TheMovieDbApi {
       formatEndpointSearchRequest(TheMovieDBAPIEndpoints.searchMulti, query),
     ).then((value) => jsonDecode(value.body)['results']);
     //Look up the results
+
 
     for (dynamic result in results) {
       final String mediaType = result['media_type'];

@@ -28,6 +28,6 @@ class Episode {
   String? getSeasonPosterPath() => thumbnail!;
 
   LoadRequest toLoadRequest() {
-    return TvLoadRequest(data, TvType.tv, '', episode: index, season: season);
+    return TvLoadRequest(data, TvType.tv, name, episode: index, season: season);
   }
 }
