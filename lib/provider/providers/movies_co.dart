@@ -5,15 +5,15 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
-import 'package:viddroid_flutter_desktop/util/fetch.dart';
-import 'package:viddroid_flutter_desktop/util/link.dart';
-import 'package:viddroid_flutter_desktop/util/search.dart';
-import 'package:viddroid_flutter_desktop/util/string_extension.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
+import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 import 'package:viddroid_flutter_desktop/watchable/episode.dart';
 
 import '../../constants.dart';
 import '../../extractor/extractor.dart';
-import '../../util/media.dart';
+import '../../util/capsules/media.dart';
 
 class MoviesCo extends SiteProvider {
   MoviesCo() : super('Movies.co', 'https://www1.123movies.co', [TvType.tv, TvType.movie], 'en');
@@ -23,12 +23,12 @@ class MoviesCo extends SiteProvider {
     final Response response = await simpleGet('$mainUrl/search?s=$query');
     final Document document = parse(response.body);
 
-    final List<Element> items = document.querySelectorAll("div.videosContainer .ml-mask.jt");
+    final List<Element> items = document.querySelectorAll('div.videosContainer .ml-mask.jt');
     return items.map((e) {
       final String href = e.attributes['href']!;
       final String title = e.attributes['title'] ?? e.attributes['oldtitle'] ?? 'N/A';
       final bool isMovie = href.contains('/movie/');
-      final Element? thumbnailElement = e.querySelector(".lazy.thumb.mli-thumb");
+      final Element? thumbnailElement = e.querySelector('.lazy.thumb.mli-thumb');
       final String? thumbnail = thumbnailElement?.attributes['src'];
 
       if (isMovie) {
@@ -46,12 +46,12 @@ class MoviesCo extends SiteProvider {
     final RegExp thumbnailRegex = RegExp(r'(?<=url\()[^)]+');
 
     final String title = document.querySelector('.topdescriptiondesc > h2')?.text ?? 'N/A';
-    final String? year = document.querySelector(".chartdescriptionRight > ul > li > span")?.text;
+    final String? year = document.querySelector('.chartdescriptionRight > ul > li > span')?.text;
     final String? styleThumbnail = document.querySelector('.thumb.mvi-cover')?.attributes['style'];
     final String? thumbnail =
         styleThumbnail != null ? thumbnailRegex.stringMatch(styleThumbnail) : null;
 
-    final bool isTv = searchResponse.url.contains("series");
+    final bool isTv = searchResponse.url.contains('series');
 
     final String? url = document.querySelector('.thumb.mvi-cover')?.attributes['href'];
     if (url == null) {
@@ -69,7 +69,7 @@ class MoviesCo extends SiteProvider {
           watchingDocument.querySelector('.espidoes_listings_area.smallContainer.clear');
 
       final List<Episode> episodes = [];
-      final int seasons = seasonsElement == null ? 0 : seasonsElement.classes.length;
+      final int seasons = seasonsElement == null ? 0 : seasonsElement.children.length;
 
       if (seasonsElement != null) {
         final List<Element> seasonElements = seasonsElement.children;
@@ -87,6 +87,7 @@ class MoviesCo extends SiteProvider {
           }
         }
       }
+
       return TvFetchResponse(title, playerUrl, name, TvType.tv, 'data',
           episodes: episodes, seasons: seasons, backgroundImage: thumbnail, year: year);
     } else {
@@ -113,7 +114,7 @@ class MoviesCo extends SiteProvider {
     final String responseBody = await simpleGet(url).then((value) => value.body);
 
     //TODO: update regex
-    const String decodingAPI = "https://gomo.to/decoding_v3.php";
+    const String decodingAPI = 'https://gomo.to/decoding_v3.php';
     final RegExp tcRegex = RegExp(r"var tc = '(.*)'");
     final RegExp tokenRegex = RegExp(r'"_token": "(.*)"');
     final RegExp sliceRegex = RegExp(r'slice\((\d),(\d+)\)');
@@ -151,14 +152,15 @@ class MoviesCo extends SiteProvider {
       final dynamic jsonArray = jsonDecode(apiResponse.body);
 
       for (final String link in jsonArray) {
-        if(link.isEmpty) {
+        if (link.isEmpty) {
           continue;
         }
-        final Extractor? extractor = Extractors().findExtractor(link.extractMainUrl);
+        print(link);
 
+        final Extractor? extractor = Extractors().findExtractor(link.extractMainUrl);
         if (extractor != null) {
           //TODO: Referrer
-          yield* extractor.extract(link);
+          yield* extractor.extract(link, headers: {'referer': url});
         }
       }
     }

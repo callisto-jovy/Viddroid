@@ -1,6 +1,6 @@
-import 'package:viddroid_flutter_desktop/util/link.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 
-import '../watchable/episode.dart';
+import '../../watchable/episode.dart';
 import 'media.dart';
 
 abstract class FetchResponse {

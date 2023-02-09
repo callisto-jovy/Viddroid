@@ -6,8 +6,8 @@ import 'package:sticky_headers/sticky_headers.dart';
 import 'package:viddroid_flutter_desktop/widgets/cards/search_response_card.dart';
 
 import '../provider/providers.dart';
-import '../util/media.dart';
-import '../util/search.dart';
+import '../util/capsules/media.dart';
+import '../util/capsules/search.dart';
 import '../widgets/snackbars.dart';
 import '../widgets/text_search_field_widget.dart';
 

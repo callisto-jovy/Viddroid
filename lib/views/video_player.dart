@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/util/link.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 

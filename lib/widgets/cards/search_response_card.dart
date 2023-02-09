@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/provider/providers.dart';
-import 'package:viddroid_flutter_desktop/util/search.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
 import 'package:viddroid_flutter_desktop/views/watchable_view.dart';
 
 class SearchResponseCard extends StatelessWidget {

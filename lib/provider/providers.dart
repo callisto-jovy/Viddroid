@@ -2,11 +2,11 @@ import 'package:viddroid_flutter_desktop/provider/provider.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/movies_co.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/sflix_to.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/vid_src_me.dart';
-import 'package:viddroid_flutter_desktop/util/fetch.dart';
-import 'package:viddroid_flutter_desktop/util/search.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
 
-import '../util/link.dart';
-import '../util/media.dart';
+import '../util/capsules/link.dart';
+import '../util/capsules/media.dart';
 
 class Providers {
   static final Providers _instance = Providers.inst();
