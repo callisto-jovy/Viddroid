@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
 
-import '../widgets/half_page_image_widget.dart';
+import '../widgets/half_page_image.dart';
 import '../widgets/tv_widget.dart';
 
 class WatchableView extends StatefulWidget {
