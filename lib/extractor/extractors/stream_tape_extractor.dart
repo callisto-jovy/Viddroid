@@ -26,6 +26,6 @@ class StreamTapeExtractor extends Extractor {
 
     final String directUrl = 'https:${regExpMatch[1]! + regExpMatch[2]!.substring(3)}';
 
-    yield LinkResponse(directUrl, url, '', MediaQuality.unknown);
+    yield LinkResponse(directUrl, url, '', MediaQuality.unknown,  title: name);
   }
 }

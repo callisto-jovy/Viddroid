@@ -20,7 +20,7 @@ class EpisodeCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: _episode.thumbnail == null
+              child: _episode.thumbnail == null || _episode.thumbnail!.isEmpty
                   ? const Image(
                       image: AssetImage('images/ep-no-thumb.jpg'),
                       alignment: Alignment.center,

@@ -71,7 +71,6 @@ class TheMovieDbApi {
     ).then((value) => jsonDecode(value.body)['results']);
     //Look up the results
 
-
     for (dynamic result in results) {
       final String mediaType = result['media_type'];
       final int? id = result['id'];

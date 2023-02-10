@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
-import 'package:viddroid_flutter_desktop/views/video_player.dart';
 
-import '../provider/providers.dart';
 import '../widgets/half_page_image_widget.dart';
 import '../widgets/tv_widget.dart';
 
@@ -82,16 +80,6 @@ class _WatchableViewState extends State<WatchableView> {
                       : Container(),
                 ],
               ),
-              ElevatedButton(
-                  onPressed: () => Providers()
-                      .load((fetchResponse as MovieFetchResponse).toLoadRequest())
-                      .first
-                      .then((value) => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VideoPlayer(value),
-                          ))),
-                  child: const Icon(Icons.download)),
               const Spacer(flex: 2),
               fetchResponse is TvFetchResponse ? TvWidget(fetchResponse) : Container()
             ],

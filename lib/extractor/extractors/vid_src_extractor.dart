@@ -46,7 +46,8 @@ class VidSrcExtractor extends Extractor {
             passRegex.firstMatch(respBody)?.group(1)?.replaceAll("^//", 'https://');
 
         if (pass != null && srcm3u8 != null) {
-          yield LinkResponse(srcm3u8, 'https://vidsrc.stream/', pass, MediaQuality.unknown);
+          yield LinkResponse(srcm3u8, 'https://vidsrc.stream/', pass, MediaQuality.unknown,
+              title: name);
         }
       } else {
         //TODO: Redirect to other extractors
