@@ -35,7 +35,7 @@ class DoodStreamExtractor extends Extractor {
       //TODO: Media quality
       const MediaQuality mediaQuality = MediaQuality.unknown;
 
-      yield LinkResponse(mediaUrl, mainUrl, '', mediaQuality);
+      yield LinkResponse(mediaUrl, mainUrl, '', mediaQuality, title: name);
     }
   }
 }

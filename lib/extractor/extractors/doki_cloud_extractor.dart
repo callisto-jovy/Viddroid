@@ -45,7 +45,7 @@ class DokiCloudExtractor extends Extractor {
       final dynamic entry = decryptedJson[i];
       final String url = entry['file'];
 
-      yield LinkResponse(url, mainUrl, '', MediaQuality.unknown);
+      yield LinkResponse(url, mainUrl, '', MediaQuality.unknown,  title: name);
     }
   }
 

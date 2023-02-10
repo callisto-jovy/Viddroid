@@ -31,7 +31,7 @@ class Providers {
 
   Stream<List<SearchResponse>> search(final String query, final List<TvType> searchTypes) async* {
     for (final SiteProvider provider in siteProviders) {
-      if (searchTypes.every((element) => provider.types.contains(element))) {
+      if (searchTypes.any((element) => provider.types.contains(element))) {
         final List<SearchResponse> response = await provider.search(query);
         yield response;
       }

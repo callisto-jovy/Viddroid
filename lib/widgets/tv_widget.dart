@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
+import 'package:viddroid_flutter_desktop/views/video_player.dart';
 import 'package:viddroid_flutter_desktop/watchable/episode.dart';
 import 'package:viddroid_flutter_desktop/widgets/cards/episode_card.dart';
 
@@ -30,6 +32,13 @@ class _TvWidgetState extends State<TvWidget> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _displayVideoPlayer(final LoadRequest loadRequest) {
+    final Route route = MaterialPageRoute(
+        builder: (context) =>
+            VideoPlayer(Providers().provider(widget._fetchResponse.apiName).load(loadRequest)));
+    Navigator.pushReplacement(context, route);
   }
 
   @override
@@ -63,16 +72,7 @@ class _TvWidgetState extends State<TvWidget> {
                   return Container(
                       padding: const EdgeInsets.all(10),
                       child: InkWell(
-                          onTap: () {
-                            //TODO: Switch to videoplayer view
-
-                            Providers()
-                                .provider(widget._fetchResponse.apiName)
-                                .load(episodes[index].toLoadRequest())
-                                .listen((event) {
-                              print(event);
-                            });
-                          },
+                          onTap: () => _displayVideoPlayer(episodes[index].toLoadRequest()),
                           child: EpisodeCard(episodes[index])));
                 },
               ),
