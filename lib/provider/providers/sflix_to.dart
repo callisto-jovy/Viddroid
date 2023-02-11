@@ -57,16 +57,23 @@ class SflixTo extends SiteProvider {
 
     final String dataId =
         detailsElement.attributes['data-id'] ?? url.substring(url.lastIndexOf('-'));
+    // Meta-data
     final String? thumbnail = thumbnailElement?.attributes['src'];
     final String title = thumbnailElement?.attributes['title'] ?? 'N/A';
     final String? duration = document.querySelector('.fs-item > .duration')?.text;
     final String? year = document.querySelector('elements .col-xl-5 .row-line')?.text;
+    final String? description =
+        document.querySelector('.description')?.text.replaceAll('Overview:', '').trim();
 
     final bool isMovie = url.contains('movie');
 
     if (isMovie) {
       return MovieFetchResponse(title, url, name, TvType.movie, dataId,
-          thumbnail: thumbnail, duration: duration, year: year, backgroundImage: backgroundUrl);
+          thumbnail: thumbnail,
+          duration: duration,
+          year: year,
+          backgroundImage: backgroundUrl,
+          description: description);
     } else {
       final Response apiSeasons = await simpleGet('$mainUrl/ajax/v2/tv/seasons/$dataId');
       final Document seasonsDocument = parse(apiSeasons.body);
@@ -111,7 +118,12 @@ class SflixTo extends SiteProvider {
       }
 
       return TvFetchResponse(title, url, name, TvType.tv, dataId,
-          seasons: seasonElements.length, episodes: episodes, backgroundImage: backgroundUrl);
+          seasons: seasonElements.length,
+          episodes: episodes,
+          backgroundImage: backgroundUrl,
+          thumbnail: thumbnail,
+          duration: duration,
+          description: description);
     }
   }
 

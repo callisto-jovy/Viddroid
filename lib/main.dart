@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
       title: 'Viddroid Desktop',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorSchemeSeed: Colors.amber,
+        colorSchemeSeed: Colors.blueGrey,
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
-        colorSchemeSeed: Colors.amber,
+        colorSchemeSeed: Colors.blueGrey,
         brightness: Brightness.dark,
         useMaterial3: true,
       ),

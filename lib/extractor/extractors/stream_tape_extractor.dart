@@ -1,5 +1,4 @@
 import 'package:http/http.dart';
-import 'package:requests/requests.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
@@ -16,7 +15,8 @@ class StreamTapeExtractor extends Extractor {
   @override
   Stream<LinkResponse> extract(String url, {Map<String, String>? headers}) async* {
     final Response urlResponse = await simpleGet(url, headers: headers);
-    urlResponse.raiseForStatus();
+    //urlResponse.raiseForStatus();
+
     final String responseBody = urlResponse.body;
     final RegExpMatch? regExpMatch = linkRegex.firstMatch(responseBody);
 
@@ -26,6 +26,6 @@ class StreamTapeExtractor extends Extractor {
 
     final String directUrl = 'https:${regExpMatch[1]! + regExpMatch[2]!.substring(3)}';
 
-    yield LinkResponse(directUrl, url, '', MediaQuality.unknown,  title: name);
+    yield LinkResponse(directUrl, url, '', MediaQuality.unknown, title: name);
   }
 }

@@ -45,11 +45,23 @@ class MoviesCo extends SiteProvider {
     final Document document = parse(response.body);
     final RegExp thumbnailRegex = RegExp(r'(?<=url\()[^)]+');
 
-    final String title = document.querySelector('.topdescriptiondesc > h2')?.text ?? 'N/A';
+    final String title = document.querySelector('.topdescriptiondesc')?.children[0].text ??
+        'N/A'; //necessary, because movies_co uses different headers, depending on the type of media.
+
+    final String? description = document.querySelector('.topdescriptiondesc > p')?.text;
+    final String? duration =
+        document.querySelector('.chartdescriptionRight > ul > li > span')?.text;
+
     final String? year = document.querySelector('.chartdescriptionRight > ul > li > span')?.text;
-    final String? styleThumbnail = document.querySelector('.thumb.mvi-cover')?.attributes['style'];
+    final String? styleBackgroundImage =
+        document.querySelector('.thumb.mvi-cover')?.attributes['style'];
+    final String? backgroundImage =
+        styleBackgroundImage != null ? thumbnailRegex.stringMatch(styleBackgroundImage) : null;
+
     final String? thumbnail =
-        styleThumbnail != null ? thumbnailRegex.stringMatch(styleThumbnail) : null;
+        document.querySelector('.topdescriptionthumb > img')?.attributes['src'];
+
+    print(title);
 
     final bool isTv = searchResponse.url.contains('series');
 
@@ -61,8 +73,11 @@ class MoviesCo extends SiteProvider {
     final Response watchingResponse = await simpleGet(url);
     final Document watchingDocument = parse(watchingResponse.body);
 
+    /*
     final String playerUrl =
         watchingDocument.querySelector('.playerLock > iframe')!.attributes['src']!;
+
+     */
 
     if (isTv) {
       final Element? seasonsElement =
@@ -88,11 +103,21 @@ class MoviesCo extends SiteProvider {
         }
       }
 
-      return TvFetchResponse(title, playerUrl, name, TvType.tv, 'data',
-          episodes: episodes, seasons: seasons, backgroundImage: thumbnail, year: year);
+      return TvFetchResponse(title, url, name, TvType.tv, url,
+          episodes: episodes,
+          seasons: seasons,
+          backgroundImage: backgroundImage,
+          year: year,
+          thumbnail: thumbnail,
+          description: description,
+          duration: duration);
     } else {
-      return MovieFetchResponse(title, playerUrl, name, TvType.movie, playerUrl,
-          backgroundImage: thumbnail, year: year);
+      return MovieFetchResponse(title, url, name, TvType.movie, url,
+          backgroundImage: backgroundImage,
+          year: year,
+          thumbnail: thumbnail,
+          description: description,
+          duration: duration);
     }
   }
 

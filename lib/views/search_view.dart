@@ -31,8 +31,98 @@ class _SearchViewState extends State<SearchView> {
   void dispose() {
     _searchController.dispose();
     _searchResults.close();
-
     super.dispose();
+  }
+
+  Widget _buildSearchField() {
+    return TextSearchField(
+      controller: _searchController,
+      onSubmitted: (text) {
+        final List<SearchResponse> totalResponses = [];
+        Providers().search(text, _currentSelectedValues).listen((event) {
+          totalResponses.addAll(event);
+          _searchResults.add(totalResponses);
+        }).onError((error, stackTrace) {
+          ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
+          print(stackTrace);
+        });
+      },
+      formFieldKey: _formFieldKey,
+    );
+  }
+
+  Widget _buildSearchStreamBuilder() {
+    return StreamBuilder(
+      stream: _searchResults.stream,
+      builder: (context, AsyncSnapshot<List<SearchResponse>> snapshot) {
+        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          return ListView.builder(
+            itemCount: Providers().siteProviders.length,
+            itemBuilder: (context, index) {
+              final List<SearchResponse> resp = snapshot.data!
+                  .where((element) => element.apiName == Providers().siteProviders[index].name)
+                  .toList();
+
+              return StickyHeader(
+                header: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  alignment: Alignment.centerLeft,
+                  color: Theme.of(context).colorScheme.surfaceVariant,
+                  child: Text(
+                    Providers().siteProviders[index].name,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                content: GridView.builder(
+                  primary: false,
+                  padding: const EdgeInsets.all(20),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: resp.length,
+                  itemBuilder: (context, i) {
+                    final SearchResponse searchResponse = resp[i];
+                    return SearchResponseCard(searchResponse);
+                  },
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                ),
+              );
+            },
+          );
+        } else if (snapshot.hasError) {
+          return Text('Something went wrong. ${snapshot.error!}');
+        } else {
+          return _buildShimmerPlaceholder();
+        }
+      },
+    );
+  }
+
+  Widget _buildShimmerPlaceholder() {
+    //Placeholder with shimmer
+    return Shimmer.fromColors(
+      baseColor: Colors.black12,
+      highlightColor: Colors.grey.shade800,
+      period: const Duration(milliseconds: 2500),
+      child: GridView.builder(
+        padding: const EdgeInsets.all(20),
+        itemCount: 8,
+        //It is not possible to show more 8 items
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, i) {
+          return const Card();
+        },
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+      ),
+    );
   }
 
   @override
@@ -44,20 +134,7 @@ class _SearchViewState extends State<SearchView> {
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          TextSearchField(
-            controller: _searchController,
-            onSubmitted: (text) {
-              final List<SearchResponse> totalResponses = [];
-              Providers().search(text, _currentSelectedValues).listen((event) {
-                totalResponses.addAll(event);
-                _searchResults.add(totalResponses);
-              }).onError((error, stackTrace) {
-                ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
-                print(stackTrace);
-              });
-            },
-            formFieldKey: _formFieldKey,
-          ),
+          _buildSearchField(),
           Row(
               children: TvType.values
                   .map((e) => Flexible(
@@ -80,72 +157,7 @@ class _SearchViewState extends State<SearchView> {
                   .toList()),
           Expanded(
             flex: 4,
-            child: StreamBuilder(
-              stream: _searchResults.stream,
-              builder: (context, AsyncSnapshot<List<SearchResponse>> snapshot) {
-                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  return ListView.builder(
-                    itemCount: Providers().siteProviders.length,
-                    itemBuilder: (context, index) {
-                      final List<SearchResponse> resp = snapshot.data!
-                          .where(
-                              (element) => element.apiName == Providers().siteProviders[index].name)
-                          .toList();
-
-                      return StickyHeader(
-                        header: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          alignment: Alignment.centerLeft,
-                          color: Theme.of(context).colorScheme.surfaceVariant,
-                          child: Text(
-                            Providers().siteProviders[index].name,
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        content: GridView.builder(
-                          primary: false,
-                          padding: const EdgeInsets.all(20),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: resp.length,
-                          itemBuilder: (context, i) {
-                            final SearchResponse searchResponse = resp[i];
-                            return SearchResponseCard(searchResponse);
-                          },
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Something went wrong. ${snapshot.error!}');
-                } else {
-                  //Placeholder with shimmer
-                  return GridView.builder(
-                    padding: const EdgeInsets.all(20),
-                    itemCount: 8,
-                    //It is not possible to show more 8 items
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, i) {
-                      return Shimmer.fromColors(
-                          baseColor: Colors.grey.shade700,
-                          highlightColor: Colors.grey.shade300,
-                          child: const Card());
-                    },
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
-                  );
-                }
-              },
-            ),
+            child: _buildSearchStreamBuilder(),
           ),
         ],
       ),

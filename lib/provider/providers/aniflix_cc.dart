@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:requests/requests.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
@@ -24,7 +23,7 @@ class AniflixCC extends SiteProvider {
     final Response response = await simplePost('https://www.aniflix.cc/api/show/search', {
       'search': query,
     });
-    response.raiseForStatus();
+    //response.raiseForStatus();
     final dynamic jsonList = jsonDecode(response.body);
     final List<SearchResponse> list = [];
 
@@ -53,7 +52,7 @@ class AniflixCC extends SiteProvider {
     final String url = 'https://www.aniflix.cc/api/show/${searchResponse.url}';
     final Response response = await simpleGet(url);
 
-    response.raiseForStatus();
+   // response.raiseForStatus();
 
     final dynamic jsonObject = jsonDecode(response.body);
 
@@ -91,7 +90,8 @@ class AniflixCC extends SiteProvider {
           'https://www.aniflix.cc/api/episode/show/${loadRequest.data}/season/${loadRequest.season}/episode/${loadRequest.episode + 1}';
 
       final Response response = await simpleGet(url);
-      response.raiseForStatus();
+     // response.raiseForStatus();
+
       final dynamic streamList = jsonDecode(response.body)['streams'];
 
       for(final dynamic streamObject in streamList) {

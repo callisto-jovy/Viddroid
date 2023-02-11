@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 ///Taken from: https://github.com/fluttercommunity/chewie/blob/master/lib/src/animated_play_pause.dart
+/// The chewie project is licensed unter the MIT license.
+/// All credit goes to the authors.
 /// A widget that animates implicitly between a play and a pause icon.
 class AnimatedPlayPause extends StatefulWidget {
   const AnimatedPlayPause({

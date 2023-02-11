@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/option_item.dart';
+import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
+import 'package:viddroid_flutter_desktop/widgets/option_dialog.dart';
+import 'package:viddroid_flutter_desktop/widgets/playback_speed_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/seek_bar_widget.dart';
 
 import '../widgets/center_play_button.dart';
@@ -136,7 +140,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
     if (player != null && player) {
       _player.playOrPause();
     }
-
     _playing = !_playing;
   }
 
@@ -150,7 +153,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _playing = true;
   }
 
-  void _changePlaybackSpeed(final double playbackSpeed) {
+  void _changePlaybackSpeed(final double? playbackSpeed) {
+    if (playbackSpeed == null) {
+      return;
+    }
     _playbackSpeed = playbackSpeed;
     _player.rate = playbackSpeed;
   }
@@ -183,72 +189,79 @@ class _VideoPlayerState extends State<VideoPlayer> {
               child: Row(
             children: [
               Expanded(child: SeekBar(player: _player)),
-              _buildPlaybackButton(),
-              _buildStreamerButton(),
+              _buildMenuButton(),
             ],
           ))),
     );
   }
 
-  Widget _buildPlaybackButton() {
+  Widget _buildMenuButton() {
     return AnimatedOpacity(
       opacity: _hideOverlay ? 0 : 1,
       duration: const Duration(milliseconds: 300),
       child: IconButton(
-        icon: const Icon(Icons.speed_outlined),
+        icon: const Icon(Icons.menu),
         onPressed: () async {
           await showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            builder: (_) => _buildPlaybackList(),
+            builder: (_) => _buildMenuList(),
           );
         },
       ),
     );
   }
 
-  Widget _buildPlaybackList() {
-    return ListView(
-      children: _playbackSpeeds
-          .map((e) => ListTile(
-                onTap: () {
-                  _changePlaybackSpeed(e);
-                  Navigator.pop(context);
-                },
-                title: Text(e.toString()),
-              ))
-          .toList(),
-    );
+  Widget _buildMenuList() {
+    return OptionsDialog(options: [
+      OptionItem(
+          onTap: () async {
+            // Pop old material dialog
+            Navigator.pop(context);
+            _changePlaybackSpeed(await showModalBottomSheet<double>(
+              context: context,
+              isScrollControlled: true,
+              builder: (_) => PlaybackSpeedDialog(speeds: _playbackSpeeds, selected: 1.0),
+            ));
+          },
+          iconData: Icons.speed_outlined,
+          title: 'Playback Speed'),
+      OptionItem(
+          onTap: () async {
+            Navigator.pop(context);
+            await showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (_) => _buildStreamerList(),
+            );
+          },
+          iconData: Icons.video_collection,
+          title: 'Stream Source'),
+      OptionItem(
+          onTap: () {
+            Navigator.pop(context);
+            if (_currentLink == null) {
+              return;
+            }
+            Downloaders().getDownloader(_currentLink!)?.download();
+          },
+          iconData: Icons.download,
+          title: 'Download')
+    ]);
   }
 
-  Widget _buildStreamerButton() {
-    return AnimatedOpacity(
-      opacity: _hideOverlay ? 0 : 1,
-      duration: const Duration(milliseconds: 300),
-      child: IconButton(
-        icon: const Icon(Icons.video_collection),
-        onPressed: () async {
-          await showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (_) => _buildStreamerList(),
-          );
-        },
-      ),
-    );
-  }
-
+  // List view from all possible stream options
   Widget _buildStreamerList() {
-    return ListView(
-      children: _responses
-          .map((e) => ListTile(
-                onTap: () {
-                  Navigator.pop(context);
-                  _changeVideoSource(e);
-                },
-                title: Text(e.title != null ? '${e.title}/${e.mediaQuality.name}' : 'N/A'),
-              ))
-          .toList(),
-    );
+    final List<OptionItem> options = _responses
+        .map((e) => OptionItem(
+              onTap: () {
+                Navigator.pop(context);
+                _changeVideoSource(e);
+              },
+              title: e.title != null ? '${e.title}/${e.mediaQuality.name}' : 'N/A',
+              iconData: Icons.video_collection,
+            ))
+        .toList();
+    return OptionsDialog(options: options);
   }
 }
