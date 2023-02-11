@@ -30,7 +30,7 @@ class AniflixCC extends SiteProvider {
     for (dynamic jsonObject in jsonList) {
       final String title = jsonObject['name'] ?? 'N/A';
       final String id = jsonObject['url'];
-      final String? thumbnailRelative = jsonObject['cover_landscape'];
+      final String? thumbnailRelative = jsonObject['cover_portrait'];
       //Description available
 
       final String thumbnail = 'https://www.aniflix.cc/storage/$thumbnailRelative';
@@ -52,13 +52,16 @@ class AniflixCC extends SiteProvider {
     final String url = 'https://www.aniflix.cc/api/show/${searchResponse.url}';
     final Response response = await simpleGet(url);
 
-   // response.raiseForStatus();
+    // response.raiseForStatus();
 
     final dynamic jsonObject = jsonDecode(response.body);
 
     final String title = jsonObject['name'] ?? 'N/A';
-    final String? thumbnailRelative = jsonObject['cover_landscape'];
-    //Description available
+    final String? description = jsonObject['description'];
+
+    final String? backgroundRelative = jsonObject['cover_landscape'];
+    final String background = 'https://www.aniflix.cc/storage/$backgroundRelative';
+    final String? thumbnailRelative = jsonObject['cover_portrait'];
     final String thumbnail = 'https://www.aniflix.cc/storage/$thumbnailRelative';
 
     //There are only tv-shows with aniflix...
@@ -78,7 +81,11 @@ class AniflixCC extends SiteProvider {
       }
     }
     return TvFetchResponse(title, url, name, TvType.tv, searchResponse.url,
-        episodes: episodes, seasons: seasonsList.length, backgroundImage: thumbnail);
+        episodes: episodes,
+        seasons: seasonsList.length,
+        backgroundImage: background,
+        thumbnail: thumbnail,
+        description: description);
   }
 
   @override
@@ -90,17 +97,17 @@ class AniflixCC extends SiteProvider {
           'https://www.aniflix.cc/api/episode/show/${loadRequest.data}/season/${loadRequest.season}/episode/${loadRequest.episode + 1}';
 
       final Response response = await simpleGet(url);
-     // response.raiseForStatus();
+      // response.raiseForStatus();
 
       final dynamic streamList = jsonDecode(response.body)['streams'];
 
-      for(final dynamic streamObject in streamList) {
+      for (final dynamic streamObject in streamList) {
         final String? streamUrl = streamObject['link'];
-        if(streamUrl == null) {
+        if (streamUrl == null) {
           continue;
         }
         final Extractor? extractor = Extractors().findExtractor(streamUrl.extractMainUrl);
-        if(extractor == null) {
+        if (extractor == null) {
           continue;
         }
 
