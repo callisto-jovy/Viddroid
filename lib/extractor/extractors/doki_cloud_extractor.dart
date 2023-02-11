@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:http/http.dart';
-import 'package:requests/requests.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
@@ -31,7 +30,8 @@ class DokiCloudExtractor extends Extractor {
       'Connection': 'keep-alive',
       'TE': 'trailers'
     });
-    response.raiseForStatus();
+
+    //response.raiseForStatus();
 
     final dynamic sources = jsonDecode(response.body)['sources'];
     if (sources == null) {

@@ -47,6 +47,7 @@ class HalfPageImage extends StatelessWidget {
       tag: tag,
       child: SizedBox(
         width: size.width,
+        height: size.height,
         child: _buildImage(context),
       ),
     );

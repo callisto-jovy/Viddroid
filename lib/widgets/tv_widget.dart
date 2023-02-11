@@ -34,6 +34,18 @@ class _TvWidgetState extends State<TvWidget> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _loadEpisodesForSeason();
+  }
+
+  void _loadEpisodesForSeason() {
+    episodes = widget._fetchResponse.episodes
+        .where((element) => element.season == dropdownValue)
+        .toList();
+  }
+
   void _displayVideoPlayer(final LoadRequest loadRequest) {
     final Route route = MaterialPageRoute(
         builder: (context) =>
@@ -43,43 +55,38 @@ class _TvWidgetState extends State<TvWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 8,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          DropdownButton(
-            icon: const Icon(Icons.menu),
-            items: widget._seasons,
-            onChanged: (value) => setState(() {
-              dropdownValue = value!;
-              episodes = widget._fetchResponse.episodes
-                  .where((element) => element.season == dropdownValue)
-                  .toList();
-            }),
-            value: dropdownValue,
-          ),
-          Expanded(
-            child: Scrollbar(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        DropdownButton(
+          icon: const Icon(Icons.menu),
+          items: widget._seasons,
+          onChanged: (value) => setState(() {
+            dropdownValue = value!;
+            _loadEpisodesForSeason();
+          }),
+          value: dropdownValue,
+        ),
+        Expanded(
+          child: Scrollbar(
+            controller: _scrollController,
+            child: ListView.builder(
+              shrinkWrap: true,
               controller: _scrollController,
-              child: ListView.builder(
-                shrinkWrap: true,
-                controller: _scrollController,
-                itemCount: episodes.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Container(
-                      padding: const EdgeInsets.all(10),
-                      child: InkWell(
-                          onTap: () => _displayVideoPlayer(episodes[index].toLoadRequest()),
-                          child: EpisodeCard(episodes[index])));
-                },
-              ),
+              itemCount: episodes.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Container(
+                    padding: const EdgeInsets.all(10),
+                    child: InkWell(
+                        onTap: () => _displayVideoPlayer(episodes[index].toLoadRequest()),
+                        child: EpisodeCard(episodes[index])));
+              },
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }

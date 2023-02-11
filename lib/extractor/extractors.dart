@@ -1,6 +1,6 @@
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors/doki_cloud_extractor.dart';
-import 'package:viddroid_flutter_desktop/extractor/extractors/dood_stream_extractor.dart';
+import 'package:viddroid_flutter_desktop/extractor/extractors/mix_drop_extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors/vid_src_extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors/stream_tape_extractor.dart';
 
@@ -16,9 +16,10 @@ class Extractors {
 
   final List<Extractor> extractors = [
     VidSrcExtractor(),
-    DoodStreamExtractor(),
+   // DoodStreamExtractor(),
     DokiCloudExtractor(),
     StreamTapeExtractor(),
+    MixDropExtractor(),
   ];
 
   Extractor? findExtractor(final String url) {

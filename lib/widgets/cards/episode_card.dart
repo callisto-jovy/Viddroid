@@ -7,6 +7,16 @@ class EpisodeCard extends StatelessWidget {
 
   const EpisodeCard(this._episode, {Key? key}) : super(key: key);
 
+  Widget _buildErrorImage() {
+    return const Image(
+      image: AssetImage('images/ep-no-thumb.jpg'),
+      alignment: Alignment.center,
+      height: double.infinity,
+      width: double.infinity,
+      fit: BoxFit.cover,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -21,22 +31,13 @@ class EpisodeCard extends StatelessWidget {
           children: [
             Expanded(
               child: _episode.thumbnail == null || _episode.thumbnail!.isEmpty
-                  ? const Image(
-                      image: AssetImage('images/ep-no-thumb.jpg'),
-                      alignment: Alignment.center,
-                      height: double.infinity,
-                      width: double.infinity,
-                      fit: BoxFit.fill,
-                    )
+                  ? _buildErrorImage()
                   : CachedNetworkImage(
                       imageUrl: _episode.thumbnail!,
                       progressIndicatorBuilder: (context, url, downloadProgress) =>
                           CircularProgressIndicator(value: downloadProgress.progress),
-                      errorWidget: (context, url, error) => Image.asset(
-                            'images/ep-no-thumb.jpg',
-                            fit: BoxFit.fill,
-                          ),
-                      fit: BoxFit.fill,
+                      errorWidget: (context, url, error) => _buildErrorImage(),
+                      fit: BoxFit.cover,
                       filterQuality: FilterQuality.medium),
             ),
             Text('Episode ${_episode.index}', style: const TextStyle(fontWeight: FontWeight.w400)),
