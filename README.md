@@ -1,16 +1,54 @@
-# viddroid_flutter_desktop
+# Viddroid
 
-A desktop application to watch and download media such as tv-series and movies.
+Viddroid is a desktop application, which allows to stream, download and bookmark tv-shows, movies, and anime.
 
-## Getting Started
+By itself, Viddroid includes some streaming providers. However, it is planned to construct a custom scripting-language,
+which would enable users to include custom providers. But, before this enhancement, the app has to be in a stable and
+semi-finished state.
 
-This project is a starting point for a Flutter application.
+If you are searching for an extensive Android application which accomplishes the same feat, have a look
+at [Cloudstream](https://github.com/recloudstream/cloudstream).
 
-A few resources to get you started if this is your first Flutter project:
+As this project could get pretty big, help is always appreciated. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Support
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Currently, Windows and Linux are the primary supported operating systems. This is due to a limitation with Flutter.
+While Flutter is able to handle video streams on mobile perfectly, there is [no official support](https://github.com/flutter/flutter/issues/37673) for the desktop platform yet. 
+As a result, I use the library [media_kit](https://github.com/alexmercerind/media_kit), which has been created by great individuals to accomplish the feat of video playback and uses
+native bindings to [libmpv](https://github.com/mpv-player/mpv/tree/master/libmpv).
+This library, however, is work-in-progress and does not support MacOS for now. 
+There are workarounds to this problem and [dart_vlc](https://github.com/alexmercerind/dart_vlc) could be used in order to directly support MacOS. Sadly, dart_vlc is not
+hardware accelerated and would take a lot of time to implement.
+
+## Features
+- Ad free
+- Bookmark your favorite media items
+- Download and stream your favorite media
+- Desktop support, standalone website coming
+- No tracking, no analytics
+
+## Overview
+
+![search idle](.github/search_01.png)
+![search](.github/search_02.png)
+![tv screen](.github/tv_01.png)
+![movie screen](.github/movie_01.png)
+![player idle](.github/player_01.png)
+![player options](.github/player_02.png)
+![player playing](.github/player_03.png)
+
+## Roadmap
+
+- [x] Basic structure
+- [x] Providers and extractors
+- [x] Functional and beautiful enough UI
+- [x] Downloading media
+- [ ] Download progress indicators
+- [ ] Interactive UI
+- [ ] Media bookmarking
+- [ ] Settings
+- [ ] Custom Providers (implemented through a custom scripting-language) / Detach the providers from the codebase
+  and turn them into extensions (e.g. [Cloudstream](https://github.com/recloudstream/cloudstream))
+- [ ] Translations
+
