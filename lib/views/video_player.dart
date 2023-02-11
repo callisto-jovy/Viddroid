@@ -9,6 +9,7 @@ import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
 import 'package:viddroid_flutter_desktop/widgets/option_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/playback_speed_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/seek_bar_widget.dart';
+import 'package:window_manager/window_manager.dart';
 
 import '../widgets/center_play_button.dart';
 
@@ -51,6 +52,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _startHideTimer();
 
     Future.microtask(() async {
+      await WindowManager.instance.setFullScreen(true);
       // Create a [VideoController] instance from `package:media_kit_video`.
       // Pass the [handle] of the [Player] from `package:media_kit` to the [VideoController] constructor.
       widget._stream.asBroadcastStream().listen((event) {
@@ -76,6 +78,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       // Release allocated resources back to the system.
       await _controller?.dispose();
       await _player.dispose();
+      await WindowManager.instance.setFullScreen(false);
     });
     super.dispose();
   }

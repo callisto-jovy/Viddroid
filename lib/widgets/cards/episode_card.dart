@@ -37,7 +37,12 @@ class EpisodeCard extends StatelessWidget {
                       progressIndicatorBuilder: (context, url, downloadProgress) =>
                           CircularProgressIndicator(value: downloadProgress.progress),
                       errorWidget: (context, url, error) => _buildErrorImage(),
-                      fit: BoxFit.cover,
+                      imageBuilder: (context, imageProvider) => Image(
+                          image: imageProvider,
+                          alignment: Alignment.center,
+                          height: double.infinity,
+                          width: double.infinity,
+                          fit: BoxFit.cover),
                       filterQuality: FilterQuality.medium),
             ),
             Text('Episode ${_episode.index}', style: const TextStyle(fontWeight: FontWeight.w400)),

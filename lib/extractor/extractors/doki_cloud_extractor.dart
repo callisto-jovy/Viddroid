@@ -38,14 +38,25 @@ class DokiCloudExtractor extends Extractor {
       return;
     }
 
-    //TODO: Fetch from url
-    final String decrypted = _decrypt(sources, await _getKey());
-    final dynamic decryptedJson = jsonDecode(decrypted);
-    for (int i = 0; i < decryptedJson.length; i++) {
-      final dynamic entry = decryptedJson[i];
-      final String url = entry['file'];
+    if (sources is String) {
+      final String decrypted = _decrypt(sources, await _getKey());
+      final dynamic decryptedJson = jsonDecode(decrypted);
+      for (int i = 0; i < decryptedJson.length; i++) {
+        final dynamic entry = decryptedJson[i];
+        final String url = entry['file'];
 
-      yield LinkResponse(url, mainUrl, '', MediaQuality.unknown,  title: name);
+        yield LinkResponse(url, mainUrl, '', MediaQuality.unknown, title: name);
+      }
+    } else {
+      for (dynamic s in sources) {
+        //TODO: Fetch from url
+
+        if (s is Map) {
+          print(s);
+          yield LinkResponse(s['file'], mainUrl, '', MediaQuality.unknown, title: name);
+        } else {
+        }
+      }
     }
   }
 
