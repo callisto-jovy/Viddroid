@@ -1,6 +1,6 @@
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
 
@@ -13,7 +13,7 @@ class VidSrcExtractor extends Extractor {
   @override
   Stream<LinkResponse> extract(String url, {Map<String, String>? headers}) async* {
     final Response urlResponse = await simpleGet(url, headers: headers);
-    final Document document = parse(urlResponse.body);
+    final Document document = parse(urlResponse.data);
 
     final List<String> servers = [];
 
@@ -23,9 +23,13 @@ class VidSrcExtractor extends Extractor {
         final Response resp = await simpleGet('${mainUrl}srcrcp/$dataHash',
             headers: {'referer': 'https://rcp.vidsrc.me/'});
 
+        /*
+        TODO: Rewrite with dio
         if (resp.request != null) {
           servers.add(resp.request!.url.toString());
         }
+
+         */
       }
     }
 
@@ -34,7 +38,7 @@ class VidSrcExtractor extends Extractor {
 
       if (fixedLink.contains('/srcrcp/')) {
         final Response srcResp = await simpleGet(server, headers: {'referer': mainUrl});
-        final String respBody = srcResp.body;
+        final String respBody = srcResp.data;
 
         final RegExp m3u8Regex = RegExp(r'((https:|http:)//.*\.m3u8)');
 

@@ -1,5 +1,6 @@
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/aniflix_cc.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/anime_pahe.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/movies_co.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/sflix_to.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/vid_src_me.dart';
@@ -23,6 +24,7 @@ class Providers {
     SflixTo(),
     VidSrcMe(),
     AniflixCC(),
+    AnimePahe(),
   ];
 
   SiteProvider provider(final String apiName) {
