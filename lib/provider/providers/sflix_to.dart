@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
@@ -21,7 +21,7 @@ class SflixTo extends SiteProvider {
   @override
   Future<List<SearchResponse>> search(String query) async {
     final Response response = await simpleGet('$mainUrl/search/${query.replaceAll(' ', '-')}');
-    final Document document = parse(response.body);
+    final Document document = parse(response.data);
 
     final List<Element> items = document.querySelectorAll('div.flw-item');
     return items.map((e) {
@@ -44,7 +44,7 @@ class SflixTo extends SiteProvider {
     final String url = searchResponse.url;
 
     final Response response = await simpleGet('$mainUrl/$url');
-    final Document document = parse(response.body);
+    final Document document = parse(response.data);
 
     //Background url
     final RegExp backgroundUrlPattern = RegExp(r'(?<=url\()[^)]+');
@@ -76,7 +76,7 @@ class SflixTo extends SiteProvider {
           description: description);
     } else {
       final Response apiSeasons = await simpleGet('$mainUrl/ajax/v2/tv/seasons/$dataId');
-      final Document seasonsDocument = parse(apiSeasons.body);
+      final Document seasonsDocument = parse(apiSeasons.data);
 
       List<Element> seasonElements =
           seasonsDocument.querySelectorAll('div.dropdown-menu.dropdown-menu-model > a');
@@ -96,7 +96,7 @@ class SflixTo extends SiteProvider {
         }
 
         final Response apiEpisodes = await simpleGet('$mainUrl/ajax/v2/season/episodes/$seasonId');
-        final Document episodesDocument = parse(apiEpisodes.body);
+        final Document episodesDocument = parse(apiEpisodes.data);
 
         List<Element> episodeElements = episodesDocument
             .querySelectorAll('div.flw-item.film_single-item.episode-item.eps-item');
@@ -134,7 +134,7 @@ class SflixTo extends SiteProvider {
         : '$mainUrl/ajax/v2/episode/servers/${loadRequest.data}';
 
     final Response response = await simpleGet(url);
-    final Document document = parse(response.body);
+    final Document document = parse(response.data);
 
     final List<String> ids = document
         .querySelectorAll('a')
@@ -148,9 +148,9 @@ class SflixTo extends SiteProvider {
 
     for (String serverId in ids) {
       final Response response = await simpleGet('$mainUrl/ajax/get_link/$serverId');
-      if (response.body.isEmpty) return;
+      if (response.data.isEmpty) return;
 
-      final dynamic json = jsonDecode(response.body);
+      final dynamic json = response.data;
       final String? link = json['link'];
 
       if (link != null) {

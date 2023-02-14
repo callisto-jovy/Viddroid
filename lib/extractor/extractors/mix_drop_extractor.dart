@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
@@ -15,8 +15,7 @@ class MixDropExtractor extends Extractor {
   @override
   Stream<LinkResponse> extract(String url, {Map<String, String>? headers}) async* {
     final Response response = await simpleGet(url);
-   // response.raiseForStatus();
-    final String packedBody = response.body;
+    final String packedBody = response.data;
     final String? unpackedBody = JSPacker(packedBody).unpack();
     if (unpackedBody == null) {
       return;

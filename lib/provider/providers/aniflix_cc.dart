@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
@@ -20,11 +20,13 @@ class AniflixCC extends SiteProvider {
     //https://www.aniflix.cc/api/show/search (API)
     //Post api with param search = query
 
-    final Response response = await simplePost('https://www.aniflix.cc/api/show/search', {
-      'search': query,
-    });
-    //response.raiseForStatus();
-    final dynamic jsonList = jsonDecode(response.body);
+    final Response response = await simplePost('https://www.aniflix.cc/api/show/search',
+        jsonEncode({'search': query}), //Dio does not add quotation marks
+        headers: {
+          'content-type': 'application/json;charset=utf-8',
+        });
+
+    final dynamic jsonList = response.data;
     final List<SearchResponse> list = [];
 
     for (dynamic jsonObject in jsonList) {
@@ -42,7 +44,6 @@ class AniflixCC extends SiteProvider {
         list.add(TvSearchResponse(title, id, name, thumbnail: thumbnail));
       }
     }
-
     return list;
   }
 
@@ -51,10 +52,7 @@ class AniflixCC extends SiteProvider {
     //https://www.aniflix.cc/api/show/made-in-abyss (API)
     final String url = 'https://www.aniflix.cc/api/show/${searchResponse.url}';
     final Response response = await simpleGet(url);
-
-    // response.raiseForStatus();
-
-    final dynamic jsonObject = jsonDecode(response.body);
+    final dynamic jsonObject = response.data;
 
     final String title = jsonObject['name'] ?? 'N/A';
     final String? description = jsonObject['description'];
@@ -97,9 +95,8 @@ class AniflixCC extends SiteProvider {
           'https://www.aniflix.cc/api/episode/show/${loadRequest.data}/season/${loadRequest.season}/episode/${loadRequest.episode + 1}';
 
       final Response response = await simpleGet(url);
-      // response.raiseForStatus();
 
-      final dynamic streamList = jsonDecode(response.body)['streams'];
+      final dynamic streamList = response.data['streams'];
 
       for (final dynamic streamObject in streamList) {
         final String? streamUrl = streamObject['link'];
@@ -110,8 +107,7 @@ class AniflixCC extends SiteProvider {
         if (extractor == null) {
           continue;
         }
-
-        yield* extractor.extract(streamUrl);
+        yield* extractor.extract(streamUrl, headers: {'referer': mainUrl});
       }
     }
   }

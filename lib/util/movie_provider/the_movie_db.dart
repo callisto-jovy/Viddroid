@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 
 import '../../api.dart';
@@ -68,7 +68,7 @@ class TheMovieDbApi {
 
     final dynamic results = await simpleGet(
       formatEndpointSearchRequest(TheMovieDBAPIEndpoints.searchMulti, query),
-    ).then((value) => jsonDecode(value.body)['results']);
+    ).then((value) => value.data['results']);
     //Look up the results
 
     for (dynamic result in results) {
@@ -87,7 +87,7 @@ class TheMovieDbApi {
           id.toString());
 
       final dynamic detailedResult =
-          await simpleGet(requestUrl).then((value) => jsonDecode(value.body));
+          await simpleGet(requestUrl).then((value) => value.data);
 
       final String? thumbnail = detailedResult['poster_path'] != null
           ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, detailedResult['poster_path']!)
@@ -118,13 +118,13 @@ class TheMovieDbApi {
     final String requestUrl = formatRequest(TheMovieDBAPIEndpoints.tvDetails, id);
 
     final Response response = await simpleGet(requestUrl);
-    final dynamic seasonsArray = jsonDecode(response.body)['seasons'];
+    final dynamic seasonsArray = response.data['seasons'];
     final List<Episode> episodes = [];
 
     for (int i = 0; i < seasonsArray.length; i++) {
       //Because tmdb does not send back episodes in one request, we have to ping the api again...
       final dynamic response =
-          await simpleGet(formatSeasonsApi(id, i)).then((value) => jsonDecode(value.body));
+          await simpleGet(formatSeasonsApi(id, i)).then((value) => value.data);
       final dynamic episodesArray = response['episodes'];
 
       for (int j = 0; j < episodesArray.length; j++) {

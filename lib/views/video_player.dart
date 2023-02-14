@@ -38,7 +38,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
   LinkResponse? _currentLink;
 
   final List<double> _playbackSpeeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
-  double _playbackSpeed = 1.0;
 
   bool _hideOverlay = false;
   Timer? _hideTimer;
@@ -63,7 +62,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
         _streamController.add(_responses);
       });
       _controller = await VideoController.create(_player.handle);
-      //
 
       // Must be created before opening any media. Otherwise, a separate window will be created.
       setState(() {});
@@ -149,8 +147,15 @@ class _VideoPlayerState extends State<VideoPlayer> {
   void _changeVideoSource(final LinkResponse response) async {
     // await _player.
     _currentLink = response;
+    if (_player.platform is libmpvPlayer) {
+      final String properties = "'referer:${response.referer}'";
+
+      await (_player.platform as libmpvPlayer?)?.setProperty("http-header-fields=", properties);
+    }
     await _player.open(Playlist([
-      Media(response.url),
+      Media(
+        response.url,
+      ),
     ]));
     //The player is definitely playing at this point
     _playing = true;
@@ -160,7 +165,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
     if (playbackSpeed == null) {
       return;
     }
-    _playbackSpeed = playbackSpeed;
     _player.rate = playbackSpeed;
   }
 

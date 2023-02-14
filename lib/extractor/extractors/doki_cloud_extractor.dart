@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
-import 'package:http/http.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
@@ -33,14 +33,15 @@ class DokiCloudExtractor extends Extractor {
 
     //response.raiseForStatus();
 
-    final dynamic sources = jsonDecode(response.body)['sources'];
+    final dynamic sources = response.data['sources'];
     if (sources == null) {
       return;
     }
 
     if (sources is String) {
+      print(sources);
       final String decrypted = _decrypt(sources, await _getKey());
-      final dynamic decryptedJson = jsonDecode(decrypted);
+      final dynamic decryptedJson = decrypted;
       for (int i = 0; i < decryptedJson.length; i++) {
         final dynamic entry = decryptedJson[i];
         final String url = entry['file'];
@@ -50,7 +51,6 @@ class DokiCloudExtractor extends Extractor {
     } else {
       for (dynamic s in sources) {
         //TODO: Fetch from url
-
         if (s is Map) {
           print(s);
           yield LinkResponse(s['file'], mainUrl, '', MediaQuality.unknown, title: name);
@@ -62,7 +62,7 @@ class DokiCloudExtractor extends Extractor {
 
   Future<String> _getKey() =>
       simpleGet('https://raw.githubusercontent.com/consumet/rapidclown/rabbitstream/key.txt')
-          .then((value) => value.body);
+          .then((value) => value.data);
 
   String _decrypt(final String input, final String key) {
     final Uint8List base64Input = base64Decode(input);

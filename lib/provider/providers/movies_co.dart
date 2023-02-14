@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
@@ -21,7 +21,7 @@ class MoviesCo extends SiteProvider {
   @override
   Future<List<SearchResponse>> search(String query) async {
     final Response response = await simpleGet('$mainUrl/search?s=$query');
-    final Document document = parse(response.body);
+    final Document document = parse(response.data);
 
     final List<Element> items = document.querySelectorAll('div.videosContainer .ml-mask.jt');
     return items.map((e) {
@@ -42,7 +42,7 @@ class MoviesCo extends SiteProvider {
   @override
   Future<FetchResponse> fetch(SearchResponse searchResponse) async {
     final Response response = await simpleGet(searchResponse.url);
-    final Document document = parse(response.body);
+    final Document document = parse(response.data);
     final RegExp thumbnailRegex = RegExp(r'(?<=url\()[^)]+');
 
     final String title = document.querySelector('.topdescriptiondesc')?.children[0].text ??
@@ -71,7 +71,7 @@ class MoviesCo extends SiteProvider {
     }
 
     final Response watchingResponse = await simpleGet(url);
-    final Document watchingDocument = parse(watchingResponse.body);
+    final Document watchingDocument = parse(watchingResponse.data);
 
     /*
     final String playerUrl =
@@ -127,7 +127,7 @@ class MoviesCo extends SiteProvider {
     //videoPlayer
 
     final Response response = await simpleGet(loadRequest.data);
-    final Document document = parse(response.body);
+    final Document document = parse(response.data);
 
     final String? url = document
         .querySelector(
@@ -136,7 +136,7 @@ class MoviesCo extends SiteProvider {
 
     if (url == null) return;
 
-    final String responseBody = await simpleGet(url).then((value) => value.body);
+    final String responseBody = await simpleGet(url).then((value) => value.data);
 
     //TODO: update regex
     const String decodingAPI = 'https://gomo.to/decoding_v3.php';
@@ -174,14 +174,12 @@ class MoviesCo extends SiteProvider {
     });
 
     if (apiResponse.statusCode == 200) {
-      final dynamic jsonArray = jsonDecode(apiResponse.body);
+      final dynamic jsonArray = apiResponse.data;
 
       for (final String link in jsonArray) {
         if (link.isEmpty) {
           continue;
         }
-        print(link);
-
         final Extractor? extractor = Extractors().findExtractor(link.extractMainUrl);
         if (extractor != null) {
           //TODO: Referrer
