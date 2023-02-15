@@ -126,7 +126,6 @@ class AnimePahe extends SiteProvider {
   @override
   Stream<LinkResponse> load(LoadRequest loadRequest) async* {
     //dio.Dio().get(loadRequest.data).then((value) => print(value));
-
     final Response response = await simpleGet(loadRequest.data, headers: {'referer': mainUrl});
     final Document document = parse(response.data);
     final List<Element> items = document.querySelectorAll('#resolutionMenu > .dropdown-item');
@@ -150,7 +149,6 @@ class AnimePahe extends SiteProvider {
         if (unpacked != null) {
           final String? sourceMatch = RegExp(r"(?<=const source=')[^']+").stringMatch(unpacked);
           if (sourceMatch != null) {
-            print(sourceMatch);
             yield LinkResponse(sourceMatch, kwik, '', MediaQualityExtension.fromString(quality),
                 title: 'kwick');
           }

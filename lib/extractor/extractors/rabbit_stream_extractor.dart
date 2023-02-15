@@ -7,13 +7,14 @@ import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
 import 'package:viddroid_flutter_desktop/util/extraction/sflix_util.dart';
 
-///Credit partly to: https://github.com/recloudstream/cloudstream-extensions/blob/master/SflixProvider/src/main/kotlin/com/lagradost/SflixProvider.kt
-class DokiCloudExtractor extends Extractor {
-  DokiCloudExtractor() : super('DokiCloud', 'https://dokicloud.one', 'https://dokicloud.one');
+/// Works pretty much the same as doki_cloud
+class RabbitStreamExtractor extends Extractor {
+  RabbitStreamExtractor()
+      : super('RabbitStream', 'https://rabbitstream.net', 'https://rabbitstream.net');
 
   @override
   Stream<LinkResponse> extract(String url, {Map<String, String>? headers}) async* {
-    //link: https://dokicloud.one/embed-4/ECvh21Qkfdo0?z= --> /embed-4
+    //link: "https://rabbitstream.net/embed-4/o3kCy4CUD4Nr?z=" --> /embed-4
     final int lastSlash = url.lastIndexOf('/');
     final String baseIframeUrl = url.substring(url.lastIndexOf('/', lastSlash - 1), lastSlash);
     final String baseIframeId = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('?'));
@@ -37,9 +38,7 @@ class DokiCloudExtractor extends Extractor {
     }
 
     if (sources is String) {
-      print(await _getKey());
-
-      final String decrypted = decrypt(sources, await _getKey()); //808054feb7ca1b0df9f47653bb12e6b9
+      final String decrypted = decrypt(sources, 'c1d17096f2ca11b7');
       final dynamic decryptedJson = jsonDecode(decrypted);
 
       for (int i = 0; i < decryptedJson.length; i++) {
@@ -60,7 +59,7 @@ class DokiCloudExtractor extends Extractor {
   }
 
   Future<String> _getKey() =>
-      simpleGet('https://raw.githubusercontent.com/consumet/rapidclown/dokicloud/key.txt',
+      simpleGet('https://raw.githubusercontent.com/consumet/rapidclown/rabbitstream/key.txt',
               responseType: ResponseType.plain)
           .then((value) => value.data);
 }

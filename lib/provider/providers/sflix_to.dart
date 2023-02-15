@@ -147,10 +147,11 @@ class SflixTo extends SiteProvider {
     }).toList();
 
     for (String serverId in ids) {
-      final Response response = await simpleGet('$mainUrl/ajax/get_link/$serverId');
-      if (response.data.isEmpty) return;
+      final Response response = await simpleGet('$mainUrl/ajax/get_link/$serverId', responseType: ResponseType.plain);
 
-      final dynamic json = response.data;
+     // if (response.data.isEmpty) return;
+
+      final Map<String, dynamic> json = jsonDecode(response.data);
       final String? link = json['link'];
 
       if (link != null) {

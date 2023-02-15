@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/aniflix_cc.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/anime_pahe.dart';
@@ -32,10 +33,16 @@ class Providers {
   }
 
   Stream<List<SearchResponse>> search(final String query, final List<TvType> searchTypes) async* {
-    for (final SiteProvider provider in siteProviders) {
-      if (searchTypes.any((element) => provider.types.contains(element))) {
-        final List<SearchResponse> response = await provider.search(query);
-        yield response;
+    try {
+      for (final SiteProvider provider in siteProviders) {
+        if (searchTypes.any((element) => provider.types.contains(element))) {
+          final List<SearchResponse> response = await provider.search(query);
+          yield response;
+        }
+      }
+    } catch(e) {
+      if(e is DioError) {
+        print(e.response?.realUri);
       }
     }
   }
