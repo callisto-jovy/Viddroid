@@ -1,5 +1,5 @@
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/download/basic_downloader.dart';
+import 'package:viddroid_flutter_desktop/util/download/hls_downloader.dart';
 
 abstract class Downloader {
 
@@ -15,6 +15,6 @@ class Downloaders {
   Downloader? getDownloader(final LinkResponse linkResponse) {
     //Figure out the appropriate downloader.
 
-    return BasicDownloader(linkResponse, fileName: 'Test file');
+    return HLSDownloader(linkResponse, fileName: 'Test file');
   }
 }

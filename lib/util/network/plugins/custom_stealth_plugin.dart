@@ -37,6 +37,7 @@ class CustomStealthPlugin extends Plugin {
     if (options.defaultViewport == LaunchOptions.viewportNotSpecified) {
       options = options.replace(defaultViewport: null);
 
+
       options.args.add('--disable-blink-features=AutomationControlled');
     }
 
@@ -45,7 +46,7 @@ class CustomStealthPlugin extends Plugin {
 }
 
 //language=js
-const _chromeRuntime = '''
+final _chromeRuntime = '''
 function _() {
   window.chrome = {
     runtime: {}
@@ -54,7 +55,7 @@ function _() {
 ''';
 
 //language=js
-const _consoleDebug = '''
+final _consoleDebug = '''
 function _() {
   window.console.debug = () => {
     return null
@@ -63,7 +64,7 @@ function _() {
 ''';
 
 //language=js
-const _navigatorLanguages = '''
+final _navigatorLanguages = '''
 function _() {
   // Overwrite the `plugins` property to use a custom getter.
   Object.defineProperty(navigator, 'languages', {
@@ -73,7 +74,7 @@ function _() {
 ''';
 
 //language=js
-const _navigatorPermission = '''
+final _navigatorPermission = '''
 function _() {
   const originalQuery = window.navigator.permissions.query;
   // eslint-disable-next-line
@@ -108,7 +109,7 @@ function _() {
 ''';
 
 //language=js
-const _navigatorPlugin = r'''
+final _navigatorPlugin = r'''
 function _() {
   function mockPluginsAndMimeTypes () {
     /* global MimeType MimeTypeArray PluginArray */
@@ -292,7 +293,7 @@ function _() {
 ''';
 
 //language=js
-const _navigatorWebdriver = '''
+final _navigatorWebdriver = '''
 function _() {
   // eslint-disable-next-line
   const newProto = navigator.__proto__;
@@ -303,7 +304,7 @@ function _() {
 ''';
 
 //language=js
-const _webglVendor = '''
+final _webglVendor = '''
 function _() {
   try {
     /* global WebGLRenderingContext */
@@ -324,7 +325,7 @@ function _() {
 ''';
 
 //language=js
-const _windowOuterDimensions = '''
+final _windowOuterDimensions = '''
 function _() {
   try {
     if (window.outerWidth && window.outerHeight) {

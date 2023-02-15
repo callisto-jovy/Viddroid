@@ -1,6 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
 
@@ -23,13 +23,7 @@ class VidSrcExtractor extends Extractor {
         final Response resp = await simpleGet('${mainUrl}srcrcp/$dataHash',
             headers: {'referer': 'https://rcp.vidsrc.me/'});
 
-        /*
-        TODO: Rewrite with dio
-        if (resp.request != null) {
-          servers.add(resp.request!.url.toString());
-        }
-
-         */
+        servers.add(resp.requestOptions.uri.toString());
       }
     }
 
@@ -51,7 +45,7 @@ class VidSrcExtractor extends Extractor {
 
         if (pass != null && srcm3u8 != null) {
           yield LinkResponse(srcm3u8, 'https://vidsrc.stream/', pass, MediaQuality.unknown,
-              title: name);
+              title: name, header: {'TE': 'trailers'});
         }
       } else {
         //TODO: Redirect to other extractors
