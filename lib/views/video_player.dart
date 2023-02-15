@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
+import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/option_item.dart';
 import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
@@ -12,6 +13,7 @@ import 'package:viddroid_flutter_desktop/widgets/seek_bar_widget.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../widgets/center_play_button.dart';
+import '../widgets/snackbars.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -60,9 +62,21 @@ class _VideoPlayerState extends State<VideoPlayer> {
         _currentLink ??= event; //First element from the stream.
         //Notify the controller.
         _streamController.add(_responses);
-      });
+
+        //Autoplay
+        if (!_playing) {
+          _changeVideoSource(event);
+        }
+      },
+          onError: (e) => ScaffoldMessenger.of(context)
+              .showSnackBar(errorSnackbar(e.toString()))); // Display message on error.
+
       _controller = await VideoController.create(_player.handle);
 
+      _player.streams.error.listen((event) {
+        print(event.message);
+        print(event.code);
+      });
       // Must be created before opening any media. Otherwise, a separate window will be created.
       setState(() {});
     });
@@ -148,17 +162,25 @@ class _VideoPlayerState extends State<VideoPlayer> {
     // await _player.
     _currentLink = response;
     if (_player.platform is libmpvPlayer) {
-      final String properties = "'referer:${response.referer}'";
+      final String properties =
+          response.header?.entries.map((e) => "'${e.key}: ${e.value}'").join(',') ?? '';
 
-      await (_player.platform as libmpvPlayer?)?.setProperty("http-header-fields=", properties);
+      final libmpvPlayer? player = _player.platform as libmpvPlayer?;
+
+      await player?.setProperty('user-agent', userAgent);
+      await player?.setProperty('referrer', response.referer);
+      await player?.setProperty('http-header-fields', properties);
+      await player?.setProperty(
+          'demuxer-lavf-o', 'protocol_whitelist=[file,tcp,tls,https,crypto,data]');
     }
+
     await _player.open(Playlist([
       Media(
         response.url,
       ),
     ]));
     //The player is definitely playing at this point
-    _playing = true;
+    _playing = _player.state.isPlaying;
   }
 
   void _changePlaybackSpeed(final double? playbackSpeed) {

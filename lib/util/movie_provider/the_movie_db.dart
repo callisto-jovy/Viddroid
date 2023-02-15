@@ -75,7 +75,7 @@ class TheMovieDbApi {
       final String mediaType = result['media_type'];
       final int? id = result['id'];
       //Skip entry
-      if (id == null) {
+      if (id == null || result['media_type'] == 'person') {
         continue;
       }
 
