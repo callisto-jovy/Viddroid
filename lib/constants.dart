@@ -18,25 +18,25 @@ void addInterceptor(final Interceptor interceptor) {
 }
 
 //While the default http package raises cloudflare's protection, Requests does not. I have to look into this some time.
-Future<Response> simpleGet(final String url,
-    {Map<String, String>? headers,
-    Interceptor? interceptor,
-    bool clearPreviousInterceptors = false,
-    ResponseType responseType = ResponseType.json}) {
-  if (clearPreviousInterceptors) {
-    dio.interceptors.clear();
-    addCookieJar();
-  }
-
-  if (interceptor != null) {
-    addInterceptor(interceptor);
-  }
-
+Future<Response<T>> simpleGet<T>(final String url,
+    {Map<String, String>? headers, ResponseType responseType = ResponseType.json}) {
   return dio.get(url,
       options: Options(
         responseType: responseType,
-        headers: {...?headers},
+        headers: headers,
       ));
+}
+
+Future<Response> advancedGet(final String url,
+    {Map<String, String>? headers,
+    Interceptor? interceptor,
+    ResponseType responseType = ResponseType.json}) {
+  final Dio singleInstance = Dio(BaseOptions(headers: {'User-Agent': userAgent}));
+  if (interceptor != null) {
+    singleInstance.interceptors.add(interceptor);
+  }
+
+  return singleInstance.get(url, options: Options(headers: headers, responseType: responseType));
 }
 
 Future<Response> simplePost(String url, Object? body, {Map<String, String>? headers}) =>

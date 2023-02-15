@@ -8,6 +8,7 @@ class BasicDownloader extends Downloader {
 
   @override
   Future<void> download() async {
+    //Simply download the mpv file.
     Dio().download(url.url, 'out.mp4', onReceiveProgress: (count, total) {
       print('$count / $total');
     },);

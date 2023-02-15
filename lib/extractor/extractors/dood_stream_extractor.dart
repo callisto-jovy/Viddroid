@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
+import 'package:viddroid_flutter_desktop/util/network/cloud_flare_interceptor.dart';
 
 import '../extractor.dart';
 
@@ -21,9 +22,11 @@ class DoodStreamExtractor extends Extractor {
 
   @override
   Stream<LinkResponse> extract(String url, {Map<String, String>? headers}) async* {
-    final Response response = await simpleGet(url);
-    //response.raiseForStatus();
+    print(url);
+    final Response response = await advancedGet(url, interceptor: CloudFlareInterceptor(), headers: headers);
+
     final String body = response.data;
+    print(body);
 
     final RegExp md5Regex = RegExp(r"/pass_md5/[^']*");
     final String? md5 = md5Regex.stringMatch(body);

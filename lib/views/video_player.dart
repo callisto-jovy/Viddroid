@@ -67,9 +67,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
         if (!_playing) {
           _changeVideoSource(event);
         }
-      },
-          onError: (e) => ScaffoldMessenger.of(context)
-              .showSnackBar(errorSnackbar(e.toString()))); // Display message on error.
+      }).onError((error, stackTrace) {
+        ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
+        print(stackTrace);
+      }); // Display message on error.
 
       _controller = await VideoController.create(_player.handle);
 

@@ -61,8 +61,6 @@ class MoviesCo extends SiteProvider {
     final String? thumbnail =
         document.querySelector('.topdescriptionthumb > img')?.attributes['src'];
 
-    print(title);
-
     final bool isTv = searchResponse.url.contains('series');
 
     final String? url = document.querySelector('.thumb.mvi-cover')?.attributes['href'];
@@ -174,7 +172,7 @@ class MoviesCo extends SiteProvider {
     });
 
     if (apiResponse.statusCode == 200) {
-      final dynamic jsonArray = apiResponse.data;
+      final dynamic jsonArray = jsonDecode(apiResponse.data);
 
       for (final String link in jsonArray) {
         if (link.isEmpty) {
@@ -182,7 +180,6 @@ class MoviesCo extends SiteProvider {
         }
         final Extractor? extractor = Extractors().findExtractor(link.extractMainUrl);
         if (extractor != null) {
-          //TODO: Referrer
           yield* extractor.extract(link, headers: {'referer': url});
         }
       }
