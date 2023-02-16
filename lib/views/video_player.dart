@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
@@ -20,9 +22,14 @@ final navigatorKey = GlobalKey<NavigatorState>();
 class VideoPlayer extends StatefulWidget {
   //final LinkResponse _linkResponse;
 
-  final Stream<LinkResponse> _stream;
+  final Stream<LinkResponse> stream;
+  final String title;
 
-  const VideoPlayer(this._stream, {Key? key}) : super(key: key);
+  const VideoPlayer({
+    Key? key,
+    required this.stream,
+    required this.title,
+  }) : super(key: key);
 
   @override
   State<VideoPlayer> createState() => _VideoPlayerState();
@@ -56,7 +63,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       await WindowManager.instance.setFullScreen(true);
       // Create a [VideoController] instance from `package:media_kit_video`.
       // Pass the [handle] of the [Player] from `package:media_kit` to the [VideoController] constructor.
-      widget._stream.asBroadcastStream().listen((event) {
+      widget.stream.asBroadcastStream().listen((event) {
         //TODO: Figure out a better way
         _responses.add(event);
         _currentLink ??= event; //First element from the stream.
@@ -268,12 +275,26 @@ class _VideoPlayerState extends State<VideoPlayer> {
           iconData: Icons.video_collection,
           title: 'Stream Source'),
       OptionItem(
-          onTap: () {
+          onTap: () async {
             Navigator.pop(context);
             if (_currentLink == null) {
               return;
             }
-            Downloaders().getDownloader(_currentLink!)?.download();
+            //Pause the player
+            _player.pause();
+            final String? result = await FilePicker.platform.saveFile(
+                dialogTitle: 'Please select where to save the file.', fileName: widget.title);
+
+            //Show notification
+            final LocalNotification notification = LocalNotification(
+              title: "Download",
+              body: "Starting to download",
+            )..show();
+
+
+            Downloaders().getDownloader(_currentLink!, result ?? 'outfile')?.download(
+                  (p0) => print(p0),
+                );
           },
           iconData: Icons.download,
           title: 'Download')

@@ -8,16 +8,7 @@ import '../provider/providers.dart';
 class MovieWidget extends StatefulWidget {
   final MovieFetchResponse _fetchResponse;
 
-  late final List<DropdownMenuItem> _seasons;
-
-  MovieWidget(this._fetchResponse, {Key? key}) : super(key: key) {
-    _seasons = [
-      const DropdownMenuItem(
-        value: 0,
-        child: Text('0'),
-      )
-    ];
-  }
+  const MovieWidget(this._fetchResponse, {Key? key}) : super(key: key);
 
   @override
   State<MovieWidget> createState() => _MovieWidgetState();
@@ -36,15 +27,15 @@ class _MovieWidgetState extends State<MovieWidget> {
 
   void _displayVideoPlayer(final LoadRequest loadRequest) {
     final Route route = MaterialPageRoute(
-        builder: (context) =>
-            VideoPlayer(Providers().provider(widget._fetchResponse.apiName).load(loadRequest)));
+        builder: (context) => VideoPlayer(
+            title: widget._fetchResponse.title,
+            stream: Providers().provider(widget._fetchResponse.apiName).load(loadRequest)));
+
     Navigator.pushReplacement(context, route);
   }
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
     return SizedBox(
       child: ElevatedButton.icon(
         onPressed: () => _displayVideoPlayer(widget._fetchResponse.toLoadRequest()),

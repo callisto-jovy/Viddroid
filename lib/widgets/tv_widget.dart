@@ -41,15 +41,15 @@ class _TvWidgetState extends State<TvWidget> {
   }
 
   void _loadEpisodesForSeason() {
-    episodes = widget._fetchResponse.episodes
-        .where((element) => element.season == dropdownValue)
-        .toList();
+    episodes =
+        widget._fetchResponse.episodes.where((element) => element.season == dropdownValue).toList();
   }
 
   void _displayVideoPlayer(final LoadRequest loadRequest) {
     final Route route = MaterialPageRoute(
-        builder: (context) =>
-            VideoPlayer(Providers().provider(widget._fetchResponse.apiName).load(loadRequest)));
+        builder: (context) => VideoPlayer(
+            stream: Providers().provider(widget._fetchResponse.apiName).load(loadRequest),
+            title: widget._fetchResponse.title));
     Navigator.pushReplacement(context, route);
   }
 
