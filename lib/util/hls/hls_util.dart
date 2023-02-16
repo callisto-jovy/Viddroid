@@ -8,7 +8,7 @@ class HLSScanner {
     return HLSScanner._internal(url, headers: headers);
   }
 
-  final Queue<String> content = Queue();
+  final List<String> segments = [];
   final String _mainUrl;
   final Map<String, String>? _headers;
 
@@ -61,7 +61,7 @@ class HLSScanner {
     final LineType lineType = _determineLineType(line);
 
     if (lineType == LineType.ts) {
-      content.add(line);
+      segments.add(line);
     } else {
       final List<String> lines = await _getLines(line);
       _scanPlaylist(lines);

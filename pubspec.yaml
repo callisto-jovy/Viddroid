@@ -36,7 +36,7 @@ dependencies:
   #uuid: ^3.0.7 # Not used atm
   awesome_snackbar_content: ^0.1.0 # UI enhancement
   #settings_ui: ^2.0.2
-  #file_picker: ^5.2.4
+  file_picker: ^5.2.4
   hive: ^2.2.3 # Also not used atm
   hive_flutter: ^1.1.0 # ^
   html: ^0.15.1 # HTML parser, similar to Jsoup
@@ -73,6 +73,7 @@ dependencies:
   dio_cookie_manager: ^2.1.0 # Manages the cookies for dio, as requests is no longer used
   #flutter_hls_parser: ^2.0.1
   jovial_misc: ^0.8.5 # Library which provides a crypto input stream to download encrypted hls
+  local_notifier: ^0.1.5
 
 
 dev_dependencies:

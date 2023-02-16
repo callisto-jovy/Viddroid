@@ -4,4 +4,8 @@ extension StringExtension on String {
 
     return origin;
   }
+
+  String get getFileNameFromPath {
+    return substring(lastIndexOf('\\') + 1, lastIndexOf('.'));
+  }
 }
