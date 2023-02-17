@@ -2,12 +2,12 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:jovial_misc/io_utils.dart';
 import 'package:pointycastle/export.dart'; // Only for Cipher*Stream
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
 import 'package:viddroid_flutter_desktop/util/hls/hls_util.dart';
 
-import '../extensions/string_extension.dart';
 import '../file/file_util.dart';
 
 class HLSDownloader extends Downloader {
@@ -38,53 +38,31 @@ class HLSDownloader extends Downloader {
 
       final int totalSegments = scanner.segments.length;
 
-      final Directory tempDirectory = Directory(filePath)..createSync();
-
-      // final File outFile = File('$filePath.mp4');
-      //    final IOSink ioSink = outFile.openWrite();
-      // final DataOutputSink dataOutputSink = DataOutputSink(ioSink);
+      final File outFile = File('$filePath.mp4');
+      final IOSink ioSink = outFile.openWrite(mode: FileMode.writeOnlyAppend);
 
       for (int i = 0; i < totalSegments; i++) {
         final String url = scanner.segments[i];
-        print('Streaming $url');
+     //   print('Streaming $url');
         if (url.isEmpty || !Uri.parse(url).isAbsolute) {
           continue; //Skip invalid urls //TODO: Move to hls parser
         }
 
         //TODO: Handle errors
-        await writeFromEncryptedStream(
-          '$filePath/$i',
-          'ts',
+        await writeFromEncryptedStreamToStream(
+          ioSink,
           url: url,
           blockCipher: aesCipher,
           padding: padding,
           headers: headers,
         );
+
         progressCallback.call(((i / totalSegments) * 100).toInt());
       }
-
-      final File outFile = File('$filePath.mp4');
-
-      final List<FileSystemEntity> files = tempDirectory.listSync()
-        ..sort((a, b) =>
-            int.parse(a.path.getFileNameFromPath).compareTo(int.parse(b.path.getFileNameFromPath)));
-
-      final IOSink ioSink = outFile.openWrite(mode: FileMode.writeOnlyAppend);
-
-      for (FileSystemEntity fileSystemEntity in files) {
-        print(fileSystemEntity.path);
-        final File currentFile = File(fileSystemEntity.path);
-        await ioSink.addStream(currentFile.openRead());
-        //  await currentFile.delete();
-      }
+      await ioSink.flush();
       await ioSink.close();
+
       progressCallback.call(100);
-
-      print('Done downloading');
-      //Merge files.
-
-      //  await ioSink.close();
-      //  await ioSink.done;
     }
   }
 }
