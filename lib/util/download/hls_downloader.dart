@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:jovial_misc/io_utils.dart';
 import 'package:pointycastle/export.dart'; // Only for Cipher*Stream
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
@@ -20,7 +19,14 @@ class HLSDownloader extends Downloader {
     final HLSScanner scanner = HLSScanner(url.url, headers: headers);
     await scanner.scan();
 
-    if (scanner.encMethod != null && scanner.encKey != null) {
+    final int totalSegments = scanner.segments.length;
+
+    final bool isEncrypted = scanner.encMethod != null && scanner.encKey != null;
+
+    BlockCipher? aesCipher;
+    Padding? padding;
+
+    if (isEncrypted) {
       //TODO: Key not from url (not supported by any players, therefore low priority)
 
       final Uint8List key =
@@ -32,37 +38,41 @@ class HLSDownloader extends Downloader {
       }
 
       //TODO: Add iv support
-      final BlockCipher aesCipher = BlockCipher('AES/CBC')
+      aesCipher = BlockCipher('AES/CBC')
         ..init(false, ParametersWithIV(KeyParameter(key), Uint8List(16)));
-      final Padding padding = Padding('PKCS7')..init();
+      padding = Padding('PKCS7')..init();
+    }
 
-      final int totalSegments = scanner.segments.length;
+    final File outFile = File('$filePath.mp4');
+    final IOSink ioSink = outFile.openWrite(mode: FileMode.writeOnlyAppend);
 
-      final File outFile = File('$filePath.mp4');
-      final IOSink ioSink = outFile.openWrite(mode: FileMode.writeOnlyAppend);
+    for (int i = 0; i < totalSegments; i++) {
+      final String url = scanner.segments[i];
+      if (url.isEmpty) {
+        continue;
+      }
 
-      for (int i = 0; i < totalSegments; i++) {
-        final String url = scanner.segments[i];
-     //   print('Streaming $url');
-        if (url.isEmpty || !Uri.parse(url).isAbsolute) {
-          continue; //Skip invalid urls //TODO: Move to hls parser
-        }
+      //TODO: Handle errors
 
-        //TODO: Handle errors
+      if (isEncrypted) {
         await writeFromEncryptedStreamToStream(
           ioSink,
           url: url,
-          blockCipher: aesCipher,
-          padding: padding,
+          blockCipher: aesCipher!, //The ciphers will be non-null
+          padding: padding!,
           headers: headers,
         );
-
-        progressCallback.call(((i / totalSegments) * 100).toInt());
+      } else {
+        await writeFromStreamToStream(
+          ioSink,
+          url: url,
+          headers: headers,
+        );
       }
-      await ioSink.flush();
-      await ioSink.close();
-
-      progressCallback.call(100);
+      progressCallback.call(((i / totalSegments) * 100).toInt());
     }
+    await ioSink.flush();
+    await ioSink.close();
+    progressCallback.call(100);
   }
 }

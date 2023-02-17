@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 
@@ -11,21 +9,20 @@ class HLSScanner {
   final List<String> segments = [];
   final String _mainUrl;
   final Map<String, String>? _headers;
+  final Map<String, String> resolutions = {};
 
   String? encKey;
   String? encMethod;
 
-  final RegExp regExp = RegExp(r'([A-Z]+)="?([^",]+)');
+  final RegExp keyValueExp = RegExp(r'([A-Z]+)="?([^",]+)');
 
   HLSScanner._internal(this._mainUrl, {Map<String, String>? headers}) : _headers = headers;
 
   Future<void> scan() async {
     final List<String> mainLines = await _getLines(_mainUrl);
-    await _scanPlaylist(mainLines);
 
-    //Get encryption method and key
-    for (final String line in mainLines) {
-      if (!line.startsWith('#')) continue;
+    for (int i = 0; i < mainLines.length; i++) {
+      final String line = mainLines[i];
 
       final List<String> split = line.split(':');
 
@@ -45,26 +42,65 @@ class HLSScanner {
           encMethod = keyValues['METHOD'];
           encKey = keyValues['URI'];
           break;
+        case '#EXT-X-STREAM-INF':
+          final Map<String, String> keyValues = dissectValue(value);
+          final String? resolution = keyValues['RESOLUTION'];
+          if (resolution != null) {
+            resolutions[resolution] = mainLines[i + 1];
+          }
+
+          break;
       }
+    }
+
+    //if there are resolutions, choose the highest one. (TODO: maybe later on a fully-fledged selection)
+    if (resolutions.isNotEmpty) {
+      int maxResolution = 0;
+      String maxRes = '';
+      for (final String key in resolutions.keys) {
+        final int res = int.parse(key.replaceAll('x', ''));
+        if (res > maxResolution) {
+          maxResolution = res;
+          maxRes = key;
+        }
+      }
+
+      final String? url = resolutions[maxRes];
+      if (url != null) {
+        final List<String> mainLines = await _getLines(url);
+        await _scanPlaylist(mainLines, url);
+      }
+    } else {
+      await _scanPlaylist(mainLines, _mainUrl);
     }
   }
 
-  Future<void> _scanPlaylist(final lines) async {
+  Future<void> _scanPlaylist(final lines, final String relativeUrl) async {
     final List<String> contentLines = lines.where((element) => !element.startsWith('#')).toList();
 
     for (int i = 0; i < contentLines.length; i++) {
-      _scanLine(contentLines[i]);
+      _scanLine(contentLines[i], relativeUrl);
     }
   }
 
-  void _scanLine(final String line) async {
+  void _scanLine(final String line, final String relativeUrl) async {
     final LineType lineType = _determineLineType(line);
+    if (line.isEmpty) {
+      return;
+    }
 
     if (lineType == LineType.ts) {
-      segments.add(line);
+      //Figure out whether the linepath is relative
+      if (!line.startsWith('https://') && line.substring(line.lastIndexOf('.')).isNotEmpty) {
+        //Add the url path
+        final String path = relativeUrl.substring(0, relativeUrl.lastIndexOf('/'));
+        segments.add('$path/$line');
+      } else {
+        segments.add(line);
+      }
     } else {
       final List<String> lines = await _getLines(line);
-      _scanPlaylist(lines);
+      _scanPlaylist(lines, relativeUrl);
     }
   }
 
@@ -79,7 +115,7 @@ class HLSScanner {
   Map<String, String> dissectValue(final String value) {
     final Map<String, String> map = {};
 
-    regExp.allMatches(value).forEach((element) {
+    keyValueExp.allMatches(value).forEach((element) {
       map[element[1]!] = element[2]!;
     });
 
