@@ -48,7 +48,7 @@ Future<bool> writeFromEncryptedStream(
 }
 
 Future<bool> writeFromEncryptedStreamToStream(
-  final DataOutputSink outputSink, {
+  final IOSink outputSink, {
   required String url,
   required BlockCipher blockCipher,
   required Padding padding,
@@ -68,7 +68,7 @@ Future<bool> writeFromEncryptedStreamToStream(
 
   dataInputStream.listen(
     (value) {
-      outputSink.writeBytes(value);
+      outputSink.add(value);
     },
     onDone: () {
       completer.complete(true);
