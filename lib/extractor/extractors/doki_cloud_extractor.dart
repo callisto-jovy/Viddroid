@@ -37,7 +37,7 @@ class DokiCloudExtractor extends Extractor {
     }
 
     if (sources is String) {
-      print(await _getKey());
+     // print(await _getKey());
 
       final String decrypted = decrypt(sources, await _getKey()); //808054feb7ca1b0df9f47653bb12e6b9
       final dynamic decryptedJson = jsonDecode(decrypted);

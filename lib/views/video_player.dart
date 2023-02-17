@@ -286,15 +286,18 @@ class _VideoPlayerState extends State<VideoPlayer> {
                 dialogTitle: 'Please select where to save the file.', fileName: widget.title);
 
             //Show notification
-            final LocalNotification notification = LocalNotification(
+            LocalNotification(
               title: "Download",
               body: "Starting to download",
-            )..show();
+            ).show();
 
-
-            Downloaders().getDownloader(_currentLink!, result ?? 'outfile')?.download(
+            Downloaders()
+                .getDownloader(_currentLink!, result ?? 'outfile')
+                ?.download(
                   (p0) => print(p0),
-                );
+                )
+                .onError((error, stackTrace) =>
+                    LocalNotification(title: "Download", body: error.toString()).show());
           },
           iconData: Icons.download,
           title: 'Download')

@@ -38,7 +38,7 @@ class RabbitStreamExtractor extends Extractor {
     }
 
     if (sources is String) {
-      final String decrypted = decrypt(sources, 'c1d17096f2ca11b7');
+      final String decrypted = decrypt(sources, await _getKey());
       final dynamic decryptedJson = jsonDecode(decrypted);
 
       for (int i = 0; i < decryptedJson.length; i++) {
