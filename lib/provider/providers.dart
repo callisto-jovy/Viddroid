@@ -3,6 +3,7 @@ import 'package:viddroid_flutter_desktop/provider/provider.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/aniflix.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/anime_pahe.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/dopebox.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/goku.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/hdtoday.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/movies.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/primewire.dart';
@@ -32,6 +33,7 @@ class Providers {
     DopeBox(),
     HdToday(),
     PrimeWire(),
+    Goku(),
   ];
 
   SiteProvider provider(final String apiName) {
