@@ -154,8 +154,6 @@ class PrimeWire extends SiteProvider {
         .where((element) => element.attributes['data-id'] != null)
         .map((e) {
       final String dataId = e.attributes['data-id']!;
-
-      //TODO: Supported streams
       return dataId;
     }).toList();
 
@@ -171,7 +169,6 @@ class PrimeWire extends SiteProvider {
       if (link != null) {
         final Extractor? extractor = Extractors().findExtractor(link.extractMainUrl);
         if (extractor != null) {
-          //TODO: Referrer
           yield* extractor.extract(link);
         }
       }
