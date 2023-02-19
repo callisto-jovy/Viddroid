@@ -1,18 +1,15 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:crypto/crypto.dart';
 
+import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 
 String decrypt(final String input, final String key) {
   final Uint8List base64Input = base64Decode(input);
   final Uint8List keyBytes = _generateKey(base64Input.sublist(8, 16), utf8.encode(key));
 
-  final Encrypter encrypter = Encrypter(AES(
-    Key(keyBytes.sublist(0, 32)),
-    mode: AESMode.cbc,
-    padding: "PKCS7"
-  ));
+  final Encrypter encrypter =
+      Encrypter(AES(Key(keyBytes.sublist(0, 32)), mode: AESMode.cbc, padding: "PKCS7"));
 
   final Encrypted encrypted = Encrypted(base64Input.sublist(16));
   final IV iv = IV(keyBytes.sublist(32));

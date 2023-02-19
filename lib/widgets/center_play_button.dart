@@ -43,9 +43,9 @@ class CenterPlayButton extends StatelessWidget {
                 icon: isFinished
                     ? Icon(Icons.replay, color: iconColor)
                     : AnimatedPlayPause(
-                  color: iconColor,
-                  playing: isPlaying,
-                ),
+                        color: iconColor,
+                        playing: isPlaying,
+                      ),
                 onPressed: onPressed,
               ),
             ),

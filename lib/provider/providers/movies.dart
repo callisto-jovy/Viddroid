@@ -15,8 +15,8 @@ import '../../constants.dart';
 import '../../extractor/extractor.dart';
 import '../../util/capsules/media.dart';
 
-class MoviesCo extends SiteProvider {
-  MoviesCo() : super('Movies.co', 'https://www1.123movies.co', [TvType.tv, TvType.movie], 'en');
+class Movies_123 extends SiteProvider {
+  Movies_123() : super('Movies.co', 'https://www1.123movies.co', [TvType.tv, TvType.movie], 'en');
 
   @override
   Future<List<SearchResponse>> search(String query) async {
@@ -119,6 +119,11 @@ class MoviesCo extends SiteProvider {
     }
   }
 
+  final RegExp tcRegex = RegExp(r"var tc = '(.*)'");
+  final RegExp tokenRegex = RegExp(r'"_token": "(.*)"');
+  final RegExp sliceRegex = RegExp(r'slice\((\d),(\d+)\)');
+  final RegExp rndNumRegex = RegExp(r'\+ "(\d+)"\+"(\d+)');
+
   @override
   Stream<LinkResponse> load(LoadRequest loadRequest) async* {
     //.playerLock > iFrame
@@ -138,10 +143,6 @@ class MoviesCo extends SiteProvider {
 
     //TODO: update regex
     const String decodingAPI = 'https://gomo.to/decoding_v3.php';
-    final RegExp tcRegex = RegExp(r"var tc = '(.*)'");
-    final RegExp tokenRegex = RegExp(r'"_token": "(.*)"');
-    final RegExp sliceRegex = RegExp(r'slice\((\d),(\d+)\)');
-    final RegExp rndNumRegex = RegExp(r'\+ "(\d+)"\+"(\d+)');
 
     final String? tc = tcRegex.firstMatch(responseBody)?[1];
     final String? token = tokenRegex.stringMatch(responseBody);

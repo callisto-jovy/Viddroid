@@ -23,7 +23,8 @@ class DoodStreamExtractor extends Extractor {
   @override
   Stream<LinkResponse> extract(String url, {Map<String, String>? headers}) async* {
     print(url);
-    final Response response = await advancedGet(url, interceptor: CloudFlareInterceptor(), headers: headers);
+    final Response response =
+        await advancedGet(url, interceptor: CloudFlareInterceptor(), headers: headers);
 
     final String body = response.data;
     print(body);

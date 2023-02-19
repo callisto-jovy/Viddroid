@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -9,7 +7,8 @@ const String userAgent =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
 
 /// Base Dio instance with a preconfigured user-agent header
-final Dio dio = Dio(BaseOptions(headers: {'user-agent': userAgent}))..interceptors.add(CookieManager(cookieJar));
+final Dio dio = Dio(BaseOptions(headers: {'user-agent': userAgent}))
+  ..interceptors.add(CookieManager(cookieJar));
 
 /// CookieJar instance for dio
 final CookieJar cookieJar = CookieJar();
@@ -39,5 +38,10 @@ Future<Response<T>> advancedGet<T>(final String url,
 }
 
 /// Just a simple method to post to a given url, with optional headers
-Future<Response> simplePost(String url, Object? body, {Map<String, String>? headers}) =>
-    dio.post(url, options: Options(headers: {...?headers}), data: body);
+Future<Response> simplePost(String url, Object? body,
+        {Map<String, String>? headers, ResponseType responseType = ResponseType.json}) =>
+    dio.post(
+      url,
+      options: Options(headers: {...?headers}, responseType: responseType),
+      data: body,
+    );

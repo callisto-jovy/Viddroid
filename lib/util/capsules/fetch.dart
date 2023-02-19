@@ -4,8 +4,6 @@ import '../../watchable/episode.dart';
 import 'media.dart';
 
 abstract class FetchResponse {
-//TODO: More data to flush out the ui
-
   final String title;
   final String url;
   final String apiName;

@@ -37,9 +37,7 @@ class DokiCloudExtractor extends Extractor {
     }
 
     if (sources is String) {
-     // print(await _getKey());
-
-      final String decrypted = decrypt(sources, await _getKey()); //808054feb7ca1b0df9f47653bb12e6b9
+      final String decrypted = decrypt(sources, await _getKey());
       final dynamic decryptedJson = jsonDecode(decrypted);
 
       for (int i = 0; i < decryptedJson.length; i++) {
@@ -60,7 +58,7 @@ class DokiCloudExtractor extends Extractor {
   }
 
   Future<String> _getKey() =>
-      simpleGet('https://raw.githubusercontent.com/consumet/rapidclown/dokicloud/key.txt',
+      simpleGet('https://raw.githubusercontent.com/enimax-anime/key/e4/key.txt',
               responseType: ResponseType.plain)
           .then((value) => value.data);
 }

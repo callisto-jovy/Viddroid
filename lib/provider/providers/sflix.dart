@@ -15,8 +15,8 @@ import '../../constants.dart';
 import '../../util/capsules/media.dart';
 import '../../watchable/episode.dart';
 
-class SflixTo extends SiteProvider {
-  SflixTo() : super('Sflix.to', 'https://sflix.to', [TvType.tv, TvType.movie], 'en');
+class Sflix extends SiteProvider {
+  Sflix() : super('Sflix.to', 'https://sflix.to', [TvType.tv, TvType.movie], 'en');
 
   @override
   Future<List<SearchResponse>> search(String query) async {
@@ -56,7 +56,7 @@ class SflixTo extends SiteProvider {
     final Element? thumbnailElement = detailsElement.querySelector('img.film-poster-img');
 
     final String dataId =
-        detailsElement.attributes['data-id'] ?? url.substring(url.lastIndexOf('-'));
+        detailsElement.attributes['data-id'] ?? url.substring(url.lastIndexOf('-') + 1);
     // Meta-data
     final String? thumbnail = thumbnailElement?.attributes['src'];
     final String title = thumbnailElement?.attributes['title'] ?? 'N/A';
@@ -147,9 +147,10 @@ class SflixTo extends SiteProvider {
     }).toList();
 
     for (String serverId in ids) {
-      final Response response = await simpleGet('$mainUrl/ajax/get_link/$serverId', responseType: ResponseType.plain);
+      final Response response =
+          await simpleGet('$mainUrl/ajax/get_link/$serverId', responseType: ResponseType.plain);
 
-     // if (response.data.isEmpty) return;
+      // if (response.data.isEmpty) return;
 
       final Map<String, dynamic> json = jsonDecode(response.data);
       final String? link = json['link'];

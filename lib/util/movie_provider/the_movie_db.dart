@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 
@@ -86,8 +84,7 @@ class TheMovieDbApi {
               : TheMovieDBAPIEndpoints.movieDetails,
           id.toString());
 
-      final dynamic detailedResult =
-          await simpleGet(requestUrl).then((value) => value.data);
+      final dynamic detailedResult = await simpleGet(requestUrl).then((value) => value.data);
 
       final String? thumbnail = detailedResult['poster_path'] != null
           ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, detailedResult['poster_path']!)
@@ -123,8 +120,7 @@ class TheMovieDbApi {
 
     for (int i = 0; i < seasonsArray.length; i++) {
       //Because tmdb does not send back episodes in one request, we have to ping the api again...
-      final dynamic response =
-          await simpleGet(formatSeasonsApi(id, i)).then((value) => value.data);
+      final dynamic response = await simpleGet(formatSeasonsApi(id, i)).then((value) => value.data);
       final dynamic episodesArray = response['episodes'];
 
       for (int j = 0; j < episodesArray.length; j++) {

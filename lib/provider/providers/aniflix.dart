@@ -12,8 +12,8 @@ import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
 import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 import 'package:viddroid_flutter_desktop/watchable/episode.dart';
 
-class AniflixCC extends SiteProvider {
-  AniflixCC() : super('Aniflix', 'https://www.aniflix.cc/', [TvType.anime], 'de');
+class Aniflix extends SiteProvider {
+  Aniflix() : super('Aniflix', 'https://www.aniflix.cc/', [TvType.anime], 'de');
 
   @override
   Future<List<SearchResponse>> search(String query) async {

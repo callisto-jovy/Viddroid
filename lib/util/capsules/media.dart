@@ -28,7 +28,7 @@ enum MediaQuality {
 }
 
 extension MediaQualityExtension on MediaQuality {
- static MediaQuality fromString(final String? string) {
+  static MediaQuality fromString(final String? string) {
     if (string == null) {
       return MediaQuality.unknown;
     }

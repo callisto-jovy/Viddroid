@@ -3,7 +3,6 @@ import 'package:local_notifier/local_notifier.dart';
 import 'package:viddroid_flutter_desktop/util/custom_scroll_behaviour.dart';
 import 'package:viddroid_flutter_desktop/views/main_view.dart';
 import 'package:viddroid_flutter_desktop/watchable/watchables.dart';
-import 'constants.dart';
 
 void main() async {
   await Watchables().init();

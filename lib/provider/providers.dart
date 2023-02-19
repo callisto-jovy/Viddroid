@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/aniflix_cc.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/aniflix.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/anime_pahe.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/movies_co.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/sflix_to.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/vid_src_me.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/dopebox.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/hdtoday.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/movies.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/primewire.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/sflix.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/vidsrc.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
 
@@ -21,11 +24,14 @@ class Providers {
   Providers.inst();
 
   final List<SiteProvider> siteProviders = [
-    MoviesCo(),
-    SflixTo(),
-    VidSrcMe(),
-    AniflixCC(),
+    Movies_123(),
+    Sflix(),
+    VidSrc(),
+    Aniflix(),
     AnimePahe(),
+    DopeBox(),
+    HdToday(),
+    PrimeWire(),
   ];
 
   SiteProvider provider(final String apiName) {
@@ -33,16 +39,16 @@ class Providers {
   }
 
   Stream<List<SearchResponse>> search(final String query, final List<TvType> searchTypes) async* {
-    try {
-      for (final SiteProvider provider in siteProviders) {
-        if (searchTypes.any((element) => provider.types.contains(element))) {
+    for (final SiteProvider provider in siteProviders) {
+      if (searchTypes.any((element) => provider.types.contains(element))) {
+        try {
           final List<SearchResponse> response = await provider.search(query);
           yield response;
+        } catch (e) {
+          if (e is DioError) {
+            print(e.response?.realUri);
+          }
         }
-      }
-    } catch(e) {
-      if(e is DioError) {
-        print(e.response?.realUri);
       }
     }
   }
