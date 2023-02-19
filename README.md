@@ -45,6 +45,7 @@ hardware accelerated and would take a lot of time to implement.
 - [x] Functional and beautiful enough UI
 - [x] Downloading media
 - [ ] Download progress indicators
+- [ ] Subtitles
 - [ ] Interactive UI
 - [ ] Media bookmarking
 - [ ] Settings

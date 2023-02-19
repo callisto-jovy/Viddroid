@@ -59,7 +59,7 @@ class RabbitStreamExtractor extends Extractor {
   }
 
   Future<String> _getKey() =>
-      simpleGet('https://raw.githubusercontent.com/consumet/rapidclown/rabbitstream/key.txt',
+      simpleGet('https://raw.githubusercontent.com/enimax-anime/key/e4/key.txt',
               responseType: ResponseType.plain)
           .then((value) => value.data);
 }

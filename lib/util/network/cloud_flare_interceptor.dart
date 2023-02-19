@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:http/http.dart';
-import 'package:puppeteer/plugins/stealth.dart';
 import 'package:puppeteer/protocol/network.dart';
 import 'package:puppeteer/puppeteer.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
@@ -10,10 +8,8 @@ class CloudFlareInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     // Download the Chromium binaries, launch it and connect to the "DevTools"
-    final Browser browser = await puppeteer.launch(
-      headless: false,
-      plugins: [CustomStealthPlugin()]
-    );
+    final Browser browser =
+        await puppeteer.launch(headless: false, plugins: [CustomStealthPlugin()]);
 
     // Open a new tab
     final Page page = await browser.newPage();

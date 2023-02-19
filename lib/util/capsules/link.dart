@@ -36,7 +36,6 @@ class TvLoadRequest extends LoadRequest {
 
   TvLoadRequest(super.data, super.type, super.apiName,
       {required this.season, required this.episode, super.headers});
-
 }
 
 class MovieLoadRequest extends LoadRequest {

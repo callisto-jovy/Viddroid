@@ -1,7 +1,6 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
@@ -154,7 +153,6 @@ class AnimePahe extends SiteProvider {
           }
         }
       }
-
     }
   }
 }

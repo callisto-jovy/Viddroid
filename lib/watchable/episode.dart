@@ -24,7 +24,6 @@ class Episode {
     return 'Episode{_name: $_name, _index: $_index, _season: $_season, _thumbnail: $_thumbnail}';
   }
 
-  //TODO: Poster-path default
   String? getSeasonPosterPath() => thumbnail!;
 
   LoadRequest toLoadRequest() {

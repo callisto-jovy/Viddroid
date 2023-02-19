@@ -2,11 +2,11 @@ import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors/doki_cloud_extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors/mix_drop_extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors/rabbit_stream_extractor.dart';
-import 'package:viddroid_flutter_desktop/extractor/extractors/vid_src_extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors/stream_tape_extractor.dart';
+import 'package:viddroid_flutter_desktop/extractor/extractors/vid_src_extractor.dart';
+import 'package:viddroid_flutter_desktop/extractor/extractors/vidoza_extractor.dart';
 
 import 'extractors/dood_stream_extractor.dart';
-
 
 class Extractors {
   static final Extractors _instance = Extractors.inst();
@@ -24,6 +24,7 @@ class Extractors {
     StreamTapeExtractor(),
     MixDropExtractor(),
     RabbitStreamExtractor(),
+    VidozaExtractor(),
   ];
 
   Extractor? findExtractor(final String url) {

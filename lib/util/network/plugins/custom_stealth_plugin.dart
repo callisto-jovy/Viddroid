@@ -37,7 +37,6 @@ class CustomStealthPlugin extends Plugin {
     if (options.defaultViewport == LaunchOptions.viewportNotSpecified) {
       options = options.replace(defaultViewport: null);
 
-
       options.args.add('--disable-blink-features=AutomationControlled');
     }
 

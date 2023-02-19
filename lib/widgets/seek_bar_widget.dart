@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 
-
 class SeekBar extends StatefulWidget {
   final Player player;
 
