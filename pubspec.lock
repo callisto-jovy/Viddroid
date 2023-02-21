@@ -93,10 +93,10 @@ packages:
     dependency: transitive
     description:
       name: build_resolvers
-      sha256: "7c35a3a7868626257d8aee47b51c26b9dba11eaddf3431117ed2744951416aab"
+      sha256: db49b8609ef8c81cca2b310618c3017c00f03a92af44c04d310b907b2d692d95
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   build_runner:
     dependency: "direct dev"
     description:
@@ -525,7 +525,7 @@ packages:
     description:
       path: media_kit
       ref: main
-      resolved-ref: "4b02f9caba41df042d59f44b2f65ce8fde2cf1c9"
+      resolved-ref: "21eb88d28f555866f18d1db09f2ebd79f1248487"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "0.0.1"
@@ -534,7 +534,7 @@ packages:
     description:
       path: media_kit_libs_windows_video
       ref: main
-      resolved-ref: "4b02f9caba41df042d59f44b2f65ce8fde2cf1c9"
+      resolved-ref: "21eb88d28f555866f18d1db09f2ebd79f1248487"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.0"
@@ -543,7 +543,7 @@ packages:
     description:
       path: media_kit_video
       ref: main
-      resolved-ref: "4b02f9caba41df042d59f44b2f65ce8fde2cf1c9"
+      resolved-ref: "21eb88d28f555866f18d1db09f2ebd79f1248487"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "0.0.1"
