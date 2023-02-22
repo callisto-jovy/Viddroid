@@ -14,7 +14,7 @@ class MixDropExtractor extends Extractor {
 
   @override
   Stream<LinkResponse> extract(String url, {Map<String, String>? headers}) async* {
-    final Response response = await simpleGet(url);
+    final Response response = await simpleGet(url, headers: headers);
 
     final String packedBody = response.data;
     final String? unpackedBody = JSPacker(packedBody).unpack();
