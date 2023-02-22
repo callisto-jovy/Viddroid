@@ -35,7 +35,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   #uuid: ^3.0.7 # Not used atm
   awesome_snackbar_content: ^0.1.0 # UI enhancement
-  #settings_ui: ^2.0.2
+  settings_ui: ^2.0.2
   file_picker: ^5.2.4
   hive: ^2.2.3 # Also not used atm
   hive_flutter: ^1.1.0 # ^
