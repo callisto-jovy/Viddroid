@@ -149,19 +149,19 @@ class PrimeWire extends SiteProvider {
     final Response response = await simpleGet(url);
     final Document document = parse(response.data);
 
+    final String attributeKey =  loadRequest.type == TvType.movie ? 'data-linkid' : 'data-id'; //Whyyyyyy?
+
     final List<String> ids = document
         .querySelectorAll('a')
-        .where((element) => element.attributes['data-id'] != null)
+        .where((element) => element.attributes[attributeKey] != null)
         .map((e) {
-      final String dataId = e.attributes['data-id']!;
+      final String dataId = e.attributes[attributeKey]!;
       return dataId;
     }).toList();
 
     for (String serverId in ids) {
       final Response response =
           await simpleGet('$mainUrl/ajax/get_link/$serverId', responseType: ResponseType.plain);
-
-      // if (response.data.isEmpty) return;
 
       final Map<String, dynamic> json = jsonDecode(response.data);
       final String? link = json['link'];
