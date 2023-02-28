@@ -8,6 +8,7 @@ import 'package:viddroid_flutter_desktop/provider/providers/hdtoday.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/movies.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/primewire.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/sflix.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/solarmovie.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/vidsrc.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
@@ -34,6 +35,7 @@ class Providers {
     HdToday(),
     PrimeWire(),
     Goku(),
+    SolarMovie(),
   ];
 
   SiteProvider provider(final String apiName) {
@@ -44,12 +46,17 @@ class Providers {
     for (final SiteProvider provider in siteProviders) {
       if (searchTypes.any((element) => provider.types.contains(element))) {
         try {
-          final List<SearchResponse> response = await provider.search(query);
-          yield response;
-        } catch (e) {
+          final List<SearchResponse> searchResponses = await provider.search(query);
+          print(provider);
+          if(provider is Goku) {
+            print(searchResponses);
+          }
+          yield searchResponses;
+        } catch (e, trace) {
           if (e is DioError) {
             print(e.response?.realUri);
           }
+          print(trace);
         }
       }
     }

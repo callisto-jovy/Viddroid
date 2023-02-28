@@ -19,13 +19,14 @@ class Goku extends SiteProvider {
   Goku() : super('Goku', 'https://goku.to', [TvType.tv, TvType.movie], 'eng');
 
   @override
-  Future<List<SearchResponse>> search(String query) async {
+  Future<List<SearchResponse>> search(final String query) async {
     final Response response = await simpleGet('$mainUrl/ajax/movie/search?keyword=$query');
     final Document document = parse(response.data);
 
     final List<Element> items = document.querySelectorAll('.item');
     return items.map((e) {
-      final String href = e.querySelector('div.movie-thumbnail > a')!.attributes['href']!;
+      final String href = e.querySelector('div.is-watch > a')?.attributes['href'] ?? 'null'; //TODO: Fix the missing attribute
+
       final String title = e.querySelector('h3.movie-name')?.text ?? 'N/A';
 
       final bool isMovie = href.contains('/watch-movie/');
@@ -63,7 +64,7 @@ class Goku extends SiteProvider {
     final String? duration = document.querySelector('.fs-item > .duration')?.text;
     final String? year = document.querySelector('elements .col-xl-5 .row-line')?.text;
 
-    final String? description = document.querySelector('.is-description')?.text.trim();
+    final String? description = document.querySelector('.dropdown-text > .dropdown-text')?.text.trim();
 
     final bool isMovie = url.contains('movie');
 
