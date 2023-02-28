@@ -17,9 +17,7 @@ Currently, Windows and Linux are the primary supported operating systems. This i
 While Flutter is able to handle video streams on mobile perfectly, there is [no official support](https://github.com/flutter/flutter/issues/37673) for the desktop platform yet. 
 As a result, I use the library [media_kit](https://github.com/alexmercerind/media_kit), which has been created by great individuals to accomplish the feat of video playback and uses
 native bindings to [libmpv](https://github.com/mpv-player/mpv/tree/master/libmpv).
-This library, however, is work-in-progress and does not support MacOS for now. 
-There are workarounds to this problem and [dart_vlc](https://github.com/alexmercerind/dart_vlc) could be used in order to directly support MacOS. Sadly, dart_vlc is not
-hardware accelerated and would take a lot of time to implement.
+This library, however, is work-in-progress and MacOS support is in reach. Once the MacOS support has been announced, I will update the project accordingly. 
 
 ## Features
 - Ad free
@@ -44,11 +42,12 @@ hardware accelerated and would take a lot of time to implement.
 - [x] Providers and extractors
 - [x] Functional and beautiful enough UI
 - [x] Downloading media
+- [ ] Settings
+- [ ] Custom proxies
 - [ ] Download progress indicators
 - [ ] Subtitles
 - [ ] Interactive UI
 - [ ] Media bookmarking
-- [ ] Settings
 - [ ] Custom Providers (implemented through a custom scripting-language) / Detach the providers from the codebase
   and turn them into extensions (e.g. [Cloudstream](https://github.com/recloudstream/cloudstream))
 - [ ] Translations
