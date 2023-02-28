@@ -523,29 +523,42 @@ packages:
   media_kit:
     dependency: "direct main"
     description:
-      path: media_kit
-      ref: main
-      resolved-ref: "21eb88d28f555866f18d1db09f2ebd79f1248487"
-      url: "https://github.com/alexmercerind/media_kit.git"
-    source: git
+      name: media_kit
+      sha256: "6458c657406fa736e2584e18a4afbb9e395b1b2dd214a0160ce1fad8f0d2c43a"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.0.1"
+  media_kit_libs_linux:
+    dependency: "direct main"
+    description:
+      name: media_kit_libs_linux
+      sha256: bbf84f64fa45430449b74bda44ab7c2fa55d800d12a3115a8ff9ef11bd93a2e5
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   media_kit_libs_windows_video:
     dependency: "direct main"
     description:
-      path: media_kit_libs_windows_video
-      ref: main
-      resolved-ref: "21eb88d28f555866f18d1db09f2ebd79f1248487"
-      url: "https://github.com/alexmercerind/media_kit.git"
-    source: git
+      name: media_kit_libs_windows_video
+      sha256: aadc5b6a24b8cfc3adda910fa824ed2af6cb2d33fef84227d2bb2900ce207bd6
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  media_kit_native_event_loop:
+    dependency: "direct main"
+    description:
+      name: media_kit_native_event_loop
+      sha256: e0efd10c310fa1506b516de8d2c9ff7add8745bdb615c94dba718e22484ce8b0
+      url: "https://pub.dev"
+    source: hosted
     version: "1.0.0"
   media_kit_video:
     dependency: "direct main"
     description:
-      path: media_kit_video
-      ref: main
-      resolved-ref: "21eb88d28f555866f18d1db09f2ebd79f1248487"
-      url: "https://github.com/alexmercerind/media_kit.git"
-    source: git
+      name: media_kit_video
+      sha256: "787e027081a826374baf1af41b6870caa182c44a68dadb20f0b9a6ca24be68bc"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.0.1"
   meta:
     dependency: transitive

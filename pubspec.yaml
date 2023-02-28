@@ -35,46 +35,32 @@ dependencies:
   cupertino_icons: ^1.0.2
   #uuid: ^3.0.7 # Not used atm
   awesome_snackbar_content: ^0.1.0 # UI enhancement
-  settings_ui: ^2.0.2
-  file_picker: ^5.2.4
+  settings_ui: ^2.0.2 # TODO: Will be replaced by a custom api
+  file_picker: ^5.2.4 # Needed for desktop file-system-dialoges
   hive: ^2.2.3 # Also not used atm
   hive_flutter: ^1.1.0 # ^
   html: ^0.15.1 # HTML parser, similar to Jsoup
- # http: ^0.13.5
+
   cached_network_image: ^3.2.3 # Cached network images, very nice.
   loading_animation_widget: ^1.2.0+4 # Not used atm, could be useful in the future.
   shimmer: ^2.0.0 # UI enhancement
   sticky_headers: ^0.3.0+2 # Enhancement for the gridview
-  puppeteer: ^2.22.0
+  puppeteer: ^2.22.0 # Not really used atm; will be needed for headless browsers later on
   #requests: ^4.7.0
   encrypt: ^5.0.1 # As dart does not offer an easy-to-use api & I'm too lazy to actually figure it out.
-  dio: ^5.0.0
+  dio: ^5.0.0 # Replacement for the request package, used to handle http
   window_manager: ^0.3.0 # Used to resize the window, links into the native bindings.
 
-# Needed to play any video with hardware acceleration
-  media_kit:
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit
-
-  media_kit_video:
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit_video
-
-  media_kit_libs_windows_video:
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit_libs_windows_video
+  # Needed to play any video with hardware acceleration
+  media_kit: ^0.0.1 # Media_kit is now on pub!
+  media_kit_video: ^0.0.1 # Media_kit video support
+  media_kit_libs_windows_video: ^1.0.0 # Windows support for media_kit
+  media_kit_libs_linux: ^1.0.0 # Linux support for media_kit
+  media_kit_native_event_loop: ^1.0.0 # Not really necessary, but nice to have (allows 8 simultaneous players in Flutter)
 
   dio_cookie_manager: ^2.1.0 # Manages the cookies for dio, as requests is no longer used
-  #flutter_hls_parser: ^2.0.1
   jovial_misc: ^0.8.5 # Library which provides a crypto input stream to download encrypted hls
-  local_notifier: ^0.1.5
-
+  local_notifier: ^0.1.5 # Used to display local (desktop) notifications, as this binds to native dependencies
 
 dev_dependencies:
   flutter_test:
