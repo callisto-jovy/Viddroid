@@ -123,6 +123,13 @@ class TheMovieDbApi {
       final dynamic response = await simpleGet(formatSeasonsApi(id, i)).then((value) => value.data);
       final dynamic episodesArray = response['episodes'];
 
+      final int? responseNumber = response['season_number'];
+
+      if (responseNumber != null && responseNumber == 0) {
+        //Skip extras (TODO: Add a special case for extras - find websites where they are supported)
+        continue;
+      }
+
       for (int j = 0; j < episodesArray.length; j++) {
         final dynamic episode = episodesArray[j];
 
@@ -130,11 +137,11 @@ class TheMovieDbApi {
         if (episodeId == null) {
           continue;
         }
-        //TODO: Maybe index episodes in "real terms"
+
         episodes.add(Episode(
             episode['name'] ?? 'N/A',
             j,
-            i,
+            (i != 0 ? i - 1 : i),
             episode['still_path'] != null
                 ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, episode['still_path'])
                 : null,
