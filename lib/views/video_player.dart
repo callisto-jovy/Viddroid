@@ -20,8 +20,6 @@ import '../widgets/snackbars.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 class VideoPlayer extends StatefulWidget {
-  //final LinkResponse _linkResponse;
-
   final Stream<LinkResponse> stream;
   final String title;
 
@@ -42,15 +40,19 @@ class _VideoPlayerState extends State<VideoPlayer> {
   // Reference to the [VideoController] instance from `package:media_kit_video`.
   VideoController? _controller;
 
+  // List of all current Responses [LinkResponse] from the stream.
   final List<LinkResponse> _responses = [];
-  final StreamController<List<LinkResponse>> _streamController = StreamController();
+
+  // The current playback link.
   LinkResponse? _currentLink;
 
-  final List<double> _playbackSpeeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
+  // Hardcoded list of all the possible playback speeds
+  static const List<double> _playbackSpeeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
 
-  bool _hideOverlay = false;
+  // [Timer] instance which is triggered and reset to hide / display the overlay ui
   Timer? _hideTimer;
 
+  bool _hideOverlay = false;
   bool _playing = false;
 
   @override
@@ -67,8 +69,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
         //TODO: Figure out a better way
         _responses.add(event);
         _currentLink ??= event; //First element from the stream.
-        //Notify the controller.
-        _streamController.add(_responses);
 
         //Autoplay
         if (!_playing) {
@@ -76,14 +76,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
         }
       }).onError((error, stackTrace) {
         ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
-        print(stackTrace);
       }); // Display message on error.
 
       _controller = await VideoController.create(_player.handle);
 
       _player.streams.error.listen((event) {
-        print(event.message);
-        print(event.code);
       });
       // Must be created before opening any media. Otherwise, a separate window will be created.
       setState(() {});
@@ -93,7 +90,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   void dispose() {
     _hideTimer?.cancel();
-    //  _streamController.close();
+
     Future.microtask(() async {
       // Release allocated resources back to the system.
       await _controller?.dispose();
@@ -258,7 +255,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
             _changePlaybackSpeed(await showModalBottomSheet<double>(
               context: context,
               isScrollControlled: true,
-              builder: (_) => PlaybackSpeedDialog(speeds: _playbackSpeeds, selected: 1.0),
+              builder: (_) => const PlaybackSpeedDialog(speeds: _playbackSpeeds, selected: 1.0),
             ));
           },
           iconData: Icons.speed_outlined,
