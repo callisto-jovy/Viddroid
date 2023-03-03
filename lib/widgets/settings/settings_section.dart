@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/widgets/settings/settings_tile.dart';
+import 'package:viddroid_flutter_desktop/widgets/settings/base_settings_tile.dart';
+
+import 'abstract_settings_tile.dart';
 
 class SettingsSection extends StatelessWidget {
   const SettingsSection({
@@ -10,7 +12,7 @@ class SettingsSection extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final List<SettingsTile> tiles;
+  final List<SimpleSettingsTile> tiles;
   final EdgeInsetsDirectional? margin;
   final Widget icon;
   final Widget title;
