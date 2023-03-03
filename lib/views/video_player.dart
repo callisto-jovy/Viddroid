@@ -9,12 +9,12 @@ import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/option_item.dart';
 import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
-import 'package:viddroid_flutter_desktop/widgets/option_dialog.dart';
-import 'package:viddroid_flutter_desktop/widgets/playback_speed_dialog.dart';
-import 'package:viddroid_flutter_desktop/widgets/seek_bar_widget.dart';
+import 'package:viddroid_flutter_desktop/widgets/player/option_dialog.dart';
+import 'package:viddroid_flutter_desktop/widgets/player/playback_speed_dialog.dart';
+import 'package:viddroid_flutter_desktop/widgets/player/seek_bar_widget.dart';
 import 'package:window_manager/window_manager.dart';
 
-import '../widgets/center_play_button.dart';
+import '../widgets/player/center_play_button.dart';
 import '../widgets/snackbars.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
