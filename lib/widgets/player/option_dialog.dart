@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../util/capsules/option_item.dart';
+import '../../util/capsules/option_item.dart';
 
 /// Taken from: https://github.com/fluttercommunity/chewie/blob/master/lib/src/material/widgets/options_dialog.dart
 /// The chewie project is licensed unter the MIT license.

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -44,7 +45,9 @@ class _SearchViewState extends State<SearchView> {
           _searchResults.add(totalResponses);
         }).onError((error, stackTrace) {
           ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
-          print(stackTrace);
+          if (kDebugMode) {
+            print(stackTrace);
+          }
         });
       },
       formFieldKey: _formFieldKey,
@@ -125,6 +128,37 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 
+  List<Widget> _buildTvTypeChips() {
+    return TvType.values
+        .map((e) => Flexible(
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: FilterChip(
+                    label: Text(e.name),
+                    selected: _currentSelectedValues.contains(e),
+                    onSelected: (value) => {
+                          setState(() {
+                            if (value) {
+                              _currentSelectedValues.add(e);
+                            } else {
+                              _currentSelectedValues.remove(e);
+                            }
+                          })
+                        }),
+              ),
+            ))
+        .toList();
+  }
+
+  Widget _buildTopRow() {
+    return Row(
+      children: [
+        ..._buildTvTypeChips(),
+        //TODO: More options
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,26 +169,7 @@ class _SearchViewState extends State<SearchView> {
         mainAxisSize: MainAxisSize.max,
         children: [
           _buildSearchField(),
-          Row(
-              children: TvType.values
-                  .map((e) => Flexible(
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          child: FilterChip(
-                              label: Text(e.name),
-                              selected: _currentSelectedValues.contains(e),
-                              onSelected: (value) => {
-                                    setState(() {
-                                      if (value) {
-                                        _currentSelectedValues.add(e);
-                                      } else {
-                                        _currentSelectedValues.remove(e);
-                                      }
-                                    })
-                                  }),
-                        ),
-                      ))
-                  .toList()),
+          _buildTopRow(),
           Expanded(
             flex: 4,
             child: _buildSearchStreamBuilder(),

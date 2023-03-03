@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:settings_ui/settings_ui.dart';
+import 'package:viddroid_flutter_desktop/widgets/settings/settings_tile.dart';
+
+import '../widgets/settings/settings_list.dart';
+import '../widgets/settings/settings_section.dart';
+import '../widgets/snackbars.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -17,42 +21,20 @@ class _SettingsViewState extends State<SettingsView> {
           title: const Text('Settings'),
         ),
         body: SettingsList(
-          darkTheme: SettingsThemeData(
-            settingsListBackground: Theme.of(context).colorScheme.surface,
-            settingsSectionBackground:  Theme.of(context).colorScheme.secondaryContainer,
-          ),
           sections: [
             SettingsSection(
               title: const Text('Common'),
-              tiles: <SettingsTile>[
-                SettingsTile.navigation(
-                  leading: const Icon(Icons.language),
-                  title: const Text('Language'),
-                  value: const Text('English'),
-                ),
-                SettingsTile.switchTile(
-                  onToggle: (value) {},
-                  initialValue: true,
-                  leading: const Icon(Icons.format_paint),
-                  title: const Text('Enable custom theme'),
-                ),
-                SettingsTile.switchTile(
-                  onToggle: (value) {},
-                  initialValue: true,
-                  leading: const Icon(Icons.notifications),
-                  title: const Text('Enable windows notification'),
-                ),
+              tiles: [
+                SettingsTile(
+                    leading: const Icon(Icons.language_sharp),
+                    title: const Text('Language'),
+                    description: const Text('Choose the application\'s language'),
+                    onPressed: (c) => ScaffoldMessenger.of(context).showSnackBar(infoSnackbar('This feature is not implemented yet')),
+                    initialValue: false,
+                    tileType: SettingsTileType.navigationTile,
+                    enabled: true,)
               ],
-            ),
-            SettingsSection(
-              title: const Text('Subtitles'),
-              tiles:  <SettingsTile>[
-                SettingsTile.navigation(
-                  leading: const Icon(Icons.subtitles),
-                  title: const Text('Default Language'),
-                  value: const Text('English'),
-                ),
-              ],
+              margin: const EdgeInsetsDirectional.all(20),
             )
           ],
         ));
