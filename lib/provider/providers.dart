@@ -47,10 +47,6 @@ class Providers {
       if (searchTypes.any((element) => provider.types.contains(element))) {
         try {
           final List<SearchResponse> searchResponses = await provider.search(query);
-          print(provider);
-          if(provider is Goku) {
-            print(searchResponses);
-          }
           yield searchResponses;
         } catch (e, trace) {
           if (e is DioError) {

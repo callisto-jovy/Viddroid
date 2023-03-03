@@ -4,19 +4,21 @@ import 'package:viddroid_flutter_desktop/widgets/settings/settings_tile.dart';
 class SettingsSection extends StatelessWidget {
   const SettingsSection({
     required this.tiles,
-    required this.margin,
+    this.margin,
     required this.title,
+    required this.icon,
     Key? key,
   }) : super(key: key);
 
   final List<SettingsTile> tiles;
   final EdgeInsetsDirectional? margin;
-  final Widget? title;
+  final Widget icon;
+  final Widget title;
 
   @override
   Widget build(BuildContext context) {
-    final isLastNonDescriptive = (tiles.last).description == null;
-    final scaleFactor = MediaQuery.of(context).textScaleFactor;
+    final bool isLastNonDescriptive = (tiles.last).description == null;
+    final double scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Padding(
       padding: margin ??
@@ -29,7 +31,6 @@ class SettingsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (title != null)
             Padding(
                 padding: EdgeInsetsDirectional.only(
                   start: 18,

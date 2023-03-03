@@ -1,44 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/widgets/settings/settings_section.dart';
 
-class SettingsList extends StatelessWidget {
+class SettingsList extends StatefulWidget {
   const SettingsList({
     required this.sections,
-    this.shrinkWrap = false,
     this.physics,
-    this.brightness,
     this.contentPadding,
     Key? key,
   }) : super(key: key);
 
-  final bool shrinkWrap;
   final ScrollPhysics? physics;
-  final Brightness? brightness;
   final EdgeInsetsGeometry? contentPadding;
   final List<SettingsSection> sections;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      alignment: Alignment.center,
-      child: ListView.builder(
-        physics: physics,
-        shrinkWrap: shrinkWrap,
-        itemCount: sections.length,
-        padding: contentPadding ?? calculateDefaultPadding(context),
-        itemBuilder: (BuildContext context, int index) {
-          return sections[index];
-        },
-      ),
-    );
-  }
+  State<SettingsList> createState() => _SettingsListState();
+}
 
-  EdgeInsets calculateDefaultPadding(BuildContext context) {
-    if (MediaQuery.of(context).size.width > 810) {
-      final double padding = (MediaQuery.of(context).size.width - 810) / 2;
-      return EdgeInsets.symmetric(horizontal: padding);
-    }
-    return const EdgeInsets.symmetric(vertical: 0);
+class _SettingsListState extends State<SettingsList> {
+  int _selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SingleChildScrollView(
+            physics: widget.physics,
+            child: IntrinsicHeight(
+              child: NavigationRail(
+                labelType: NavigationRailLabelType.all,
+                useIndicator: true,
+                selectedIndex: _selectedIndex,
+                onDestinationSelected: (int index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+                destinations: widget.sections
+                    .map((e) => NavigationRailDestination(icon: e.icon, label: e.title))
+                    .toList(),
+              ),
+            )),
+        Expanded(child: widget.sections[_selectedIndex])
+      ],
+    );
   }
 }

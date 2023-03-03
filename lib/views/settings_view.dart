@@ -15,7 +15,6 @@ class SettingsView extends StatefulWidget {
 class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
-    //TODO: Rewrite with own containers.
     return Scaffold(
         appBar: AppBar(
           title: const Text('Settings'),
@@ -24,6 +23,7 @@ class _SettingsViewState extends State<SettingsView> {
           sections: [
             SettingsSection(
               title: const Text('Common'),
+              icon: const Icon(Icons.settings),
               tiles: [
                 SettingsTile(
                     leading: const Icon(Icons.language_sharp),
@@ -33,6 +33,36 @@ class _SettingsViewState extends State<SettingsView> {
                     initialValue: false,
                     tileType: SettingsTileType.navigationTile,
                     enabled: true,)
+              ],
+              margin: const EdgeInsetsDirectional.all(20),
+            ),
+            SettingsSection(
+              title: const Text('Providers'),
+              icon: const Icon(Icons.open_in_browser_outlined),
+              tiles: [
+                SettingsTile(
+                  leading: const Icon(Icons.language_sharp),
+                  title: const Text('Language'),
+                  description: const Text('Choose the providers\'s language'),
+                  onPressed: (c) => ScaffoldMessenger.of(context).showSnackBar(infoSnackbar('This feature is not implemented yet')),
+                  initialValue: false,
+                  tileType: SettingsTileType.navigationTile,
+                  enabled: true,)
+              ],
+              margin: const EdgeInsetsDirectional.all(20),
+            ),
+            SettingsSection(
+              title: const Text('Download'),
+              icon: const Icon(Icons.download_for_offline_outlined),
+              tiles: [
+                SettingsTile(
+                  leading: const Icon(Icons.speed),
+                  title: const Text('Download delay'),
+                  description: const Text('The delay to wait between downloads.'),
+                  onPressed: (c) => ScaffoldMessenger.of(context).showSnackBar(infoSnackbar('This feature is not implemented yet')),
+                  initialValue: false,
+                  tileType: SettingsTileType.navigationTile,
+                  enabled: true,)
               ],
               margin: const EdgeInsetsDirectional.all(20),
             )
