@@ -19,7 +19,7 @@ class Extractors {
 
   final List<Extractor> extractors = [
     VidSrcExtractor(),
-    DoodStreamExtractor(),
+  //  DoodStreamExtractor(),
     DokiCloudExtractor(),
     StreamTapeExtractor(),
     MixDropExtractor(),
