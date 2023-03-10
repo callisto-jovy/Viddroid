@@ -39,6 +39,22 @@ class _WatchableViewState extends State<WatchableView> {
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 CircularProgressIndicator(value: downloadProgress.progress),
             errorWidget: (context, url, error) => const Icon(Icons.error),
+            imageBuilder: (context, imageProvider) {
+              return Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: const Offset(0, 6),
+                      )
+                    ],
+                  ),
+                  child: Image(
+                    image: imageProvider,
+                  ));
+            },
             fit: BoxFit.cover,
             filterQuality: FilterQuality.medium);
   }
@@ -60,6 +76,7 @@ class _WatchableViewState extends State<WatchableView> {
               //TODO: Overflow prevention
               const Text(
                 'Overview',
+                textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                 ),
