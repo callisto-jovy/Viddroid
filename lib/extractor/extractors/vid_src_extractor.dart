@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
+import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
+import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 
 import '../../constants.dart';
 import '../extractor.dart';
@@ -48,7 +50,10 @@ class VidSrcExtractor extends Extractor {
               title: name, header: {'TE': 'trailers'});
         }
       } else {
-        //TODO: Redirect to other extractors
+        final Extractor? extractor = Extractors().findExtractor(server.extractMainUrl);
+        if (extractor != null) {
+          yield* extractor.extract(server);
+        }
       }
     }
   }

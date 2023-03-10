@@ -90,7 +90,6 @@ class Aniflix extends SiteProvider {
   Stream<LinkResponse> load(LoadRequest loadRequest) async* {
     //https://www.aniflix.cc/api/episode/show/made-in-abyss/season/0/episode/1
     if (loadRequest is TvLoadRequest) {
-      //TODO: episodes at relative position
       final String url =
           'https://www.aniflix.cc/api/episode/show/${loadRequest.data}/season/${loadRequest.season + 1}/episode/${loadRequest.episode + 1}';
 
