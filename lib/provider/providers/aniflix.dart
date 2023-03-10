@@ -92,7 +92,7 @@ class Aniflix extends SiteProvider {
     if (loadRequest is TvLoadRequest) {
       //TODO: episodes at relative position
       final String url =
-          'https://www.aniflix.cc/api/episode/show/${loadRequest.data}/season/${loadRequest.season}/episode/${loadRequest.episode + 1}';
+          'https://www.aniflix.cc/api/episode/show/${loadRequest.data}/season/${loadRequest.season + 1}/episode/${loadRequest.episode + 1}';
 
       final Response response = await simpleGet(url);
 
