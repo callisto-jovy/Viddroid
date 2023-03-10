@@ -8,7 +8,6 @@ enum TvType {
 enum MediaType {
   m3u8,
   video,
-  //TODO: add more
 }
 
 enum MediaQuality {
