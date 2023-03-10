@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sticky_headers/sticky_headers.dart';
+import 'package:viddroid_flutter_desktop/util/extensions/iterable_extension.dart';
 import 'package:viddroid_flutter_desktop/widgets/cards/search_response_card.dart';
 
 import '../provider/providers.dart';
@@ -59,11 +60,15 @@ class _SearchViewState extends State<SearchView> {
       stream: _searchResults.stream,
       builder: (context, AsyncSnapshot<List<SearchResponse>> snapshot) {
         if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          final List<String> validProviders = snapshot.data!.map((e) => e.apiName).unique(
+                (element) => element,
+              );
+
           return ListView.builder(
-            itemCount: Providers().siteProviders.length,
+            itemCount: validProviders.length,
             itemBuilder: (context, index) {
               final List<SearchResponse> resp = snapshot.data!
-                  .where((element) => element.apiName == Providers().siteProviders[index].name)
+                  .where((element) => element.apiName == validProviders[index])
                   .toList();
 
               return StickyHeader(
@@ -72,7 +77,7 @@ class _SearchViewState extends State<SearchView> {
                   alignment: Alignment.centerLeft,
                   color: Theme.of(context).colorScheme.surfaceVariant,
                   child: Text(
-                    Providers().siteProviders[index].name,
+                    validProviders[index],
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),

@@ -16,7 +16,8 @@ extension ReduceWhile<T> on Iterable<T> {
 }
 
 //Taken from: https://stackoverflow.com/a/63277386
-extension Unique<E, Id> on List<E> {
+extension Unique<E, Id> on Iterable<E> {
+
   List<E> unique([Id Function(E element)? id, bool inplace = true]) {
     final ids = <dynamic>{};
     var list = inplace ? this : List<E>.from(this);
