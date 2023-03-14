@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _startHideTimer();
 
     Future.microtask(() async {
-      await WindowManager.instance.setFullScreen(true);
+      if (Platform.isWindows) {
+        await WindowManager.instance.setFullScreen(true);
+      }
       // Create a [VideoController] instance from `package:media_kit_video`.
       // Pass the [handle] of the [Player] from `package:media_kit` to the [VideoController] constructor.
       widget.stream.asBroadcastStream().listen((event) {
@@ -94,7 +97,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
       // Release allocated resources back to the system.
       await _controller?.dispose();
       await _player.dispose();
-      await WindowManager.instance.setFullScreen(false);
+      if (Platform.isWindows) {
+        await WindowManager.instance.setFullScreen(false);
+      }
     });
     super.dispose();
   }
