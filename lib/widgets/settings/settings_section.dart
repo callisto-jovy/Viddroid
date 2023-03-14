@@ -33,12 +33,12 @@ class SettingsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-            Padding(
-                padding: EdgeInsetsDirectional.only(
-                  start: 18,
-                  bottom: 5 * scaleFactor,
-                ),
-                child: title),
+          Padding(
+              padding: EdgeInsetsDirectional.only(
+                start: 18,
+                bottom: 5 * scaleFactor,
+              ),
+              child: title),
           Card(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             elevation: 2,

@@ -36,7 +36,7 @@ class _SelectionSettingsTileState extends State<SelectionSettingsTile> {
         trailing: widget.trailing,
         title: const Text('null'),
         subtitle: widget.description,
-        
+
         children: widget.items
             .map((e) => InkWell(
                   onTap: e.onTap,

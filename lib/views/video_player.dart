@@ -83,6 +83,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
       _controller = await VideoController.create(_player.handle);
 
+      _player.streams.isPlaying.listen((event) {
+        _playing = event;
+      });
+
       _player.streams.error.listen((event) {});
       // Must be created before opening any media. Otherwise, a separate window will be created.
       setState(() {});
@@ -123,7 +127,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
                 Video(
                   controller: _controller,
                 ),
-                _buildHitArea(),
+                //  _buildHitArea(), NOTE: Removed for now.
                 //TODO: Subtitles
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -203,6 +207,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     return GestureDetector(
       onTap: () {
         setState(() {
+          _togglePlaying(player: true);
           _hideOverlay = true;
         });
       },
@@ -212,7 +217,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         isFinished: false,
         isPlaying: _playing,
         show: !_hideOverlay,
-        onPressed: () => _togglePlaying(player: true),
+        //  onPressed: () => _togglePlaying(player: true),
       ),
     );
   }

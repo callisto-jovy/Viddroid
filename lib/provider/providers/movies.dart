@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
@@ -9,12 +10,14 @@ import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
 import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
-import 'package:viddroid_flutter_desktop/watchable/episode.dart';
 
 import '../../constants.dart';
 import '../../extractor/extractor.dart';
 import '../../util/capsules/media.dart';
 
+part 'movies.g.dart';
+
+@HiveType(typeId: 1)
 class Movies_123 extends SiteProvider {
   Movies_123() : super('Movies.co', 'https://www1.123movies.co', [TvType.tv, TvType.movie], 'en');
 

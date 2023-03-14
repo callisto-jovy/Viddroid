@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/watchable/episode.dart';
+
+import '../../util/capsules/fetch.dart';
 
 class EpisodeCard extends StatelessWidget {
   final Episode _episode;

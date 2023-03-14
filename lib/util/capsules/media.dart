@@ -1,6 +1,15 @@
+
+import 'package:hive/hive.dart';
+
+part 'media.g.dart';
+
+@HiveType(typeId: 69)
 enum TvType {
+  @HiveField(0)
   movie,
+  @HiveField(1)
   tv,
+  @HiveField(2)
   anime,
   //TODO: Add more in the future.
 }

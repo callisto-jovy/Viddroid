@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/views/video_player.dart';
-import 'package:viddroid_flutter_desktop/watchable/episode.dart';
 import 'package:viddroid_flutter_desktop/widgets/cards/episode_card.dart';
 
 import '../provider/providers.dart';

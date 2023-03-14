@@ -15,6 +15,7 @@ import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
 
 import '../util/capsules/link.dart';
 import '../util/capsules/media.dart';
+import '../util/setting/settings.dart';
 
 class Providers {
   static final Providers _instance = Providers.inst();
@@ -38,12 +39,14 @@ class Providers {
     SolarMovie(),
   ];
 
+  get providers => Settings().getSelectedProviders;
+
   SiteProvider provider(final String apiName) {
     return siteProviders.where((element) => element.name == apiName).first;
   }
 
   Stream<List<SearchResponse>> search(final String query, final List<TvType> searchTypes) async* {
-    for (final SiteProvider provider in siteProviders) {
+    for (final SiteProvider provider in providers) {
       if (searchTypes.any((element) => provider.types.contains(element))) {
         try {
           final List<SearchResponse> searchResponses = await provider.search(query);

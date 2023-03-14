@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 class SwitchSettingsTile extends StatelessWidget {
-
   final Function(bool value)? onToggle;
   final bool? initialValue;
 
@@ -9,7 +8,7 @@ class SwitchSettingsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  CupertinoSwitch(
+    return CupertinoSwitch(
       value: initialValue ?? true,
       onChanged: onToggle,
     );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
@@ -13,8 +14,10 @@ import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 
 import '../../constants.dart';
 import '../../util/capsules/media.dart';
-import '../../watchable/episode.dart';
 
+part 'sflix.g.dart';
+
+@HiveType(typeId: 2)
 class Sflix extends SiteProvider {
   Sflix() : super('Sflix.to', 'https://sflix.to', [TvType.tv, TvType.movie], 'en');
 
