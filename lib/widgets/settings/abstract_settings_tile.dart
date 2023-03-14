@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
 mixin SettingsTile {
-
-  Widget buildSetting(final BuildContext context, {required SettingsTileAdditionalInfo additionalInfo, required bool enabled, Widget? description, required Widget titleContent}) {
+  Widget buildSetting(final BuildContext context,
+      {required SettingsTileAdditionalInfo additionalInfo,
+      required bool enabled,
+      Widget? description,
+      required Widget titleContent}) {
     return IgnorePointer(
       ignoring: !enabled,
       child: Column(
         children: [
-          _buildTitle(
-            context: context,
-            additionalInfo: additionalInfo,
-            titleContent: titleContent
-          ),
+          _buildTitle(context: context, additionalInfo: additionalInfo, titleContent: titleContent),
           if (description != null)
             _buildDescription(
                 context: context, additionalInfo: additionalInfo, description: description),
@@ -35,20 +34,14 @@ mixin SettingsTile {
         bottom: additionalInfo.needToShowDivider ? 24 : 8 * scaleFactor,
       ),
       decoration: const BoxDecoration(),
-      child: DefaultTextStyle(
-        style: const TextStyle(
-          fontSize: 13,
-        ),
-        child: description,
-      ),
+      child: description,
     );
   }
 
-  Widget _buildTitle({
-    required BuildContext context,
-    required SettingsTileAdditionalInfo additionalInfo,
-    required Widget titleContent
-      }) {
+  Widget _buildTitle(
+      {required BuildContext context,
+      required SettingsTileAdditionalInfo additionalInfo,
+      required Widget titleContent}) {
     return ClipRRect(
       borderRadius: BorderRadius.vertical(
         top: additionalInfo.enableTopBorderRadius ? const Radius.circular(12) : Radius.zero,
@@ -80,7 +73,7 @@ class SettingsTileAdditionalInfo extends InheritedWidget {
 
   static SettingsTileAdditionalInfo of(BuildContext context) {
     final SettingsTileAdditionalInfo? result =
-    context.dependOnInheritedWidgetOfExactType<SettingsTileAdditionalInfo>();
+        context.dependOnInheritedWidgetOfExactType<SettingsTileAdditionalInfo>();
 
     return result ??
         const SettingsTileAdditionalInfo(
@@ -91,4 +84,3 @@ class SettingsTileAdditionalInfo extends InheritedWidget {
         );
   }
 }
-

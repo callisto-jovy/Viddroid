@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "98d1d33ed129b372846e862de23a0fc365745f4d7b5e786ce667fcbbb7ac5c07"
+      sha256: e440ac42679dfc04bbbefb58ed225c994bc7e07fccc8a68ec7d3631a127e5da9
       url: "https://pub.dev"
     source: hosted
-    version: "55.0.0"
+    version: "54.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "881348aed9b0b425882c97732629a6a31093c8ff20fc4b3b03fb9d3d50a3a126"
+      sha256: "2c2e3721ee9fb36de92faa060f3480c81b23e904352b087e5c64224b1a044427"
       url: "https://pub.dev"
     source: hosted
-    version: "5.7.1"
+    version: "5.6.0"
   archive:
     dependency: transitive
     description:
@@ -237,10 +237,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "6d691edde054969f0e0f26abb1b30834b5138b963793e56f69d3a9a4435e6352"
+      sha256: "5be16bf1707658e4c03078d4a9b90208ded217fb02c163e207d334082412f2fb"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.2.5"
   dio:
     dependency: "direct main"
     description:
@@ -301,10 +301,10 @@ packages:
     dependency: transitive
     description:
       name: fixnum
-      sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
+      sha256: "04be3e934c52e082558cc9ee21f42f5c1cd7a1262f4c63cd0357c08d5bba81ec"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.0.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -536,10 +536,11 @@ packages:
   media_kit:
     dependency: "direct main"
     description:
-      name: media_kit
-      sha256: "6458c657406fa736e2584e18a4afbb9e395b1b2dd214a0160ce1fad8f0d2c43a"
-      url: "https://pub.dev"
-    source: hosted
+      path: media_kit
+      ref: main
+      resolved-ref: f828572607df1272f20de96c0ee7c91664cfe98f
+      url: "https://github.com/alexmercerind/media_kit.git"
+    source: git
     version: "0.0.1"
   media_kit_libs_linux:
     dependency: "direct main"
@@ -569,18 +570,20 @@ packages:
   media_kit_native_event_loop:
     dependency: "direct main"
     description:
-      name: media_kit_native_event_loop
-      sha256: e0efd10c310fa1506b516de8d2c9ff7add8745bdb615c94dba718e22484ce8b0
-      url: "https://pub.dev"
-    source: hosted
+      path: media_kit_native_event_loop
+      ref: main
+      resolved-ref: f828572607df1272f20de96c0ee7c91664cfe98f
+      url: "https://github.com/alexmercerind/media_kit.git"
+    source: git
     version: "1.0.0"
   media_kit_video:
     dependency: "direct main"
     description:
-      name: media_kit_video
-      sha256: "787e027081a826374baf1af41b6870caa182c44a68dadb20f0b9a6ca24be68bc"
-      url: "https://pub.dev"
-    source: hosted
+      path: media_kit_video
+      ref: main
+      resolved-ref: f828572607df1272f20de96c0ee7c91664cfe98f
+      url: "https://github.com/alexmercerind/media_kit.git"
+    source: git
     version: "0.0.1"
   meta:
     dependency: transitive
@@ -895,10 +898,10 @@ packages:
     dependency: transitive
     description:
       name: string_scanner
-      sha256: "556692adab6cfa87322a115640c11f13cb77b3f076ddcc5d6ae3c20242bedcde"
+      sha256: "862015c5db1f3f3c4ea3b94dc2490363a84262994b88902315ed74be1155612f"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.1.1"
   synchronized:
     dependency: transitive
     description:
@@ -919,10 +922,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: ad540f65f92caa91bf21dfc8ffb8c589d6e4dc0c2267818b4cc2792857706206
+      sha256: c9aba3b3dbfe8878845dfab5fa096eb8de7b62231baeeb1cea8e3ee81ca8c6d8
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.16"
+    version: "0.4.15"
   timing:
     dependency: transitive
     description:
@@ -1020,5 +1023,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
+  dart: ">=2.18.6 <4.0.0"
   flutter: ">=3.3.0"
