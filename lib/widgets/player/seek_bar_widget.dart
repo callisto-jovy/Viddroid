@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:viddroid_flutter_desktop/widgets/player/animated_play_pause.dart';
 
 class SeekBar extends StatefulWidget {
   final Player player;
@@ -65,9 +66,7 @@ class _SeekBarState extends State<SeekBar> {
         const SizedBox(width: 48.0),
         IconButton(
           onPressed: widget.player.playOrPause,
-          icon: Icon(
-            isPlaying ? Icons.pause : Icons.play_arrow,
-          ),
+          icon: AnimatedPlayPause(color: Theme.of(context).primaryColor, playing: isPlaying),
           color: Theme.of(context).primaryColor,
           iconSize: 36.0,
         ),

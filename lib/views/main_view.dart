@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/views/search_view.dart';
 import 'package:viddroid_flutter_desktop/views/settings_view.dart';
-import 'package:viddroid_flutter_desktop/watchable/watchables.dart';
 import 'package:viddroid_flutter_desktop/widgets/watchables_list_widget.dart';
+
+import '../util/watchable/watchables.dart';
 
 class MainView extends StatefulWidget {
   final String title;

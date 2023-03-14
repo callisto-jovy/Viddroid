@@ -1,4 +1,4 @@
-import 'episode.dart';
+import '../capsules/fetch.dart';
 
 class Season {
   int seasonIndex;

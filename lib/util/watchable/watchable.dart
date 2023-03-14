@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:viddroid_flutter_desktop/watchable/season.dart';
+import 'package:viddroid_flutter_desktop/util/watchable/season.dart';
 
-@HiveType(typeId: 0)
 abstract class Watchable {
   @HiveField(0)
   final int _id;

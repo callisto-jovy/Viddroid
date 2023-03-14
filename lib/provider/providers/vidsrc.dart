@@ -1,14 +1,17 @@
+import 'package:hive/hive.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors/vid_src_extractor.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
 import 'package:viddroid_flutter_desktop/util/extensions/iterable_extension.dart';
-import 'package:viddroid_flutter_desktop/watchable/episode.dart';
 
 import '../../util/capsules/fetch.dart';
 import '../../util/movie_provider/the_movie_db.dart';
 
+part 'vidsrc.g.dart';
+
+@HiveType(typeId: 3)
 class VidSrc extends SiteProvider {
   VidSrc() : super('VidSrcMe', 'https://v2.vidsrc.me', [TvType.tv, TvType.movie], 'en');
 

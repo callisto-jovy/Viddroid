@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
@@ -13,8 +14,10 @@ import '../../constants.dart';
 import '../../extractor/extractor.dart';
 import '../../extractor/extractors.dart';
 import '../../util/capsules/media.dart';
-import '../../watchable/episode.dart';
 
+part 'goku.g.dart';
+
+@HiveType(typeId: 9)
 class Goku extends SiteProvider {
   Goku() : super('Goku', 'https://goku.to', [TvType.tv, TvType.movie], 'eng');
 
@@ -25,7 +28,8 @@ class Goku extends SiteProvider {
 
     final List<Element> items = document.querySelectorAll('.item');
     return items.map((e) {
-      final String href = e.querySelector('div.is-watch > a')?.attributes['href'] ?? 'null'; //TODO: Fix the missing attribute
+      final String href = e.querySelector('div.is-watch > a')?.attributes['href'] ??
+          'null'; //TODO: Fix the missing attribute
 
       final String title = e.querySelector('h3.movie-name')?.text ?? 'N/A';
 
@@ -64,7 +68,8 @@ class Goku extends SiteProvider {
     final String? duration = document.querySelector('.fs-item > .duration')?.text;
     final String? year = document.querySelector('elements .col-xl-5 .row-line')?.text;
 
-    final String? description = document.querySelector('.dropdown-text > .dropdown-text')?.text.trim();
+    final String? description =
+        document.querySelector('.dropdown-text > .dropdown-text')?.text.trim();
 
     final bool isMovie = url.contains('movie');
 
@@ -145,8 +150,9 @@ class Goku extends SiteProvider {
     }).toList();
 
     for (String serverId in ids) {
-      final Response response =
-          await simpleGet('$mainUrl/ajax/movie/episode/server/sources/$serverId', responseType: ResponseType.plain);
+      final Response response = await simpleGet(
+          '$mainUrl/ajax/movie/episode/server/sources/$serverId',
+          responseType: ResponseType.plain);
 
       // if (response.data.isEmpty) return;
 

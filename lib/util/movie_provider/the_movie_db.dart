@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 
 import '../../api.dart';
-import '../../watchable/episode.dart';
+import '../capsules/fetch.dart';
 import '../capsules/search.dart';
 
 class TheMovieDBAPIEndpoints {

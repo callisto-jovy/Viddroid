@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:viddroid_flutter_desktop/util/custom_scroll_behaviour.dart';
+import 'package:viddroid_flutter_desktop/util/setting/settings.dart';
+import 'package:viddroid_flutter_desktop/util/watchable/watchables.dart';
 import 'package:viddroid_flutter_desktop/views/main_view.dart';
-import 'package:viddroid_flutter_desktop/watchable/watchables.dart';
 
 void main() async {
+  await Hive.initFlutter();
+
+  await Settings().init();
   await Watchables().init();
   await localNotifier.setup(
     appName: 'Viddroid',

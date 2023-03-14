@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:viddroid_flutter_desktop/watchable/watchable.dart';
+import 'package:viddroid_flutter_desktop/util/watchable/watchable.dart';
 
 class Watchables {
   static final Watchables _instance = Watchables._inst();
@@ -10,12 +10,9 @@ class Watchables {
     return _instance;
   }
 
-  late Box settingsBox;
   late Box<Watchable> watchablesBox;
 
   Future<void> init() async {
-    await Hive.initFlutter();
-    settingsBox = await Hive.openBox<Watchable>('settings');
     watchablesBox = await Hive.openBox('watchables');
 
     //Debug: Insert dummy data:

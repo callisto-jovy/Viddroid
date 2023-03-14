@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../watchable/watchable.dart';
+import '../util/watchable/watchable.dart';
 
 class WatchablesList extends StatelessWidget {
   final List<Watchable> _list;

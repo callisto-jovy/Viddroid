@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
@@ -13,8 +14,10 @@ import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 import '../../constants.dart';
 import '../../extractor/extractor.dart';
 import '../../extractor/extractors.dart';
-import '../../watchable/episode.dart';
 
+part 'primewire.g.dart';
+
+@HiveType(typeId: 8)
 class PrimeWire extends SiteProvider {
   PrimeWire()
       : super(
@@ -149,7 +152,8 @@ class PrimeWire extends SiteProvider {
     final Response response = await simpleGet(url);
     final Document document = parse(response.data);
 
-    final String attributeKey =  loadRequest.type == TvType.movie ? 'data-linkid' : 'data-id'; //Whyyyyyy?
+    final String attributeKey =
+        loadRequest.type == TvType.movie ? 'data-linkid' : 'data-id'; //Whyyyyyy?
 
     final List<String> ids = document
         .querySelectorAll('a')
