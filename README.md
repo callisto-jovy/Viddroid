@@ -9,15 +9,18 @@ semi-finished state.
 If you are searching for an extensive Android application which accomplishes the same feat, have a look
 at [Cloudstream](https://github.com/recloudstream/cloudstream).
 
-As this project could get pretty big, help is always appreciated. 
+As this project could get pretty big, help is always appreciated.
 
-## Support
+## Platforms
 
-Currently, Windows and Linux are the primary supported operating systems. This is due to a limitation with Flutter.
-While Flutter is able to handle video streams on mobile perfectly, there is [no official support](https://github.com/flutter/flutter/issues/37673) for the desktop platform yet. 
-As a result, I use the library [media_kit](https://github.com/alexmercerind/media_kit), which has been created by great individuals to accomplish the feat of video playback and uses
-native bindings to [libmpv](https://github.com/mpv-player/mpv/tree/master/libmpv).
-This library, however, is work-in-progress and MacOS support is in reach. Once the MacOS support has been announced, I will update the project accordingly. 
+Viddroid supports all major desktop operating systems, with hardware accelerated video playback, thanks
+to [media_kit](https://github.com/alexmercerind/media_kit)!
+
+| **Platform** | **Support** |
+|--------------|-------------|
+| Windows      | Ready       | 
+| Linux        | Ready       | 
+| macOS        | Ready       | 
 
 ## Features
 - Ad free
@@ -42,7 +45,7 @@ This library, however, is work-in-progress and MacOS support is in reach. Once t
 - [x] Providers and extractors
 - [x] Functional and beautiful enough UI
 - [x] Downloading media
-- [ ] Settings
+- [x] Settings
 - [ ] Custom proxies
 - [ ] Download progress indicators
 - [ ] Subtitles
