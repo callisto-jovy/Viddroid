@@ -35,7 +35,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   #uuid: ^3.0.7 # Not used atm
   awesome_snackbar_content: ^0.1.0 # UI enhancement
-  #settings_ui: ^2.0.2 # TODO: Will be replaced by a custom api
   file_picker: ^5.2.4 # Needed for desktop file-system-dialoges
   hive: ^2.2.3 # Also not used atm
   hive_flutter: ^1.1.0 # ^
@@ -58,10 +57,10 @@ dependencies:
   media_kit_libs_linux: ^1.0.0 # Linux support for media_kit
   media_kit_native_event_loop: ^1.0.0 # Not really necessary, but nice to have (allows 8 simultaneous players in Flutter)
 
-  media_kit_libs_macos: # Experimental! MacOS support
+  media_kit_libs_macos: # MacOS support for media_kit (Not on pub.dev, yet)
     git:
-      url: https://github.com/birros/media_kit.git
-      ref: macos-video-support
+      url: https://github.com/alexmercerind/media_kit.git
+      ref: main
       path: media_kit_libs_macos
 
   dio_cookie_manager: ^2.1.0 # Manages the cookies for dio, as requests is no longer used
