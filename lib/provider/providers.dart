@@ -28,25 +28,26 @@ class Providers {
 
   final List<SiteProvider> siteProviders = [
     Movies123(),
-   // Sflix(),
-    //  VidSrc(),
-    // Aniflix(),
-    // AnimePahe(),
-    // DopeBox(),
-    // HdToday(),
-    // PrimeWire(),
-    // Goku(),
-    //  SolarMovie(),
+    Sflix(),
+    VidSrc(),
+    Aniflix(),
+    AnimePahe(),
+    DopeBox(),
+    HdToday(),
+    PrimeWire(),
+    Goku(),
+    SolarMovie(),
   ];
 
-  get providers => Settings().getSelectedProviders;
+  Future<List<SiteProvider>> providers() async => await Settings().getSelectedProviders();
 
   SiteProvider provider(final String apiName) {
     return siteProviders.where((element) => element.name == apiName).first;
   }
 
   Stream<List<SearchResponse>> search(final String query, final List<TvType> searchTypes) async* {
-    for (final SiteProvider provider in providers) {
+    final List<SiteProvider> pvds = await providers();
+    for (final SiteProvider provider in pvds) {
       if (searchTypes.any((element) => provider.types.contains(element))) {
         try {
           final List<SearchResponse> searchResponses = await provider.search(query);
