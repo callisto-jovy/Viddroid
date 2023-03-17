@@ -60,8 +60,6 @@ class Settings {
   }
 
   Future<List<SiteProvider>> getSelectedProviders() async {
-    print(await get(selectedProviders));
-
     final List<dynamic> list = (await get(
           selectedProviders,
         )) ??
