@@ -37,7 +37,6 @@ to [media_kit](https://github.com/alexmercerind/media_kit)!
 ![movie screen](.github/movie_01.png)
 ![player idle](.github/player_01.png)
 ![player options](.github/player_02.png)
-![player playing](.github/player_03.png)
 
 ## Roadmap
 
