@@ -1,16 +1,10 @@
-import 'package:hive/hive.dart';
 import 'package:viddroid_flutter_desktop/util/watchable/season.dart';
 
 abstract class Watchable {
-  @HiveField(0)
   final int _id;
-  @HiveField(1)
   final String? _title;
-  @HiveField(2)
   final String? _description;
-  @HiveField(3)
   final String _apiUrl;
-  @HiveField(4)
   final String? _thumbnail;
 
   Watchable(this._id, this._title, this._description, this._apiUrl, this._thumbnail);

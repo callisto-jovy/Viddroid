@@ -36,8 +36,6 @@ dependencies:
   #uuid: ^3.0.7 # Not used atm
   awesome_snackbar_content: ^0.1.0 # UI enhancement
   file_picker: ^5.2.4 # Needed for desktop file-system-dialoges
-  hive: ^2.2.3 # Also not used atm
-  hive_flutter: ^1.1.0 # ^
   html: ^0.15.1 # HTML parser, similar to Jsoup
 
   cached_network_image: ^3.2.3 # Cached network images, very nice.
@@ -73,15 +71,16 @@ dependencies:
   media_kit_libs_windows_video: ^1.0.0 # Windows support for media_kit
   media_kit_libs_linux: ^1.0.0 # Linux support for media_kit
 
-  media_kit_libs_macos: # MacOS support for media_kit (Not on pub.dev, yet)
+  media_kit_libs_macos_video: # MacOS support for media_kit (Not on pub.dev, yet)
     git:
       url: https://github.com/alexmercerind/media_kit.git
       ref: main
-      path: media_kit_libs_macos
+      path: media_kit_libs_macos_video
 
   dio_cookie_manager: ^2.1.0 # Manages the cookies for dio, as requests is no longer used
   jovial_misc: ^0.8.5 # Library which provides a crypto input stream to download encrypted hls
   local_notifier: ^0.1.5 # Used to display local (desktop) notifications, as this binds to native dependencies
+  localstore: ^1.3.5
 
 dev_dependencies:
   flutter_test:
@@ -94,7 +93,6 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   build_runner: ^2.3.3
-  hive_generator: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

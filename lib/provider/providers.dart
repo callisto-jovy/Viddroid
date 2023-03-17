@@ -27,16 +27,16 @@ class Providers {
   Providers.inst();
 
   final List<SiteProvider> siteProviders = [
-    Movies_123(),
-    Sflix(),
-    VidSrc(),
-    Aniflix(),
-    AnimePahe(),
-    DopeBox(),
-    HdToday(),
-    PrimeWire(),
-    Goku(),
-    SolarMovie(),
+    Movies123(),
+   // Sflix(),
+    //  VidSrc(),
+    // Aniflix(),
+    // AnimePahe(),
+    // DopeBox(),
+    // HdToday(),
+    // PrimeWire(),
+    // Goku(),
+    //  SolarMovie(),
   ];
 
   get providers => Settings().getSelectedProviders;

@@ -1,16 +1,5 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:localstore/localstore.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/aniflix.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/anime_pahe.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/dopebox.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/goku.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/hdtoday.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/movies.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/primewire.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/sflix.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/solarmovie.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/vidsrc.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
 
 import '../../provider/providers.dart';
 
@@ -23,39 +12,65 @@ class Settings {
     return _instance;
   }
 
-  late Box settingsBox;
-
   /// Keys for all the settings
 
+  static const String settingsKey = 'settings';
   static const String selectedProviders = 'selected_providers';
   static const String changeFullscreen = 'windows_fullscreen';
 
-  Future<void> init() async {
-    // My fucking god.
-    Hive.registerAdapter(Movies123Adapter());
-    Hive.registerAdapter(AniflixAdapter());
-    Hive.registerAdapter(AnimePaheAdapter());
-    Hive.registerAdapter(DopeBoxAdapter());
-    Hive.registerAdapter(GokuAdapter());
-    Hive.registerAdapter(HdTodayAdapter());
-    Hive.registerAdapter(SflixAdapter());
-    Hive.registerAdapter(PrimeWireAdapter());
-    Hive.registerAdapter(SolarMovieAdapter());
-    Hive.registerAdapter(VidSrcAdapter());
-    Hive.registerAdapter(TvTypeAdapter());
+  late CollectionRef collectionRef;
 
-    settingsBox = await Hive.openBox('viddroid_settings');
+  Map<String, dynamic> settingsMap = {
+    selectedProviders: [],
+    changeFullscreen: true,
+  };
+
+  Future<void> init() async {
+    final Localstore db = Localstore.instance;
+    collectionRef = db.collection('viddroid_settings');
+
+    settingsMap = await collectionRef.doc(settingsKey).get() ?? settingsMap;
   }
 
-  dynamic get(String key, {dynamic defaultValue}) =>
-      settingsBox.get(key, defaultValue: defaultValue);
+  Future<dynamic> get(String key) =>
+      collectionRef.doc(settingsKey).get().then((value) => value?[key] ?? settingsMap[key]);
 
-  Future<void> put(String key, dynamic value) => settingsBox.put(key, value);
+  Future<T> transformGet<T>(String key, dynamic type, {dynamic defaultValue}) async {
+    final Map<String, dynamic>? json = await collectionRef.doc(settingsKey).get();
+    if (json != null) {
+      return type?.fromJson(json);
+    } else {
+      return defaultValue;
+    }
+  }
+
+  Future<void> saveSetting(String key, dynamic settingsValue) async {
+    settingsMap[key] = settingsValue;
+    put(settingsKey, settingsMap);
+  }
+
+  Future<void> put(String key, dynamic value) {
+    return collectionRef.doc(key).set(value);
+  }
 
   /// Special case for all selected providers:
 
-  List<SiteProvider> get getSelectedProviders {
-    print(get(selectedProviders));
-    return get(selectedProviders, defaultValue: Providers().siteProviders) as List<SiteProvider>;
+  Future<void> saveSelectedProviders(final List<SiteProvider> providers) async {
+    saveSetting(selectedProviders, providers.map((e) => e.name).toList());
+  }
+
+  Future<List<SiteProvider>> getSelectedProviders() async {
+    print(await get(selectedProviders));
+
+    final List<String> list = (await get(
+          selectedProviders,
+        )) ??
+        Providers().siteProviders;
+
+    if (list.isEmpty) {
+      return List.empty();
+    } else {
+      return Providers().siteProviders.where((element) => list.contains(element.name)).toList();
+    }
   }
 }

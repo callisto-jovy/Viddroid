@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
@@ -12,9 +11,7 @@ import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
 import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 
-part 'aniflix.g.dart';
 
-@HiveType(typeId: 4)
 class Aniflix extends SiteProvider {
   Aniflix() : super('Aniflix', 'https://www.aniflix.cc/', [TvType.anime], 'de');
 
