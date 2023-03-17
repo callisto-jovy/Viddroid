@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
@@ -15,9 +14,7 @@ import '../../constants.dart';
 import '../../extractor/extractor.dart';
 import '../../extractor/extractors.dart';
 
-part 'primewire.g.dart';
 
-@HiveType(typeId: 8)
 class PrimeWire extends SiteProvider {
   PrimeWire()
       : super(

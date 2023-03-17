@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
@@ -11,9 +10,6 @@ import 'package:viddroid_flutter_desktop/util/extraction/js_packer.dart';
 
 import '../provider.dart';
 
-part 'anime_pahe.g.dart';
-
-@HiveType(typeId: 5)
 class AnimePahe extends SiteProvider {
   AnimePahe()
       : super(

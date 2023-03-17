@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
@@ -15,9 +14,6 @@ import '../../extractor/extractor.dart';
 import '../../extractor/extractors.dart';
 import '../../util/capsules/media.dart';
 
-part 'goku.g.dart';
-
-@HiveType(typeId: 9)
 class Goku extends SiteProvider {
   Goku() : super('Goku', 'https://goku.to', [TvType.tv, TvType.movie], 'eng');
 

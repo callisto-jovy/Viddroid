@@ -48,7 +48,7 @@ class _MainViewState extends State<MainView> {
         actions: _buildButtons(),
       ),
       body: Column(
-        children: [WatchablesList(Watchables().watchables)],
+        children: [WatchablesList(List.empty())],
       ),
     );
   }

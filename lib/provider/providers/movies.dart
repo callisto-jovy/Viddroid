@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
@@ -15,11 +14,8 @@ import '../../constants.dart';
 import '../../extractor/extractor.dart';
 import '../../util/capsules/media.dart';
 
-part 'movies.g.dart';
-
-@HiveType(typeId: 1)
-class Movies_123 extends SiteProvider {
-  Movies_123() : super('Movies.co', 'https://www1.123movies.co', [TvType.tv, TvType.movie], 'en');
+class Movies123 extends SiteProvider {
+  Movies123() : super('Movies.co', 'https://www1.123movies.co', [TvType.tv, TvType.movie], 'en');
 
   @override
   Future<List<SearchResponse>> search(String query) async {

@@ -16,13 +16,16 @@ class _ProviderSelectionViewState extends State<ProviderSelectionView> {
 
   @override
   void initState() {
-    _selectedProviders.addAll(Settings().getSelectedProviders);
+    Future.microtask(() async {
+      _selectedProviders.addAll(await Settings().getSelectedProviders());
+      setState(() {});
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    Settings().put(Settings.selectedProviders, _selectedProviders);
+    Settings().saveSelectedProviders(_selectedProviders);
     super.dispose();
   }
 

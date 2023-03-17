@@ -28,7 +28,7 @@ class TvSearchResponse extends SearchResponse {
 
 enum SearchQuality {
   //TODO: Add more
-  UHD,
+  uhd,
 
   ///...
 }
