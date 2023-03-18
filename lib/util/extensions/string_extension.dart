@@ -8,4 +8,9 @@ extension StringExtension on String {
   String get getFileNameFromPath {
     return substring(lastIndexOf('\\') + 1, lastIndexOf('.'));
   }
+
+  /// Very basic!
+  String get cleanWindows {
+    return replaceAll("[\\*/\\\\!\\|:?<>]", "_").replaceAll("(%22)", "_");
+  }
 }
