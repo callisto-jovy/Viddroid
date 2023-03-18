@@ -20,11 +20,13 @@ class Settings {
 
   late CollectionRef collectionRef;
 
+  /// Map of all the settings. This map is actually written to disk.
   Map<String, dynamic> settingsMap = {
     selectedProviders: [],
     changeFullscreen: true,
   };
 
+  /// Initializes all the values asynchronously
   Future<void> init() async {
     final Localstore db = Localstore.instance;
     collectionRef = db.collection('viddroid_settings');
@@ -32,24 +34,19 @@ class Settings {
     settingsMap = await collectionRef.doc(settingsKey).get() ?? settingsMap;
   }
 
-  Future<dynamic> get(String key) =>
+  Future<dynamic> getFromDiskIfPossible(String key) =>
       collectionRef.doc(settingsKey).get().then((value) => value?[key] ?? settingsMap[key]);
 
-  Future<T> transformGet<T>(String key, dynamic type, {dynamic defaultValue}) async {
-    final Map<String, dynamic>? json = await collectionRef.doc(settingsKey).get();
-    if (json != null) {
-      return type?.fromJson(json);
-    } else {
-      return defaultValue;
-    }
-  }
+  dynamic get(String key) => settingsMap[key];
 
-  Future<void> saveSetting(String key, dynamic settingsValue) async {
+  /// Updates the map and saves it to disk
+  void saveSetting(String key, dynamic settingsValue) {
     settingsMap[key] = settingsValue;
-    put(settingsKey, settingsMap);
+    _put(settingsKey, settingsMap);
   }
 
-  Future<void> put(String key, dynamic value) {
+  /// Writes the map to disk
+  Future<void> _put(String key, dynamic value) {
     return collectionRef.doc(key).set(value);
   }
 
