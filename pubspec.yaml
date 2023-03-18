@@ -93,6 +93,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   build_runner: ^2.3.3
+  msix: ^3.9.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -113,3 +114,10 @@ flutter:
       fonts:
         - asset: assets/BebasNeue-Regular.ttf
           weight: 400
+
+
+msix_config:
+  display_name: Viddroid
+  publisher_display_name: yugata
+  msix_version: 1.0.0.0
+  capabilities: internetClient
