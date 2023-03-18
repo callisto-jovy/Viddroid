@@ -15,6 +15,7 @@ import 'package:viddroid_flutter_desktop/widgets/player/playback_speed_dialog.da
 import 'package:viddroid_flutter_desktop/widgets/player/seek_bar_widget.dart';
 import 'package:window_manager/window_manager.dart';
 
+import '../util/setting/settings.dart';
 import '../widgets/player/center_play_button.dart';
 import '../widgets/snackbars.dart';
 
@@ -63,13 +64,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _startHideTimer();
 
     Future.microtask(() async {
-      if (Platform.isWindows) {
+      if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
         await WindowManager.instance.setFullScreen(true);
       }
       // Create a [VideoController] instance from `package:media_kit_video`.
       // Pass the [handle] of the [Player] from `package:media_kit` to the [VideoController] constructor.
       widget.stream.asBroadcastStream().listen((event) {
-        //TODO: Figure out a better way
         _responses.add(event);
         _currentLink ??= event; //First element from the stream.
 
@@ -101,7 +101,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       // Release allocated resources back to the system.
       await _controller?.dispose();
       await _player.dispose();
-      if (Platform.isWindows) {
+      if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
         await WindowManager.instance.setFullScreen(false);
       }
     });
@@ -172,7 +172,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   void _changeVideoSource(final LinkResponse response) async {
-    // await _player.
     _currentLink = response;
     if (_player.platform is libmpvPlayer) {
       final String properties =

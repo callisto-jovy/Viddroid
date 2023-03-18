@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/views/providers_view.dart';
 import 'package:viddroid_flutter_desktop/widgets/settings/base_settings_tile.dart';
 
+import '../util/setting/settings.dart';
 import '../widgets/settings/settings_list.dart';
 import '../widgets/settings/settings_section.dart';
 import '../widgets/snackbars.dart';
@@ -32,9 +33,7 @@ class _SettingsViewState extends State<SettingsView> {
                   description: const Text('Choose the application\'s language.'),
                   onPressed: (c) => ScaffoldMessenger.of(context)
                       .showSnackBar(infoSnackbar('This feature is not implemented yet')),
-                  initialValue: false,
                   tileType: SettingsTileType.navigationTile,
-                  enabled: true,
                 ),
               ],
               margin: const EdgeInsetsDirectional.all(20),
@@ -46,16 +45,13 @@ class _SettingsViewState extends State<SettingsView> {
                 SimpleSettingsTile(
                   leading: const Icon(Icons.pageview_rounded),
                   title: const Text('Selected providers'),
-                  description:
-                      const Text('Choose which providers should be searched.'),
-                  initialValue: false,
+                  description: const Text('Choose which providers should be searched.'),
                   tileType: SettingsTileType.navigationTile,
                   onPressed: (context) => Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const ProviderSelectionView(),
                       )),
-                  enabled: true,
                 )
               ],
               margin: const EdgeInsetsDirectional.all(20),
@@ -65,14 +61,17 @@ class _SettingsViewState extends State<SettingsView> {
               icon: const Icon(Icons.video_label),
               tiles: [
                 SimpleSettingsTile(
-                  leading: const Icon(Icons.speed),
-                  title: const Text('Download delay'),
-                  description: const Text('The delay to wait between downloads.'),
-                  onPressed: (c) => ScaffoldMessenger.of(context)
-                      .showSnackBar(infoSnackbar('This feature is not implemented yet')),
-                  initialValue: false,
-                  tileType: SettingsTileType.navigationTile,
-                  enabled: true,
+                  leading: const Icon(Icons.fullscreen),
+                  title: const Text('Fullscreen on play'),
+                  description: const Text('Enable fullscreen mode when starting playback.'),
+                  onPressed: null,
+                  initialValue: Settings().get(Settings.changeFullscreen),
+                  tileType: SettingsTileType.switchTile,
+                  onToggle: (val) {
+                    setState(() {
+                      Settings().saveSetting(Settings.changeFullscreen, val);
+                    });
+                  },
                 )
               ],
               margin: const EdgeInsetsDirectional.all(20),
