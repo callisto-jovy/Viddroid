@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
+import 'package:viddroid_flutter_desktop/provider/providers/allmoviesforyou.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/aniflix.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/anime_pahe.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/dopebox.dart';
@@ -30,6 +31,7 @@ class Providers {
     Movies123(),
     Sflix(),
     VidSrc(),
+    AllMoviesForYou(),
     Aniflix(),
     AnimePahe(),
     DopeBox(),

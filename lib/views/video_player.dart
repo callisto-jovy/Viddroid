@@ -10,6 +10,7 @@ import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/option_item.dart';
 import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
+import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/option_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/playback_speed_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/seek_bar_widget.dart';
@@ -286,7 +287,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
             _togglePlaying(player: true);
 
             final String? result = await FilePicker.platform.saveFile(
-                dialogTitle: 'Please select where to save the file.', fileName: widget.title);
+                dialogTitle: 'Please select where to save the file.', fileName: widget.title.cleanWindows);
 
             // Dialog has been aborted
             if (result == null || _currentLink == null) {
