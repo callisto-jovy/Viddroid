@@ -31,7 +31,6 @@ class DoodStreamExtractor extends Extractor {
     final RegExp md5Regex = RegExp(r"/pass_md5/[^']*");
     final String? md5 = md5Regex.stringMatch(body);
 
-    print(body);
     if (md5 != null) {
       final Response md5Resp = await simpleGet('$mainUrl$md5', headers: {'referer': url});
       final String mediaUrl =

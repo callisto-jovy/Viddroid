@@ -79,6 +79,7 @@ dependencies:
   jovial_misc: ^0.8.5 # Library which provides a crypto input stream to download encrypted hls
   local_notifier: ^0.1.5 # Used to display local (desktop) notifications, as this binds to native dependencies
   localstore: ^1.3.5 # Used to read and write data
+  logger: ^1.3.0
 
 dev_dependencies:
   flutter_test:

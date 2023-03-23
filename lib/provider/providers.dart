@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/provider/provider.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/allmoviesforyou.dart';
 import 'package:viddroid_flutter_desktop/provider/providers/aniflix.dart';
@@ -56,9 +57,9 @@ class Providers {
           yield searchResponses;
         } catch (e, trace) {
           if (e is DioError) {
-            print(e.response?.realUri);
+            logger.e('Error while searching the url: ${e.response?.realUri}.');
           }
-          print(trace);
+          logger.e('An error occurred while searching one of the providers.', e, trace);
         }
       }
     }

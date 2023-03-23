@@ -89,7 +89,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       });
 
       _player.streams.error.listen((event) {
-        print('Error: ${event.message}');
+        logger.e(event.message);
       });
       // Must be created before opening any media. Otherwise, a separate window will be created.
       setState(() {});
@@ -306,7 +306,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
             Downloaders()
                 .getDownloader(_currentLink!, result)
                 ?.download(
-                  (p0) => print(p0),
+                  (p0) => logger.i('Downloading with process $p0'),
                 )
                 .onError((error, stackTrace) =>
                     LocalNotification(title: "Download", body: error.toString()).show());
