@@ -45,7 +45,7 @@ to [media_kit](https://github.com/alexmercerind/media_kit)!
 - [x] Functional and beautiful enough UI
 - [x] Downloading media
 - [x] Settings
-- [ ] Custom proxies
+- [x] Custom proxies
 - [ ] Download progress indicators
 - [ ] Subtitles
 - [ ] Interactive UI
