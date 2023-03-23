@@ -52,7 +52,6 @@ class _SettingsViewState extends State<SettingsView> {
                     if (value != null && value.isNotEmpty) {
                       if (regex.hasMatch(value)) {
                         Settings().saveSetting(Settings.proxy, value);
-                        //TODO: Validate proxy
                         dio.useProxy(value);
                         ScaffoldMessenger.of(context)
                             .showSnackBar(successSnackbar('The proxy has been set successfully!'));
