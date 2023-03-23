@@ -88,7 +88,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
         _playing = event;
       });
 
-      _player.streams.error.listen((event) {});
+      _player.streams.error.listen((event) {
+        print('Error: ${event.message}');
+      });
       // Must be created before opening any media. Otherwise, a separate window will be created.
       setState(() {});
     });
@@ -287,7 +289,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
             _togglePlaying(player: true);
 
             final String? result = await FilePicker.platform.saveFile(
-                dialogTitle: 'Please select where to save the file.', fileName: widget.title.cleanWindows);
+                dialogTitle: 'Please select where to save the file.',
+                fileName: widget.title.cleanWindows);
 
             // Dialog has been aborted
             if (result == null || _currentLink == null) {
