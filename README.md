@@ -23,11 +23,11 @@ to [media_kit](https://github.com/alexmercerind/media_kit)!
 | macOS        | Ready       | 
 
 ## Features
-- Ad free
-- Bookmark your favorite media items
-- Download and stream your favorite media
-- Desktop support, standalone website coming
-- No tracking, no analytics
+- No advertisements, whatsoever.
+- Bookmark your favorite movies / shows.
+- Download and stream your favorite movies and shows.
+- Desktop support for all major OS (Windows, MacOS, Linux).
+- No tracking, no analytics.
 
 ## Overview
 
@@ -44,7 +44,7 @@ to [media_kit](https://github.com/alexmercerind/media_kit)!
 - [x] Providers and extractors
 - [x] Functional and beautiful enough UI
 - [x] Downloading media
-- [x] Settings
+- [x] Setting's structure
 - [x] Custom proxies
 - [ ] Download progress indicators
 - [ ] Subtitles
@@ -53,4 +53,3 @@ to [media_kit](https://github.com/alexmercerind/media_kit)!
 - [ ] Custom Providers (implemented through a custom scripting-language) / Detach the providers from the codebase
   and turn them into extensions (e.g. [Cloudstream](https://github.com/recloudstream/cloudstream))
 - [ ] Translations
-
