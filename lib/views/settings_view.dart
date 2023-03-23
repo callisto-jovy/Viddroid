@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:viddroid_flutter_desktop/constants.dart';
+import 'package:viddroid_flutter_desktop/util/network/plugins/proxy_extension.dart';
 import 'package:viddroid_flutter_desktop/views/providers_view.dart';
 import 'package:viddroid_flutter_desktop/widgets/settings/base_settings_tile.dart';
 
@@ -35,6 +37,39 @@ class _SettingsViewState extends State<SettingsView> {
                       .showSnackBar(infoSnackbar('This feature is not implemented yet')),
                   tileType: SettingsTileType.navigationTile,
                 ),
+                SimpleSettingsTile(
+                  leading: const Icon(Icons.cloud),
+                  title: const Text('Custom Proxy'),
+                  description:
+                      const Text('Set a custom proxy, which will be used for all requests.'),
+                  tileType: SettingsTileType.inputTile,
+                  initialValue: Settings().get(Settings.proxy),
+                  onSubmitted: (value) {
+                    //TODO: Move away
+                    final RegExp regex = RegExp(
+                        r'(([1-9][0-9]{2}|[1-9][0-9]|[1-9])\.([1-9][0-9]|[1-9][0-9]{2}|[0-9]))\.([0-9]|[1-9][0-9]|[1-9][0-9]{2})\.([0-9]|[1-9][0-9]|[1-9][0-9]{2}):([1-9][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[1-9])');
+
+                    if (value != null && value.isNotEmpty) {
+                      if (regex.hasMatch(value)) {
+                        Settings().saveSetting(Settings.proxy, value);
+                        //TODO: Validate proxy
+                        dio.useProxy(value);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(successSnackbar('The proxy has been set successfully!'));
+                      } else {
+                        // Display error
+                        ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(
+                            'The supplied proxy is not valid. If not already done, separate IP and port with a double colon.'));
+                      }
+                    } else {
+                      Settings().saveSetting(Settings.proxy, value);
+                      dio.useProxy(null);
+                      // The proxy has been cleared.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          successSnackbar('The proxy has been cleared successfully!'));
+                    }
+                  },
+                ),
               ],
               margin: const EdgeInsetsDirectional.all(20),
             ),
@@ -65,7 +100,7 @@ class _SettingsViewState extends State<SettingsView> {
                   title: const Text('Fullscreen on play'),
                   description: const Text('Enable fullscreen mode when starting playback.'),
                   onPressed: null,
-                  initialValue: Settings().get(Settings.changeFullscreen),
+                  toggled: Settings().get(Settings.changeFullscreen),
                   tileType: SettingsTileType.switchTile,
                   onToggle: (val) {
                     setState(() {

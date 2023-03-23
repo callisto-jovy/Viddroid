@@ -17,6 +17,7 @@ class Settings {
   static const String settingsKey = 'settings';
   static const String selectedProviders = 'selected_providers';
   static const String changeFullscreen = 'windows_fullscreen';
+  static const String proxy = 'custom_proxy';
 
   late CollectionRef collectionRef;
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SwitchSettingsTile extends StatelessWidget {
   final Function(bool value)? onToggle;
-  final bool? initialValue;
+  final bool? toggled;
 
   final MaterialStateProperty<Icon?> thumbIcon = MaterialStateProperty.resolveWith<Icon?>(
     (Set<MaterialState> states) {
@@ -14,13 +14,13 @@ class SwitchSettingsTile extends StatelessWidget {
     },
   );
 
-  SwitchSettingsTile({super.key, this.onToggle, this.initialValue});
+  SwitchSettingsTile({super.key, this.onToggle, this.toggled});
 
   @override
   Widget build(BuildContext context) {
     return Switch(
       thumbIcon: thumbIcon,
-      value: initialValue ?? true,
+      value: toggled ?? true,
       onChanged: onToggle,
     );
   }

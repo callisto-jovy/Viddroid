@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:viddroid_flutter_desktop/util/network/plugins/proxy_extension.dart';
+import 'package:viddroid_flutter_desktop/util/setting/settings.dart';
 
 /// Global Logger
 Logger logger = Logger(
@@ -21,6 +22,7 @@ final Dio dio = Dio(BaseOptions(
     headers: {'user-agent': userAgent},
     connectTimeout: const Duration(seconds: 60), //TODO: Make the timeouts adjustable
     receiveTimeout: const Duration(seconds: 60)))
+  ..useProxy(Settings().get(Settings.proxy))
   ..interceptors.add(CookieManager(cookieJar));
 
 /// CookieJar instance for dio

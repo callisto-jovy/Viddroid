@@ -5,7 +5,7 @@ import 'package:viddroid_flutter_desktop/widgets/settings/navigation_settings_ti
 import 'package:viddroid_flutter_desktop/widgets/settings/selection_settings_tile.dart';
 import 'package:viddroid_flutter_desktop/widgets/settings/switch_settings_tile.dart';
 
-enum SettingsTileType { simpleTile, switchTile, navigationTile, selectionTile }
+enum SettingsTileType { simpleTile, switchTile, navigationTile, selectionTile, inputTile }
 
 class SimpleSettingsTile extends StatefulWidget {
   const SimpleSettingsTile({
@@ -15,10 +15,13 @@ class SimpleSettingsTile extends StatefulWidget {
     this.onPressed,
     this.onToggle,
     this.value,
-    this.initialValue,
+    this.toggled,
     this.enabled = true,
     this.trailing,
     this.optionItems,
+    this.onSubmitted,
+    this.formFieldHint,
+    this.initialValue,
     required this.tileType,
     Key? key,
   }) : super(key: key);
@@ -29,11 +32,17 @@ class SimpleSettingsTile extends StatefulWidget {
   final Widget? trailing;
   final Widget? value;
 
+  final String? formFieldHint;
+  final String? initialValue;
+
   final List<OptionItem>? optionItems;
 
   final Function(BuildContext context)? onPressed;
   final Function(bool value)? onToggle;
-  final bool? initialValue;
+  final Function(String? value)? onSubmitted;
+
+
+  final bool? toggled;
   final bool enabled;
   final SettingsTileType tileType;
 
@@ -56,6 +65,30 @@ class _SimpleSettingsTileState extends State<SimpleSettingsTile> with SettingsTi
         description: widget.description,
         leading: widget.leading,
       );
+    } else if (widget.tileType == SettingsTileType.inputTile) {
+      //TODO: Add validator & move the description to the bottom
+      return Column(
+        children: [
+          buildSetting(context,
+              additionalInfo: additionalInfo,
+              enabled: widget.enabled,
+              description: widget.description,
+              titleContent: _buildTileContent(context, additionalInfo)),
+          TextFormField(
+            enabled: widget.enabled,
+            initialValue: widget.initialValue,
+            onFieldSubmitted: widget.onSubmitted,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                hintText: widget.formFieldHint,
+                contentPadding: const EdgeInsets.only(left: 18, bottom: 11, top: 11, right: 15)),
+          ),
+        ],
+      );
     } else {
       return buildSetting(context,
           additionalInfo: additionalInfo,
@@ -72,7 +105,7 @@ class _SimpleSettingsTileState extends State<SimpleSettingsTile> with SettingsTi
       children: [
         if (widget.trailing != null) widget.trailing!,
         if (widget.tileType == SettingsTileType.switchTile)
-          SwitchSettingsTile(initialValue: widget.initialValue, onToggle: widget.onToggle),
+          SwitchSettingsTile(toggled: widget.toggled, onToggle: widget.onToggle),
         if (widget.tileType == SettingsTileType.navigationTile)
           NavigationSettingsTile(
             value: widget.value,
