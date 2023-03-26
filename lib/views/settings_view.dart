@@ -44,6 +44,7 @@ class _SettingsViewState extends State<SettingsView> {
                       const Text('Set a custom proxy, which will be used for all requests.'),
                   tileType: SettingsTileType.inputTile,
                   initialValue: Settings().get(Settings.proxy),
+                  formFieldHint: 'IP:port',
                   onSubmitted: (value) {
                     //TODO: Move away
                     final RegExp regex = RegExp(
