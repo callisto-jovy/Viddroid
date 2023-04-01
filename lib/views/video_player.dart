@@ -84,7 +84,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
       _controller = await VideoController.create(_player.handle);
 
-      _player.streams.isPlaying.listen((event) {
+      _player.streams.playing.listen((event) {
         _playing = event;
       });
 
@@ -195,14 +195,14 @@ class _VideoPlayerState extends State<VideoPlayer> {
       ),
     ]));
     //The player is definitely playing at this point
-    _playing = _player.state.isPlaying;
+    _playing = _player.state.playing;
   }
 
   void _changePlaybackSpeed(final double? playbackSpeed) {
     if (playbackSpeed == null) {
       return;
     }
-    _player.rate = playbackSpeed;
+    _player.setRate(playbackSpeed);
   }
 
   Widget _buildHitArea() {

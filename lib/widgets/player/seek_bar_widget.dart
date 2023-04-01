@@ -26,12 +26,12 @@ class _SeekBarState extends State<SeekBar> {
   @override
   void initState() {
     super.initState();
-    isPlaying = widget.player.state.isPlaying;
+    isPlaying = widget.player.state.playing;
     position = widget.player.state.position;
     duration = widget.player.state.duration;
     subscriptions.addAll(
       [
-        widget.player.streams.isPlaying.listen((event) {
+        widget.player.streams.playing.listen((event) {
           setState(() {
             isPlaying = event;
           });
