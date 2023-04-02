@@ -80,6 +80,7 @@ dependencies:
   local_notifier: ^0.1.5 # Used to display local (desktop) notifications, as this binds to native dependencies
   localstore: ^1.3.5 # Used to read and write data
   logger: ^1.3.0
+  subtitle: ^0.1.0-beta.3
 
 dev_dependencies:
   flutter_test:
