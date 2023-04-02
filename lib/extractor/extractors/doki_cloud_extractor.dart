@@ -5,6 +5,7 @@ import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/subtitle.dart';
 import 'package:viddroid_flutter_desktop/util/extraction/sflix_util.dart';
 
 ///Credit partly to: https://github.com/recloudstream/cloudstream-extensions/blob/master/SflixProvider/src/main/kotlin/com/lagradost/SflixProvider.kt
@@ -31,10 +32,14 @@ class DokiCloudExtractor extends Extractor {
         },
         responseType: ResponseType.plain);
 
-    final dynamic sources = jsonDecode(response.data)['sources'];
+    final dynamic decodedJson = jsonDecode(response.data);
+    final dynamic sources = decodedJson['sources'];
     if (sources == null) {
       return;
     }
+
+    final List<Subtitle> subtitles =
+    decodedJson['tracks'].map<Subtitle>((t) => Subtitle(t['label'] ?? 'Unknown', t['label'] ?? 'Unknown', t['file'])).toList();
 
     if (sources is String) {
       final String decrypted = decrypt(sources, await _getKey());
@@ -44,14 +49,16 @@ class DokiCloudExtractor extends Extractor {
         final dynamic entry = decryptedJson[i];
         final String url = entry['file'];
 
-        yield LinkResponse(url, mainUrl, '', MediaQuality.unknown, title: name);
+        yield LinkResponse(url, mainUrl, '', MediaQuality.unknown,
+            title: name, subtitles: subtitles);
       }
     } else {
       for (dynamic s in sources) {
         //TODO: Fetch from url
         if (s is Map) {
           print(s);
-          yield LinkResponse(s['file'], mainUrl, '', MediaQuality.unknown, title: name);
+          yield LinkResponse(s['file'], mainUrl, '', MediaQuality.unknown,
+              title: name, subtitles: subtitles);
         } else {}
       }
     }
