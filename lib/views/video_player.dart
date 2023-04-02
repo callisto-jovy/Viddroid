@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
+import 'package:subtitle/subtitle.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/option_item.dart';
@@ -14,8 +15,10 @@ import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/option_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/playback_speed_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/seek_bar_widget.dart';
+import 'package:viddroid_flutter_desktop/widgets/player/subtitle_widget.dart';
 import 'package:window_manager/window_manager.dart';
 
+import '../util/capsules/subtitle.dart' as internal;
 import '../util/setting/settings.dart';
 import '../widgets/player/center_play_button.dart';
 import '../widgets/snackbars.dart';
@@ -58,6 +61,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
   bool _hideOverlay = false;
   bool _playing = false;
 
+  StreamController<SubtitleController> subtitleStream = StreamController();
+
   @override
   void initState() {
     super.initState();
@@ -80,17 +85,13 @@ class _VideoPlayerState extends State<VideoPlayer> {
         }
       }).onError((error, stackTrace) {
         ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
+        logger.e(error.toString(), error, stackTrace);
       }); // Display message on error.
 
       _controller = await VideoController.create(_player.handle);
 
-      _player.streams.playing.listen((event) {
-        _playing = event;
-      });
-
-      _player.streams.error.listen((event) {
-        logger.e(event.message);
-      });
+      _player.streams.playing.listen((event) => _playing = event);
+      _player.streams.error.listen((event) => logger.e(event.message));
       // Must be created before opening any media. Otherwise, a separate window will be created.
       setState(() {});
     });
@@ -102,6 +103,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
     Future.microtask(() async {
       // Release allocated resources back to the system.
+      await subtitleStream.close();
       await _controller?.dispose();
       await _player.dispose();
       if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
@@ -131,7 +133,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
                   controller: _controller,
                 ),
                 //  _buildHitArea(), NOTE: Removed for now.
-                //TODO: Subtitles
+                _buildSubtitles(),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -203,6 +205,19 @@ class _VideoPlayerState extends State<VideoPlayer> {
       return;
     }
     _player.setRate(playbackSpeed);
+  }
+
+  void _changeSubtitle(final internal.Subtitle subtitle) async {
+    final Uri url = Uri.parse(subtitle.url);
+    SubtitleController subtitleController = SubtitleController(
+      provider: SubtitleProvider.fromNetwork(url),
+    );
+    await subtitleController.initial();
+    subtitleStream.add(subtitleController);
+  }
+
+  Widget _buildSubtitles() {
+    return SubtitleWidget(player: _player, subtitleStream: subtitleStream);
   }
 
   Widget _buildHitArea() {
@@ -285,6 +300,17 @@ class _VideoPlayerState extends State<VideoPlayer> {
       OptionItem(
           onTap: () async {
             Navigator.pop(context);
+            await showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (_) => _buildSubtitleList(),
+            );
+          },
+          iconData: Icons.subtitles,
+          title: 'Subtitles'),
+      OptionItem(
+          onTap: () async {
+            Navigator.pop(context);
             //Pause the player
             _togglePlaying(player: true);
 
@@ -326,6 +352,25 @@ class _VideoPlayerState extends State<VideoPlayer> {
               },
               title: e.title != null ? '${e.title}/${e.mediaQuality.name}' : 'N/A',
               iconData: Icons.video_collection,
+            ))
+        .toList();
+    return OptionsDialog(options: options);
+  }
+
+  // List view from all possible stream options
+  Widget _buildSubtitleList() {
+    if (_currentLink?.subtitles == null) {
+      return OptionsDialog(options: List.empty());
+    }
+
+    final List<OptionItem> options = _currentLink!.subtitles!
+        .map((e) => OptionItem(
+              onTap: () {
+                Navigator.pop(context);
+                _changeSubtitle(e);
+              },
+              title: '${e.name} - ${e.language}',
+              iconData: Icons.subtitles,
             ))
         .toList();
     return OptionsDialog(options: options);

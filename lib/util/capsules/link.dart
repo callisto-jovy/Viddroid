@@ -1,4 +1,5 @@
 import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
+import 'package:viddroid_flutter_desktop/util/capsules/subtitle.dart';
 
 class LinkResponse {
   final String? title;
@@ -7,8 +8,10 @@ class LinkResponse {
   final String source;
   final MediaQuality mediaQuality;
   final Map<String, String>? header;
+  final List<Subtitle>? subtitles;
 
-  LinkResponse(this.url, this.referer, this.source, this.mediaQuality, {this.title, this.header});
+  LinkResponse(this.url, this.referer, this.source, this.mediaQuality,
+      {this.title, this.header, this.subtitles});
 
   @override
   String toString() {
