@@ -73,12 +73,15 @@ class _SearchViewState extends State<SearchView> {
 
               return StickyHeader(
                 header: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: const EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
-                  color: Theme.of(context).colorScheme.surfaceVariant,
+                  margin: const EdgeInsets.only(left: 25),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Theme.of(context).colorScheme.secondaryContainer),
                   child: Text(
                     validProviders[index],
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                 ),
                 content: GridView.builder(
@@ -94,8 +97,8 @@ class _SearchViewState extends State<SearchView> {
                   },
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 30,
+                    mainAxisSpacing: 30,
                   ),
                 ),
               );

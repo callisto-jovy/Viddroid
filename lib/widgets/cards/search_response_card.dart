@@ -22,25 +22,47 @@ class SearchResponseCard extends StatelessWidget {
                 ),
               ));
         },
-        child: Column(
-          children: [
-            Expanded(
-              child: _searchResponse.thumbnail == null
-                  ? const Icon(Icons.error)
-                  : CachedNetworkImage(
-                      imageUrl: _searchResponse.thumbnail!,
-                      progressIndicatorBuilder: (context, url, downloadProgress) =>
-                          CircularProgressIndicator(value: downloadProgress.progress),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
-                      fit: BoxFit.contain,
-                      filterQuality: FilterQuality.medium),
-            ),
-            Text(
-              _searchResponse.title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(_searchResponse.type.name.toUpperCase()),
-          ],
+        child: Container(
+          decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(10)),
+          child: Column(
+            children: [
+              _searchResponse.thumbnail == null
+                  ? const Icon(Icons.question_mark_rounded)
+                  : Expanded(
+                      child: CachedNetworkImage(
+                        imageUrl: _searchResponse.thumbnail!,
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            CircularProgressIndicator(value: downloadProgress.progress),
+                        imageBuilder: (context, imageProvider) {
+                          return Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 6),
+                                  )
+                                ],
+                              ),
+                              child: Image(
+                                image: imageProvider,
+                                filterQuality: FilterQuality.medium,
+                                fit: BoxFit.scaleDown,
+                              ));
+                        },
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      ),
+                    ),
+              Text(
+                _searchResponse.title,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+              Text(_searchResponse.type.name.toUpperCase()),
+            ],
+          ),
         ),
       ),
     );
