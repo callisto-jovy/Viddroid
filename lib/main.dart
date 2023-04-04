@@ -3,6 +3,7 @@ import 'package:local_notifier/local_notifier.dart';
 import 'package:viddroid_flutter_desktop/util/custom_scroll_behaviour.dart';
 import 'package:viddroid_flutter_desktop/util/setting/settings.dart';
 import 'package:viddroid_flutter_desktop/views/main_view.dart';
+import 'package:wakelock/wakelock.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

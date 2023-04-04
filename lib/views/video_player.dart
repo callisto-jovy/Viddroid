@@ -16,6 +16,7 @@ import 'package:viddroid_flutter_desktop/widgets/player/option_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/playback_speed_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/seek_bar_widget.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/subtitle_widget.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../util/capsules/subtitle.dart' as internal;
@@ -70,6 +71,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _startHideTimer();
 
     Future.microtask(() async {
+      //TODO: Setting
+      await Wakelock.enable();
+
       if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
         await WindowManager.instance.setFullScreen(true);
       }
@@ -109,6 +113,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
         await WindowManager.instance.setFullScreen(false);
       }
+      await Wakelock.disable();
     });
     super.dispose();
   }
