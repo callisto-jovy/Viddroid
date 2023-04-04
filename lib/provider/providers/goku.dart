@@ -103,10 +103,6 @@ class Goku extends SiteProvider {
 
         List<Element> episodeElements = episodesDocument.querySelectorAll('div.item > a');
 
-        //   if (episodeElements.isEmpty) {
-        //   episodeElements = episodesDocument.querySelectorAll('ul > li > a');
-        // }
-
         episodeElements.asMap().forEach((index, value) {
           final String title = value.attributes['title'] ?? value.text;
           final String? episodeId = value.attributes['data-id'];
@@ -149,8 +145,6 @@ class Goku extends SiteProvider {
       final Response response = await simpleGet(
           '$mainUrl/ajax/movie/episode/server/sources/$serverId',
           responseType: ResponseType.plain);
-
-      // if (response.data.isEmpty) return;
 
       final Map<String, dynamic> json = jsonDecode(response.data);
       final String? link = json['data']['link'];
