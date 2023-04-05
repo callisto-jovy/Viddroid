@@ -82,7 +82,7 @@ dependencies:
   logger: ^1.3.0 # Logging package for easy logging and removal of print statements.
   subtitle: ^0.1.0-beta.3 # Used to decode the most used subtitle formats.
   wakelock: ^0.6.2 # Links to platform dependencies and stops the display from going to sleep. Used for the player.
-  crypto: ^3.0.2 # Direct dependency to crypto.
+  #crypto: ^3.0.2 # Direct dependency to crypto.
 
 
 dev_dependencies:

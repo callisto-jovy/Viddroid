@@ -65,7 +65,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
   bool _hideOverlay = false;
   bool _playing = false;
 
-  StreamController<SubtitleController> subtitleStream = StreamController();
+  final StreamController<SubtitleController> subtitleStream = StreamController();
+
+  // [Duration] which is non-null if the source was changed.
+  Duration? _lastPosition;
 
   @override
   void initState() {
@@ -103,10 +106,16 @@ class _VideoPlayerState extends State<VideoPlayer> {
         // Only needed to restore the player to its previous state. I haven't found another way for now.
         // This unfortunately also applies whenever the stream is switched.
         _player.streams.duration.listen((event) {
-          // Load the previous state if possible; TODO: Setting
-          final Duration? previousState = Watchables().getTimestamp(widget.hash);
-          if (previousState != null) {
-            _player.seek(previousState);
+          // Load the previous state if possible
+          if (Settings().get(Settings.keepPlayback) && _lastPosition == null) {
+            final Duration? previousState = Watchables().getTimestamp(widget.hash);
+            if (previousState != null) {
+              _player.seek(previousState);
+            }
+          }
+          // Overwrite the previous state if the source was changed.
+          if (_lastPosition != null) {
+            _player.seek(_lastPosition!);
           }
         });
         _player.streams.error.listen((event) => logger.e(event.message));
@@ -122,8 +131,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
   void dispose() {
     _hideTimer?.cancel();
 
-    // Save the current state. TODO: Setting, dont save if close to end.
-    Watchables().saveTimestamp(widget.hash, _player.state.position);
+    // Save the current state. TODO: dont save if close to end.
+    if (Settings().get(Settings.keepPlayback)) {
+      Watchables().saveTimestamp(widget.hash, _player.state.position);
+    }
 
     Future.microtask(() async {
       // Release allocated resources back to the system.
@@ -208,7 +219,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     // Saves the previous position if the position is not null, not the start of the playback.
     final Duration previousPosition = _player.state.position;
     if (previousPosition.inSeconds != 0) {
-      Watchables().saveTimestamp(widget.hash, previousPosition);
+      _lastPosition = previousPosition;
     }
 
     if (_player.platform is libmpvPlayer) {

@@ -44,7 +44,7 @@ class RabbitStreamExtractor extends Extractor {
         decodedJson['tracks'].map<Subtitle>((t) => Subtitle(t['label'] ?? 'Unknown', t['label'] ?? 'Unknown', t['file'])).toList();
 
     if (sources is String) {
-      final String decrypted = decrypt(sources, await _getKey());
+      final String decrypted = decrypt(sources, 'EWGeMQ1QrmCCqo2U3aDky');
       final dynamic decryptedJson = jsonDecode(decrypted);
 
       for (int i = 0; i < decryptedJson.length; i++) {
