@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:viddroid_flutter_desktop/util/custom_scroll_behaviour.dart';
 import 'package:viddroid_flutter_desktop/util/setting/settings.dart';
+import 'package:viddroid_flutter_desktop/util/watchable/watchables.dart';
 import 'package:viddroid_flutter_desktop/views/main_view.dart';
-import 'package:wakelock/wakelock.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Settings().init();
+  await Watchables().init();
   await localNotifier.setup(
     appName: 'Viddroid',
     // The parameter shortcutPolicy only works on Windows

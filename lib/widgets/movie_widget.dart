@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
+import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 import 'package:viddroid_flutter_desktop/views/video_player.dart';
 
 import '../provider/providers.dart';
@@ -26,8 +27,12 @@ class _MovieWidgetState extends State<MovieWidget> {
   }
 
   void _displayVideoPlayer(final LoadRequest loadRequest) {
+    // Hash calculated with The provider, the movie title
+    final String movieHash = '${widget._fetchResponse.apiName}${widget._fetchResponse.title}'.toMD5;
+
     final Route route = MaterialPageRoute(
         builder: (context) => VideoPlayer(
+            hash: movieHash,
             title: widget._fetchResponse.title,
             stream: Providers().provider(widget._fetchResponse.apiName).load(loadRequest)));
 
