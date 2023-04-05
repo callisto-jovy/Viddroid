@@ -107,6 +107,19 @@ class _SettingsViewState extends State<SettingsView> {
                       Settings().saveSetting(Settings.changeFullscreen, val);
                     });
                   },
+                ),
+                SimpleSettingsTile(
+                  leading: const Icon(Icons.save),
+                  title: const Text('Save previous player state'),
+                  description: const Text('If enabled, the player\'s previous position will be saved. The next playback will start from that point on.'),
+                  onPressed: null,
+                  toggled: Settings().get(Settings.keepPlayback),
+                  tileType: SettingsTileType.switchTile,
+                  onToggle: (val) {
+                    setState(() {
+                      Settings().saveSetting(Settings.keepPlayback, val);
+                    });
+                  },
                 )
               ],
               margin: const EdgeInsetsDirectional.all(20),

@@ -19,7 +19,9 @@ class VidSrcExtractor extends Extractor {
 
     final List<String> servers = [];
 
-    for (final Element element in document.querySelectorAll('div.active_source.source')) {
+    print(urlResponse.data);
+
+    for (final Element element in document.querySelectorAll('.active_source.source')) {
       final String? dataHash = element.attributes['data-hash'];
       if (dataHash != null && dataHash.isNotEmpty) {
         final Response resp = await simpleGet('${mainUrl}srcrcp/$dataHash',
@@ -28,6 +30,8 @@ class VidSrcExtractor extends Extractor {
         servers.add(resp.requestOptions.uri.toString());
       }
     }
+
+    print(servers);
 
     for (final String server in servers) {
       final String fixedLink = server.replaceAll('https://vidsrc.xyz/', 'https://embedsito.com/');
