@@ -21,6 +21,7 @@ import 'package:window_manager/window_manager.dart';
 
 import '../util/capsules/subtitle.dart' as internal;
 import '../util/setting/settings.dart';
+import '../util/watchable/watchables.dart';
 import '../widgets/player/center_play_button.dart';
 import '../widgets/snackbars.dart';
 
@@ -29,11 +30,13 @@ final navigatorKey = GlobalKey<NavigatorState>();
 class VideoPlayer extends StatefulWidget {
   final Stream<LinkResponse> stream;
   final String title;
+  final String hash;
 
   const VideoPlayer({
     Key? key,
     required this.stream,
     required this.title,
+    required this.hash,
   }) : super(key: key);
 
   @override
@@ -69,41 +72,58 @@ class _VideoPlayerState extends State<VideoPlayer> {
     super.initState();
     //Timers
     _startHideTimer();
+    try {
+      Future.microtask(() async {
+        //TODO: Setting
+        // Enable the wakelock
+        await Wakelock.enable();
 
-    Future.microtask(() async {
-      //TODO: Setting
-      await Wakelock.enable();
-
-      if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
-        await WindowManager.instance.setFullScreen(true);
-      }
-      // Create a [VideoController] instance from `package:media_kit_video`.
-      // Pass the [handle] of the [Player] from `package:media_kit` to the [VideoController] constructor.
-      widget.stream.asBroadcastStream().listen((event) {
-        _responses.add(event);
-        _currentLink ??= event; //First element from the stream.
-
-        //Autoplay
-        if (!_playing) {
-          _changeVideoSource(event);
+        if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
+          await WindowManager.instance.setFullScreen(true);
         }
-      }).onError((error, stackTrace) {
-        ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
-        logger.e(error.toString(), error, stackTrace);
-      }); // Display message on error.
+        // Create a [VideoController] instance from `package:media_kit_video`.
+        // Pass the [handle] of the [Player] from `package:media_kit` to the [VideoController] constructor.
+        widget.stream.asBroadcastStream().listen((event) {
+          _responses.add(event);
+          _currentLink ??= event; //First element from the stream.
 
-      _controller = await VideoController.create(_player.handle);
+          //Autoplay
+          if (!_playing) {
+            _changeVideoSource(event);
+          }
+        }).onError((error, stackTrace) {
+          ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
+          logger.e(error.toString(), error, stackTrace);
+        }); // Display message on error.
 
-      _player.streams.playing.listen((event) => _playing = event);
-      _player.streams.error.listen((event) => logger.e(event.message));
-      // Must be created before opening any media. Otherwise, a separate window will be created.
-      setState(() {});
-    });
+        _controller = await VideoController.create(_player.handle);
+
+        // Listen to the streams; print occurring errors.
+        _player.streams.playing.listen((event) => _playing = event);
+        // Only needed to restore the player to its previous state. I haven't found another way for now.
+        // This unfortunately also applies whenever the stream is switched.
+        _player.streams.duration.listen((event) {
+          // Load the previous state if possible; TODO: Setting
+          final Duration? previousState = Watchables().getTimestamp(widget.hash);
+          if (previousState != null) {
+            _player.seek(previousState);
+          }
+        });
+        _player.streams.error.listen((event) => logger.e(event.message));
+        // Must be created before opening any media. Otherwise, a separate window will be created.
+        setState(() {});
+      });
+    } catch (e, s) {
+      print(s);
+    }
   }
 
   @override
   void dispose() {
     _hideTimer?.cancel();
+
+    // Save the current state. TODO: Setting, dont save if close to end.
+    Watchables().saveTimestamp(widget.hash, _player.state.position);
 
     Future.microtask(() async {
       // Release allocated resources back to the system.
@@ -113,6 +133,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
         await WindowManager.instance.setFullScreen(false);
       }
+      // Disable the Wakelock, as to not mess with the systems functionality.
       await Wakelock.disable();
     });
     super.dispose();
@@ -183,6 +204,13 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   void _changeVideoSource(final LinkResponse response) async {
     _currentLink = response;
+    // I have to do this for now. Unfortunate.
+    // Saves the previous position if the position is not null, not the start of the playback.
+    final Duration previousPosition = _player.state.position;
+    if (previousPosition.inSeconds != 0) {
+      Watchables().saveTimestamp(widget.hash, previousPosition);
+    }
+
     if (_player.platform is libmpvPlayer) {
       final String properties =
           response.header?.entries.map((e) => "'${e.key}: ${e.value}'").join(',') ?? '';
@@ -203,6 +231,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
     ]));
     //The player is definitely playing at this point
     _playing = _player.state.playing;
+
+    // Seek to the previous position
+    await _player.seek(previousPosition);
   }
 
   void _changePlaybackSpeed(final double? playbackSpeed) {

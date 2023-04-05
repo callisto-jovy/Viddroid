@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
+import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 import 'package:viddroid_flutter_desktop/views/video_player.dart';
 import 'package:viddroid_flutter_desktop/widgets/cards/episode_card.dart';
 
@@ -44,10 +44,18 @@ class _TvWidgetState extends State<TvWidget> {
         widget._fetchResponse.episodes.where((element) => element.season == dropdownValue).toList();
   }
 
-  void _displayVideoPlayer(final LoadRequest loadRequest) {
+  void _displayVideoPlayer(final Episode episode) {
+    //TODO: Move to util
+    // Hash calculated with The provider, the tv title, the season and the index.
+    final String episodeHash =
+        '${widget._fetchResponse.apiName}${widget._fetchResponse.title}${episode.season}${episode.index}'
+            .toMD5;
+
     final Route route = MaterialPageRoute(
         builder: (context) => VideoPlayer(
-            stream: Providers().provider(widget._fetchResponse.apiName).load(loadRequest),
+            hash: episodeHash,
+            stream:
+                Providers().provider(widget._fetchResponse.apiName).load(episode.toLoadRequest()),
             title: widget._fetchResponse.title));
     Navigator.pushReplacement(context, route);
   }
@@ -79,7 +87,7 @@ class _TvWidgetState extends State<TvWidget> {
                 return Container(
                     padding: const EdgeInsets.all(10),
                     child: InkWell(
-                        onTap: () => _displayVideoPlayer(episodes[index].toLoadRequest()),
+                        onTap: () => _displayVideoPlayer(episodes[index]),
                         child: EpisodeCard(episodes[index])));
               },
             ),

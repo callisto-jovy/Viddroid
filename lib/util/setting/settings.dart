@@ -22,7 +22,7 @@ class Settings {
   late CollectionRef collectionRef;
 
   /// Map of all the settings. This map is actually written to disk.
-  Map<String, dynamic> settingsMap = {
+  Map<String, dynamic> settings = {
     selectedProviders: [],
     changeFullscreen: true,
   };
@@ -32,18 +32,18 @@ class Settings {
     final Localstore db = Localstore.instance;
     collectionRef = db.collection('viddroid_settings');
 
-    settingsMap = await collectionRef.doc(settingsKey).get() ?? settingsMap;
+    settings = await collectionRef.doc(settingsKey).get() ?? settings;
   }
 
   Future<dynamic> getFromDiskIfPossible(String key) =>
-      collectionRef.doc(settingsKey).get().then((value) => value?[key] ?? settingsMap[key]);
+      collectionRef.doc(settingsKey).get().then((value) => value?[key] ?? settings[key]);
 
-  dynamic get(String key) => settingsMap[key];
+  dynamic get(String key) => settings[key];
 
   /// Updates the map and saves it to disk
   void saveSetting(String key, dynamic settingsValue) {
-    settingsMap[key] = settingsValue;
-    _put(settingsKey, settingsMap);
+    settings[key] = settingsValue;
+    _put(settingsKey, settings);
   }
 
   /// Writes the map to disk
