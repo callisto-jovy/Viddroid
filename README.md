@@ -50,7 +50,7 @@ to [media_kit](https://github.com/alexmercerind/media_kit)!
 - [x] Setting's structure
 - [x] Custom proxies
 - [ ] Download progress indicators
-- [ ] Subtitles
+- [x] Subtitles
 - [ ] Interactive UI
 - [ ] Media bookmarking
 - [ ] Custom Providers (implemented through a custom scripting-language) / Detach the providers from the codebase
