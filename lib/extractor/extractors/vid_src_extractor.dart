@@ -15,13 +15,18 @@ class VidSrcExtractor extends Extractor {
   @override
   Stream<LinkResponse> extract(String url, {Map<String, String>? headers}) async* {
     final Response urlResponse = await simpleGet(url, headers: headers);
-    final Document document = parse(urlResponse.data);
+    final Document document0 = parse(urlResponse.data);
 
     final List<String> servers = [];
+    final String? playerUrl = document0.querySelector('#player_iframe')?.attributes['src'];
+    if (playerUrl == null) {
+      return;
+    }
 
-    print(urlResponse.data);
+    final Response response = await simpleGet('$mainUrl/$playerUrl', headers: headers);
+    final Document document = parse(response.data);
 
-    for (final Element element in document.querySelectorAll('.active_source.source')) {
+    for (final Element element in document.querySelectorAll('.source')) {
       final String? dataHash = element.attributes['data-hash'];
       if (dataHash != null && dataHash.isNotEmpty) {
         final Response resp = await simpleGet('${mainUrl}srcrcp/$dataHash',
@@ -30,8 +35,6 @@ class VidSrcExtractor extends Extractor {
         servers.add(resp.requestOptions.uri.toString());
       }
     }
-
-    print(servers);
 
     for (final String server in servers) {
       final String fixedLink = server.replaceAll('https://vidsrc.xyz/', 'https://embedsito.com/');
