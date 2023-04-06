@@ -46,9 +46,15 @@ class EpisodeCard extends StatelessWidget {
                           fit: BoxFit.cover),
                       filterQuality: FilterQuality.medium),
             ),
-            Text('Episode ${_episode.index}', style: const TextStyle(fontWeight: FontWeight.w400)),
-            Text(_episode.name,
-                softWrap: true, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Text('Episode ${_episode.index}',
+                    style: const TextStyle(fontWeight: FontWeight.w400))),
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: Text(_episode.name,
+                  softWrap: true, style: const TextStyle(fontWeight: FontWeight.bold)),
+            ),
           ],
         ),
       ),
