@@ -26,6 +26,7 @@ class Settings {
   Map<String, dynamic> settings = {
     selectedProviders: [],
     changeFullscreen: true,
+    keepPlayback: true,
   };
 
   /// Initializes all the values asynchronously
