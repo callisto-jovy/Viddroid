@@ -123,7 +123,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         setState(() {});
       });
     } catch (e, s) {
-      print(s);
+      logger.e('An error occurred in the video_player init', e, s);
     }
   }
 

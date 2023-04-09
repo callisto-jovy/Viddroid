@@ -11,8 +11,12 @@ class HLSScanner {
   final Map<String, String>? _headers;
   final Map<String, String> resolutions = {};
 
-  String? encKey;
+  final Map<String, dynamic> values =
+      {}; // Will be used in the near future to store values in a more versatile way.
+
+  String? encKeyUri;
   String? encMethod;
+  String? encIv;
 
   final RegExp keyValueExp = RegExp(r'([A-Z]+)="?([^",]+)');
 
@@ -35,12 +39,14 @@ class HLSScanner {
           .getRange(1, split.length)
           .join(':'); //Join (needed for urs, as they are split too. Could fix this with a regex.
 
+      //TODO: Substring prefix
       switch (code) {
         case '#EXT-X-KEY':
           //set key & method
           final Map<String, String> keyValues = dissectValue(value);
           encMethod = keyValues['METHOD'];
-          encKey = keyValues['URI'];
+          encKeyUri = keyValues['URI'];
+          encIv = keyValues['IV'];
           break;
         case '#EXT-X-STREAM-INF':
           final Map<String, String> keyValues = dissectValue(value);
@@ -48,7 +54,6 @@ class HLSScanner {
           if (resolution != null) {
             resolutions[resolution] = mainLines[i + 1];
           }
-
           break;
       }
     }

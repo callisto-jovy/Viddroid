@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:pointycastle/export.dart'; // Only for Cipher*Stream
 import 'package:viddroid_flutter_desktop/constants.dart';
 import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
+import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 import 'package:viddroid_flutter_desktop/util/hls/hls_util.dart';
 
 import '../file/file_util.dart';
@@ -21,7 +22,7 @@ class HLSDownloader extends Downloader {
 
     final int totalSegments = scanner.segments.length;
 
-    final bool isEncrypted = scanner.encMethod != null && scanner.encKey != null;
+    final bool isEncrypted = scanner.encMethod != null && scanner.encKeyUri != null;
 
     BlockCipher? aesCipher;
     Padding? padding;
@@ -30,16 +31,17 @@ class HLSDownloader extends Downloader {
       //TODO: Key not from url (not supported by any players, therefore low priority)
 
       final Uint8List key =
-          await simpleGet(scanner.encKey!, headers: headers, responseType: ResponseType.bytes)
+          await simpleGet(scanner.encKeyUri!, headers: headers, responseType: ResponseType.bytes)
               .then((value) => value.data);
+
+      final Uint8List iv = scanner.encIv?.hexToUint8List ?? Uint8List(16);
 
       if (key.isEmpty) {
         return Future.error('Could not get encryption key from url.');
       }
 
       //TODO: Add iv support
-      aesCipher = BlockCipher('AES/CBC')
-        ..init(false, ParametersWithIV(KeyParameter(key), Uint8List(16)));
+      aesCipher = BlockCipher('AES/CBC')..init(false, ParametersWithIV(KeyParameter(key), iv));
       padding = Padding('PKCS7')..init();
     }
 
@@ -54,20 +56,25 @@ class HLSDownloader extends Downloader {
 
       //TODO: Handle errors
 
-      if (isEncrypted) {
-        await writeFromEncryptedStreamToStream(
-          ioSink,
-          url: url,
-          blockCipher: aesCipher!, //The ciphers will be non-null
-          padding: padding!,
-          headers: headers,
-        );
-      } else {
-        await writeFromStreamToStream(
-          ioSink,
-          url: url,
-          headers: headers,
-        );
+      try {
+        if (isEncrypted) {
+          await writeFromEncryptedStreamToStream(
+            ioSink,
+            url: url,
+            blockCipher: aesCipher!, //The ciphers will be non-null
+            padding: padding!,
+            headers: headers,
+          );
+        } else {
+          await writeFromStreamToStream(
+            ioSink,
+            url: url,
+            headers: headers,
+          );
+        }
+      } catch (e, s) {
+        logger.e('An error occurred while downloading a HLS segment', e, s);
+        continue;
       }
       progressCallback.call(((i / totalSegments) * 100).toInt());
     }
