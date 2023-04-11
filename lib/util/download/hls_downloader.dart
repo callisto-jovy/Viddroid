@@ -40,7 +40,6 @@ class HLSDownloader extends Downloader {
         return Future.error('Could not get encryption key from url.');
       }
 
-      //TODO: Add iv support
       aesCipher = BlockCipher('AES/CBC')..init(false, ParametersWithIV(KeyParameter(key), iv));
       padding = Padding('PKCS7')..init();
     }

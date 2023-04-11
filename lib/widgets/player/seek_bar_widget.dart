@@ -66,8 +66,7 @@ class _SeekBarState extends State<SeekBar> {
         const SizedBox(width: 48.0),
         IconButton(
           onPressed: widget.player.playOrPause,
-          icon: AnimatedPlayPause(color: Theme.of(context).primaryColor, playing: isPlaying),
-          color: Theme.of(context).primaryColor,
+          icon: AnimatedPlayPause(playing: isPlaying),
           iconSize: 36.0,
         ),
         const SizedBox(width: 24.0),
