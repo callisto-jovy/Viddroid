@@ -107,7 +107,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         // This unfortunately also applies whenever the stream is switched.
         _player.streams.duration.listen((event) {
           // Load the previous state if possible
-          if (Settings().get(Settings.keepPlayback) && _lastPosition == null) {
+          if (Settings().get(Settings.keepPlayback, true) && _lastPosition == null) {
             final Duration? previousState = Watchables().getTimestamp(widget.hash);
             if (previousState != null) {
               _player.seek(previousState);
@@ -132,7 +132,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _hideTimer?.cancel();
 
     // Save the current state. TODO: dont save if close to end.
-    if (Settings().get(Settings.keepPlayback)) {
+    if (Settings().get(Settings.keepPlayback, true)) {
       Watchables().saveTimestamp(widget.hash, _player.state.position);
     }
 

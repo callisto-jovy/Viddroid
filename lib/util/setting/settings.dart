@@ -40,7 +40,7 @@ class Settings {
   Future<dynamic> getFromDiskIfPossible(String key) =>
       collectionRef.doc(settingsKey).get().then((value) => value?[key] ?? settings[key]);
 
-  dynamic get(String key) => settings[key];
+  dynamic get(String key, [dynamic defaultValue]) => settings[key] ?? defaultValue;
 
   /// Updates the map and saves it to disk
   void saveSetting(String key, dynamic settingsValue) {
