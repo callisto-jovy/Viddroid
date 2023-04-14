@@ -169,14 +169,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
-  cli_util:
-    dependency: transitive
-    description:
-      name: cli_util
-      sha256: b8db3080e59b2503ca9e7922c3df2072cf13992354d5e944074ffa836fba43b7
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0"
   clock:
     dependency: transitive
     description:
@@ -201,14 +193,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
-  console:
-    dependency: transitive
-    description:
-      name: console
-      sha256: e04e7824384c5b39389acdd6dc7d33f3efe6b232f6f16d7626f194f6a01ad69a
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.0"
   convert:
     dependency: transitive
     description:
@@ -226,7 +210,7 @@ packages:
     source: hosted
     version: "3.0.1"
   crypto:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: crypto
       sha256: aa274aa7774f8964e4f4f38cc994db7b6158dd36e9187aaceaddc994b35c6c67
@@ -389,14 +373,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
-  get_it:
-    dependency: transitive
-    description:
-      name: get_it
-      sha256: "290fde3a86072e4b37dbb03c07bec6126f0ecc28dad403c12ffe2e5a2d751ab7"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.2.0"
   glob:
     dependency: transitive
     description:
@@ -445,14 +421,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
-  image:
-    dependency: transitive
-    description:
-      name: image
-      sha256: "483a389d6ccb292b570c31b3a193779b1b0178e7eb571986d9a49904b6861227"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.15"
   intl:
     dependency: transitive
     description:
@@ -578,27 +546,30 @@ packages:
   media_kit_libs_linux:
     dependency: "direct main"
     description:
-      name: media_kit_libs_linux
-      sha256: "7310b17dd2abc2e7363f78a273086445c2216c7b6dfb60933ca3814031d03814"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
+      path: media_kit_libs_linux
+      ref: main
+      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      url: "https://github.com/alexmercerind/media_kit.git"
+    source: git
+    version: "1.0.2"
   media_kit_libs_macos_video:
     dependency: "direct main"
     description:
-      name: media_kit_libs_macos_video
-      sha256: b3259875e201ec66d98ed33b32687ff14fcce7d91e74d420733c039556dff8cd
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
+      path: media_kit_libs_macos_video
+      ref: main
+      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      url: "https://github.com/alexmercerind/media_kit.git"
+    source: git
+    version: "1.0.4"
   media_kit_libs_windows_video:
     dependency: "direct main"
     description:
-      name: media_kit_libs_windows_video
-      sha256: c2bcbe31e6e6f1e6ae5813c5fe9b7bfde1110c2e95643869919972a7845948e1
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
+      path: media_kit_libs_windows_video
+      ref: main
+      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      url: "https://github.com/alexmercerind/media_kit.git"
+    source: git
+    version: "1.0.2"
   media_kit_native_event_loop:
     dependency: "direct main"
     description:
@@ -611,10 +582,11 @@ packages:
   media_kit_video:
     dependency: "direct main"
     description:
-      name: media_kit_video
-      sha256: "1a870a3d731a9ce34e12ec5baed05b3081164f0c85b71baf05900ca47ee5639c"
-      url: "https://pub.dev"
-    source: hosted
+      path: media_kit_video
+      ref: main
+      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      url: "https://github.com/alexmercerind/media_kit.git"
+    source: git
     version: "0.0.4"
   meta:
     dependency: transitive
@@ -632,14 +604,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  msix:
-    dependency: "direct dev"
-    description:
-      name: msix
-      sha256: beff6794edd6fad49f2a49a205d429929cbeebb892ef8b144f6b8f6b83d637ad
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.10.1"
   octo_image:
     dependency: transitive
     description:
