@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 import 'package:viddroid_flutter_desktop/util/extensions/iterable_extension.dart';
 import 'package:viddroid_flutter_desktop/widgets/cards/search_response_card.dart';
 
@@ -64,45 +64,47 @@ class _SearchViewState extends State<SearchView> {
                 (element) => element,
               );
 
-          return ListView.builder(
-            itemCount: validProviders.length,
-            itemBuilder: (context, index) {
-              final List<SearchResponse> resp = snapshot.data!
-                  .where((element) => element.apiName == validProviders[index])
-                  .toList();
+          return CustomScrollView(
+            primary: false,
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+//            controller: ScrollController(),
+            slivers: validProviders.map((provider) {
+              List<SearchResponse> resp =
+                  snapshot.data!.where((element) => element.apiName == provider).toList();
 
-              return StickyHeader(
+              return SliverStickyHeader(
                 header: Container(
                   padding: const EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(left: 25),
+                  margin: const EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       color: Theme.of(context).colorScheme.secondaryContainer),
                   child: Text(
-                    validProviders[index],
+                    provider,
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                 ),
-                content: GridView.builder(
-                  primary: false,
+                sliver: SliverPadding(
                   padding: const EdgeInsets.all(20),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: resp.length,
-                  itemBuilder: (context, i) {
-                    final SearchResponse searchResponse = resp[i];
-                    return SearchResponseCard(searchResponse);
-                  },
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    crossAxisSpacing: 30,
-                    mainAxisSpacing: 30,
+                  sliver: SliverGrid(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 30,
+                      mainAxisSpacing: 30,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final SearchResponse searchResponse = resp[index];
+                        return GridTile(child: SearchResponseCard(searchResponse));
+                      },
+                      childCount: resp.length,
+                    ),
                   ),
                 ),
               );
-            },
+            }).toList(),
           );
         } else if (snapshot.hasError) {
           return Text('Something went wrong. ${snapshot.error!}');
