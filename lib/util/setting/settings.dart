@@ -24,7 +24,7 @@ class Settings {
 
   /// Map of all the settings. This map is actually written to disk.
   Map<String, dynamic> settings = {
-    selectedProviders: [],
+    selectedProviders: Providers().siteProviders,
     changeFullscreen: true,
     keepPlayback: true,
   };
