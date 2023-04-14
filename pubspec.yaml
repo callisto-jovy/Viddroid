@@ -98,6 +98,7 @@ dependencies:
   subtitle: ^0.1.0-beta.3 # Used to decode the most used subtitle formats.
   wakelock: ^0.6.2 # Links to platform dependencies and stops the display from going to sleep. Used for the player.
   crypto: ^3.0.2 # Direct dependency to crypto.
+  flutter_sticky_header: ^0.6.5
 
 
 dev_dependencies:
