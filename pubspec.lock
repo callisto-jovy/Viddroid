@@ -562,7 +562,7 @@ packages:
     description:
       path: media_kit
       ref: main
-      resolved-ref: "1bcf49ebbfab2c4f3d674ea8495d30a29ef690e1"
+      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "0.0.4+1"
@@ -571,7 +571,7 @@ packages:
     description:
       path: media_kit_libs_android_video
       ref: main
-      resolved-ref: "1bcf49ebbfab2c4f3d674ea8495d30a29ef690e1"
+      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.0"
@@ -604,7 +604,7 @@ packages:
     description:
       path: media_kit_native_event_loop
       ref: main
-      resolved-ref: "1bcf49ebbfab2c4f3d674ea8495d30a29ef690e1"
+      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.2"
@@ -636,10 +636,10 @@ packages:
     dependency: "direct dev"
     description:
       name: msix
-      sha256: "8cd0a6c6deafac9914cf36e8cd3db76b9e4d2ab7dcb6b71310c92a9a84d920f4"
+      sha256: beff6794edd6fad49f2a49a205d429929cbeebb892ef8b144f6b8f6b83d637ad
       url: "https://pub.dev"
     source: hosted
-    version: "3.9.2"
+    version: "3.10.1"
   octo_image:
     dependency: transitive
     description:
@@ -764,10 +764,10 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      sha256: c3120a968135aead39699267f4c74bc9a08e4e909e86bc1b0af5bfd78691123c
+      sha256: "7c1e5f0d23c9016c5bbd8b1473d0d3fb3fc851b876046039509e18e0c7485f2c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.2"
+    version: "3.7.3"
   pool:
     dependency: transitive
     description:
