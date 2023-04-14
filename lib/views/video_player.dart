@@ -45,7 +45,12 @@ class VideoPlayer extends StatefulWidget {
 
 class _VideoPlayerState extends State<VideoPlayer> {
   // Create a [Player] instance from `package:media_kit`.
-  final Player _player = Player();
+  final Player _player = Player(
+    configuration: const PlayerConfiguration(
+      logLevel: MPVLogLevel.warn,
+      title: 'Viddroid'
+    )
+  );
 
   // Reference to the [VideoController] instance from `package:media_kit_video`.
   VideoController? _controller;
@@ -99,7 +104,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
           logger.e(error.toString(), error, stackTrace);
         }); // Display message on error.
 
-        _controller = await VideoController.create(_player.handle);
+        _controller = await VideoController.create(_player);
 
         // Listen to the streams; print occurring errors.
         _player.streams.playing.listen((event) => _playing = event);
@@ -118,7 +123,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
             _player.seek(_lastPosition!);
           }
         });
-        _player.streams.error.listen((event) => logger.e(event.message));
         // Must be created before opening any media. Otherwise, a separate window will be created.
         setState(() {});
       });
