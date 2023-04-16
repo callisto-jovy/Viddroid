@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:viddroid_flutter_desktop/constants.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
-import 'package:viddroid_flutter_desktop/util/network/cloud_flare_interceptor.dart';
+import 'package:viddroid/constants.dart';
+import 'package:viddroid/util/capsules/link.dart';
+import 'package:viddroid/util/capsules/media.dart';
+import 'package:viddroid/util/network/cloud_flare_interceptor.dart';
 
 import '../extractor.dart';
 

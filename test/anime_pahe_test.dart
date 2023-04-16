@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/anime_pahe.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
+import 'package:viddroid/provider/providers/anime_pahe.dart';
+import 'package:viddroid/util/capsules/fetch.dart';
+import 'package:viddroid/util/capsules/link.dart';
+import 'package:viddroid/util/capsules/search.dart';
 
 Future<void> main() async {
   final List<SearchResponse> searchResults = await AnimePahe().search('Darling in the franxx');

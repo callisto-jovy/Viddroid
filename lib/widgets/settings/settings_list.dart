@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/widgets/settings/settings_section.dart';
+import 'package:viddroid/widgets/settings/settings_section.dart';
 
 class SettingsList extends StatefulWidget {
   const SettingsList({

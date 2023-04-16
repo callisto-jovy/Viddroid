@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/widgets/cards/general_card.dart';
+import 'package:viddroid/widgets/cards/general_card.dart';
 
 import '../../util/watchable/watchable.dart';
 

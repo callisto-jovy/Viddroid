@@ -2,8 +2,8 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:logger/logger.dart';
-import 'package:viddroid_flutter_desktop/util/network/plugins/proxy_extension.dart';
-import 'package:viddroid_flutter_desktop/util/setting/settings.dart';
+import 'package:viddroid/util/network/plugins/proxy_extension.dart';
+import 'package:viddroid/util/setting/settings.dart';
 
 /// Global Logger
 Logger logger = Logger(

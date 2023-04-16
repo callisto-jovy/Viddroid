@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
-import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
-import 'package:viddroid_flutter_desktop/views/video_player.dart';
-import 'package:viddroid_flutter_desktop/widgets/cards/episode_card.dart';
+import 'package:viddroid/util/capsules/fetch.dart';
+import 'package:viddroid/util/extensions/string_extension.dart';
+import 'package:viddroid/views/video_player.dart';
+import 'package:viddroid/widgets/cards/episode_card.dart';
 
 import '../provider/providers.dart';
 

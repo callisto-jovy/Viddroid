@@ -1,4 +1,4 @@
-import 'package:viddroid_flutter_desktop/util/watchable/season.dart';
+import 'package:viddroid/util/watchable/season.dart';
 
 abstract class Watchable {
   final int _id;

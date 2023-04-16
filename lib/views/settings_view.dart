@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/constants.dart';
-import 'package:viddroid_flutter_desktop/util/network/plugins/proxy_extension.dart';
-import 'package:viddroid_flutter_desktop/views/providers_view.dart';
-import 'package:viddroid_flutter_desktop/widgets/settings/base_settings_tile.dart';
+import 'package:viddroid/constants.dart';
+import 'package:viddroid/util/network/plugins/proxy_extension.dart';
+import 'package:viddroid/views/providers_view.dart';
+import 'package:viddroid/widgets/settings/base_settings_tile.dart';
 
 import '../util/setting/settings.dart';
 import '../widgets/settings/settings_list.dart';
@@ -111,7 +111,8 @@ class _SettingsViewState extends State<SettingsView> {
                 SimpleSettingsTile(
                   leading: const Icon(Icons.save),
                   title: const Text('Save previous player state'),
-                  description: const Text('If enabled, the player\'s previous position will be saved. The next playback will start from that point on.'),
+                  description: const Text(
+                      'If enabled, the player\'s previous position will be saved. The next playback will start from that point on.'),
                   onPressed: null,
                   toggled: Settings().get(Settings.keepPlayback),
                   tileType: SettingsTileType.switchTile,

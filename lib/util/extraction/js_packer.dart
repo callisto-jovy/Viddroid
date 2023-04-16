@@ -1,5 +1,5 @@
 /// A JSPacker.
-/// Taken from: https://github.com/thitlwincoder/js_packer/blob/master/lib/js_packer.dart & edited by me, because it seems like the original creator had no idea, what he was doint.
+/// Taken from: https://github.com/thitlwincoder/js_packer/blob/master/lib/js_packer.dart & edited by me, because it seems like the original creator had no idea, what he was doing.
 /// At any rate, I could've just written this myself if I looked at the implementation beforehand. The original creator just transcribed a Java unpacker (see: https://github.com/cylonu87/JsUnpacker/blob/master/JsUnpacker.java)
 /// As this library is very simple in its functionality, I decided to just take the corresponding code.
 /// The library has no future updates in sight, it therefore is not necessary, to list it as a dependency.
@@ -66,8 +66,6 @@ class JSPacker {
 
         exp.allMatches(payload).forEach((element) {
           final String word = element.group(0)!;
-          // print(word);
-
           /// change code to value
           final x = unBase.unBase(word);
 
