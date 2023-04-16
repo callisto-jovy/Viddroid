@@ -7,15 +7,15 @@ import 'package:local_notifier/local_notifier.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:subtitle/subtitle.dart';
-import 'package:viddroid_flutter_desktop/constants.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/option_item.dart';
-import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
-import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
-import 'package:viddroid_flutter_desktop/widgets/player/option_dialog.dart';
-import 'package:viddroid_flutter_desktop/widgets/player/playback_speed_dialog.dart';
-import 'package:viddroid_flutter_desktop/widgets/player/seek_bar_widget.dart';
-import 'package:viddroid_flutter_desktop/widgets/player/subtitle_widget.dart';
+import 'package:viddroid/constants.dart';
+import 'package:viddroid/util/capsules/link.dart';
+import 'package:viddroid/util/capsules/option_item.dart';
+import 'package:viddroid/util/download/downloader.dart';
+import 'package:viddroid/util/extensions/string_extension.dart';
+import 'package:viddroid/widgets/player/option_dialog.dart';
+import 'package:viddroid/widgets/player/playback_speed_dialog.dart';
+import 'package:viddroid/widgets/player/seek_bar_widget.dart';
+import 'package:viddroid/widgets/player/subtitle_widget.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -46,11 +46,7 @@ class VideoPlayer extends StatefulWidget {
 class _VideoPlayerState extends State<VideoPlayer> {
   // Create a [Player] instance from `package:media_kit`.
   final Player _player = Player(
-    configuration: const PlayerConfiguration(
-      logLevel: MPVLogLevel.warn,
-      title: 'Viddroid'
-    )
-  );
+      configuration: const PlayerConfiguration(logLevel: MPVLogLevel.warn, title: 'Viddroid'));
 
   // Reference to the [VideoController] instance from `package:media_kit_video`.
   VideoController? _controller;
@@ -235,7 +231,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       await player?.setProperty('user-agent', userAgent);
       await player?.setProperty('referrer', response.referer);
       await player?.setProperty('http-header-fields', properties);
- //     await player?.setProperty('demuxer-lavf-o', 'protocol_whitelist=[file,tcp,tls,https,crypto,data]');
+      //     await player?.setProperty('demuxer-lavf-o', 'protocol_whitelist=[file,tcp,tls,https,crypto,data]');
     }
 
     await _player.open(Playlist([

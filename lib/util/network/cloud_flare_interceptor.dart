@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:puppeteer/protocol/network.dart';
 import 'package:puppeteer/puppeteer.dart';
-import 'package:viddroid_flutter_desktop/constants.dart';
-import 'package:viddroid_flutter_desktop/util/network/plugins/custom_stealth_plugin.dart';
+import 'package:viddroid/constants.dart';
+import 'package:viddroid/util/network/plugins/custom_stealth_plugin.dart';
 
 class CloudFlareInterceptor extends Interceptor {
   @override

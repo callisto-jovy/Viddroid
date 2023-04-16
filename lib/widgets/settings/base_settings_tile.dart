@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/option_item.dart';
-import 'package:viddroid_flutter_desktop/widgets/settings/abstract_settings_tile.dart';
-import 'package:viddroid_flutter_desktop/widgets/settings/navigation_settings_tile.dart';
-import 'package:viddroid_flutter_desktop/widgets/settings/selection_settings_tile.dart';
-import 'package:viddroid_flutter_desktop/widgets/settings/switch_settings_tile.dart';
+import 'package:viddroid/util/capsules/option_item.dart';
+import 'package:viddroid/widgets/settings/abstract_settings_tile.dart';
+import 'package:viddroid/widgets/settings/navigation_settings_tile.dart';
+import 'package:viddroid/widgets/settings/selection_settings_tile.dart';
+import 'package:viddroid/widgets/settings/switch_settings_tile.dart';
 
 enum SettingsTileType { simpleTile, switchTile, navigationTile, selectionTile, inputTile }
 
@@ -40,7 +40,6 @@ class SimpleSettingsTile extends StatefulWidget {
   final Function(BuildContext context)? onPressed;
   final Function(bool value)? onToggle;
   final Function(String? value)? onSubmitted;
-
 
   final bool? toggled;
   final bool enabled;

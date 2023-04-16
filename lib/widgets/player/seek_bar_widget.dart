@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:viddroid_flutter_desktop/widgets/player/animated_play_pause.dart';
+import 'package:viddroid/widgets/player/animated_play_pause.dart';
 
 class SeekBar extends StatefulWidget {
   final Player player;
