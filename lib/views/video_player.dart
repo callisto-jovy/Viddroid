@@ -235,8 +235,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       await player?.setProperty('user-agent', userAgent);
       await player?.setProperty('referrer', response.referer);
       await player?.setProperty('http-header-fields', properties);
-      await player?.setProperty(
-          'demuxer-lavf-o', 'protocol_whitelist=[file,tcp,tls,https,crypto,data]');
+ //     await player?.setProperty('demuxer-lavf-o', 'protocol_whitelist=[file,tcp,tls,https,crypto,data]');
     }
 
     await _player.open(Playlist([
@@ -246,7 +245,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
     ]));
     //The player is definitely playing at this point
     _playing = _player.state.playing;
-
     // Seek to the previous position
     await _player.seek(previousPosition);
   }
