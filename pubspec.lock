@@ -53,10 +53,10 @@ packages:
     dependency: "direct main"
     description:
       name: awesome_snackbar_content
-      sha256: "5fe3bf93f9dabff9a60481bafb1b9a9616801b806e1e0a688d84f3bb28ff14c0"
+      sha256: a94407ad596ac4b2f925b032c11f390cd3b3e640a9799f4983b86be0bc17f62b
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2"
+    version: "0.1.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -359,10 +359,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_svg
-      sha256: "6ff9fa12892ae074092de2fa6a9938fb21dbabfdaa2ff57dc697ff912fc8d4b2"
+      sha256: f991fdb1533c3caeee0cdc14b04f50f0c3916f0dbcbc05237ccbe4e3c6b93f3f
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.6"
+    version: "2.0.5"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -538,7 +538,7 @@ packages:
     description:
       path: media_kit
       ref: main
-      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      resolved-ref: "42b67da6b464bc47ae7d49bc48c478667c3e6d33"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "0.0.4+1"
@@ -547,7 +547,7 @@ packages:
     description:
       path: media_kit_libs_android_video
       ref: main
-      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      resolved-ref: "42b67da6b464bc47ae7d49bc48c478667c3e6d33"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.0"
@@ -556,7 +556,7 @@ packages:
     description:
       path: media_kit_libs_linux
       ref: main
-      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      resolved-ref: "42b67da6b464bc47ae7d49bc48c478667c3e6d33"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.2"
@@ -565,7 +565,7 @@ packages:
     description:
       path: media_kit_libs_macos_video
       ref: main
-      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      resolved-ref: "42b67da6b464bc47ae7d49bc48c478667c3e6d33"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.4"
@@ -574,7 +574,7 @@ packages:
     description:
       path: media_kit_libs_windows_video
       ref: main
-      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      resolved-ref: "42b67da6b464bc47ae7d49bc48c478667c3e6d33"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.2"
@@ -583,7 +583,7 @@ packages:
     description:
       path: media_kit_native_event_loop
       ref: main
-      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      resolved-ref: "42b67da6b464bc47ae7d49bc48c478667c3e6d33"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.2"
@@ -592,7 +592,7 @@ packages:
     description:
       path: media_kit_video
       ref: main
-      resolved-ref: "2f58dba1908bf7a8972eaa88e501619de16aba1e"
+      resolved-ref: "42b67da6b464bc47ae7d49bc48c478667c3e6d33"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "0.0.4"
@@ -636,14 +636,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
-  path_drawing:
-    dependency: transitive
-    description:
-      name: path_drawing
-      sha256: bbb1934c0cbb03091af082a6389ca2080345291ef07a5fa6d6e078ba8682f977
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   path_parsing:
     dependency: transitive
     description:
@@ -664,10 +656,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: "019f18c9c10ae370b08dce1f3e3b73bc9f58e7f087bb5e921f06529438ac0ae7"
+      sha256: da97262be945a72270513700a92b39dd2f4a54dad55d061687e2e37a6390366a
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.24"
+    version: "2.0.25"
   path_provider_foundation:
     dependency: transitive
     description:
@@ -977,6 +969,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.1"
+  vector_graphics:
+    dependency: transitive
+    description:
+      name: vector_graphics
+      sha256: ea8d3fc7b2e0f35de38a7465063ecfcf03d8217f7962aa2a6717132cb5d43a79
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.5"
+  vector_graphics_codec:
+    dependency: transitive
+    description:
+      name: vector_graphics_codec
+      sha256: a5eaa5d19e123ad4f61c3718ca1ed921c4e6254238d9145f82aa214955d9aced
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.5"
+  vector_graphics_compiler:
+    dependency: transitive
+    description:
+      name: vector_graphics_compiler
+      sha256: "15edc42f7eaa478ce854eaf1fbb9062a899c0e4e56e775dd73b7f4709c97c4ca"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.5"
   vector_math:
     dependency: transitive
     description:

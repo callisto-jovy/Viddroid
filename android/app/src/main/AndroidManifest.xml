@@ -1,12 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.viddroid_flutter_desktop">
     <uses-feature android:name="android.software.leanback"
-                  android:required="false" />
+                  android:required="true" />
     <uses-feature android:name="android.hardware.touchscreen"
                   android:required="false" />
    <application
-        android:label="viddroid_flutter_desktop"
+        android:label="viddroid_tv"
         android:name="${applicationName}"
+        android:banner="@mipmap/ic_launcher"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -36,4 +37,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
 </manifest>
