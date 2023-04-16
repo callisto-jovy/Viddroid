@@ -14,20 +14,22 @@ As this project could get pretty big, help is always appreciated.
 ## Platforms
 
 Viddroid supports all major desktop operating systems, with hardware accelerated video playback, thanks
-to [media_kit](https://github.com/alexmercerind/media_kit)!
+to [media_kit](https://github.com/alexmercerind/media_kit)! Further, Viddroid supports AndroidTV and thereby Chromecast.
 
 | **Platform** | **Support** |
 |--------------|-------------|
 | Windows      | Ready       | 
 | Linux        | Ready       | 
-| macOS        | Ready       | 
+| macOS        | Ready       |
+| AndroidTV    | Ready       |
 
 ## Features
 - No advertisements, whatsoever.
 - Bookmark your favorite movies / shows.
 - Download and stream your favorite movies and shows.
-- Desktop support for all major OS (Windows, MacOS, Linux).
+- Desktop support for all major operating systems (Windows, MacOS, Linux).
 - No tracking, no analytics.
+- Android TV support.
 
 ## Overview
 
