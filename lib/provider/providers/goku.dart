@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:viddroid_flutter_desktop/provider/provider.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
-import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
+import 'package:viddroid/provider/provider.dart';
+import 'package:viddroid/util/capsules/fetch.dart';
+import 'package:viddroid/util/capsules/link.dart';
+import 'package:viddroid/util/capsules/search.dart';
+import 'package:viddroid/util/extensions/string_extension.dart';
 
 import '../../constants.dart';
 import '../../extractor/extractor.dart';

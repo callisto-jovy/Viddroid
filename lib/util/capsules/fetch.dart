@@ -1,4 +1,4 @@
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
+import 'package:viddroid/util/capsules/link.dart';
 
 import 'media.dart';
 

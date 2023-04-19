@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:viddroid_flutter_desktop/constants.dart';
-import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
-import 'package:viddroid_flutter_desktop/util/extraction/sflix_util.dart';
+import 'package:viddroid/constants.dart';
+import 'package:viddroid/extractor/extractor.dart';
+import 'package:viddroid/util/capsules/link.dart';
+import 'package:viddroid/util/capsules/media.dart';
+import 'package:viddroid/util/extraction/sflix_util.dart';
 
 import '../../util/capsules/subtitle.dart';
 
@@ -40,8 +40,9 @@ class RabbitStreamExtractor extends Extractor {
       return;
     }
 
-    final List<Subtitle> subtitles =
-        decodedJson['tracks'].map<Subtitle>((t) => Subtitle(t['label'] ?? 'Unknown', t['label'] ?? 'Unknown', t['file'])).toList();
+    final List<Subtitle> subtitles = decodedJson['tracks']
+        .map<Subtitle>((t) => Subtitle(t['label'] ?? 'Unknown', t['label'] ?? 'Unknown', t['file']))
+        .toList();
 
     if (sources is String) {
       final String decrypted = decrypt(sources, await _getKey());

@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:viddroid_flutter_desktop/provider/providers/aniflix.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
+import 'package:viddroid/provider/providers/aniflix.dart';
+import 'package:viddroid/util/capsules/fetch.dart';
+import 'package:viddroid/util/capsules/link.dart';
+import 'package:viddroid/util/capsules/search.dart';
 
 Future<void> main() async {
   final List<SearchResponse> searchResults = await Aniflix().search('Overlord');

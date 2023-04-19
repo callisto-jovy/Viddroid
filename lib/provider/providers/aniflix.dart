@@ -1,16 +1,15 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:viddroid_flutter_desktop/constants.dart';
-import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
-import 'package:viddroid_flutter_desktop/extractor/extractors.dart';
-import 'package:viddroid_flutter_desktop/provider/provider.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/search.dart';
-import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
-
+import 'package:viddroid/constants.dart';
+import 'package:viddroid/extractor/extractor.dart';
+import 'package:viddroid/extractor/extractors.dart';
+import 'package:viddroid/provider/provider.dart';
+import 'package:viddroid/util/capsules/fetch.dart';
+import 'package:viddroid/util/capsules/link.dart';
+import 'package:viddroid/util/capsules/media.dart';
+import 'package:viddroid/util/capsules/search.dart';
+import 'package:viddroid/util/extensions/string_extension.dart';
 
 class Aniflix extends SiteProvider {
   Aniflix() : super('Aniflix', 'https://www.aniflix.cc/', [TvType.anime], 'de');

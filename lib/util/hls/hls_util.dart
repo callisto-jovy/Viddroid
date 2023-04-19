@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:viddroid_flutter_desktop/constants.dart';
+import 'package:viddroid/constants.dart';
 
 class HLSScanner {
   factory HLSScanner(String url, {Map<String, String>? headers}) {
