@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/constants.dart';
-import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
-import 'package:viddroid_flutter_desktop/util/network/plugins/proxy_extension.dart';
-import 'package:viddroid_flutter_desktop/views/providers_view.dart';
-import 'package:viddroid_flutter_desktop/widgets/settings/base_settings_tile.dart';
+import 'package:viddroid/constants.dart';
+import 'package:viddroid/util/extensions/string_extension.dart';
+import 'package:viddroid/util/network/plugins/proxy_extension.dart';
+import 'package:viddroid/views/providers_view.dart';
+import 'package:viddroid/widgets/settings/base_settings_tile.dart';
 
 import '../util/setting/settings.dart';
 import '../widgets/settings/settings_list.dart';
