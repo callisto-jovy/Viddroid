@@ -31,7 +31,6 @@ class SettingsSection extends StatelessWidget {
             right: 16,
           ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
               padding: EdgeInsetsDirectional.only(
@@ -39,10 +38,13 @@ class SettingsSection extends StatelessWidget {
                 bottom: 5 * scaleFactor,
               ),
               child: title),
-          Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            elevation: 2,
-            child: buildTileList(),
+          // TODO: Remove scrolling in the card itself, make the card expand and scrollable
+          Flexible(
+            child: Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              elevation: 2,
+              child: buildTileList(),
+            ),
           ),
         ],
       ),
@@ -54,7 +56,6 @@ class SettingsSection extends StatelessWidget {
       shrinkWrap: true,
       itemCount: tiles.length,
       padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         final tile = tiles[index];
 

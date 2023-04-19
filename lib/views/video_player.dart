@@ -85,7 +85,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     try {
       Future.microtask(() async {
         // Enable the wakelock
-        if (Settings().get(Settings.wakelock)) {
+        if (Settings().get(Settings.wakelock, true)) {
           await Wakelock.enable();
         }
         if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
@@ -151,7 +151,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         await WindowManager.instance.setFullScreen(false);
       }
       // Disable the Wakelock, as to not mess with the systems functionality.
-      if (Settings().get(Settings.wakelock)) {
+      if (Settings().get(Settings.wakelock, true)) {
         await Wakelock.disable();
       }
     });
