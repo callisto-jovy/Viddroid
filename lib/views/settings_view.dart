@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:viddroid_flutter_desktop/constants.dart';
+import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
 import 'package:viddroid_flutter_desktop/util/network/plugins/proxy_extension.dart';
 import 'package:viddroid_flutter_desktop/views/providers_view.dart';
 import 'package:viddroid_flutter_desktop/widgets/settings/base_settings_tile.dart';
@@ -46,12 +47,8 @@ class _SettingsViewState extends State<SettingsView> {
                   initialValue: Settings().get(Settings.proxy),
                   formFieldHint: 'IP:port',
                   onSubmitted: (value) {
-                    //TODO: Move away
-                    final RegExp regex = RegExp(
-                        r'(([1-9][0-9]{2}|[1-9][0-9]|[1-9])\.([1-9][0-9]|[1-9][0-9]{2}|[0-9]))\.([0-9]|[1-9][0-9]|[1-9][0-9]{2})\.([0-9]|[1-9][0-9]|[1-9][0-9]{2}):([1-9][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[1-9])');
-
                     if (value != null && value.isNotEmpty) {
-                      if (regex.hasMatch(value)) {
+                      if (proxyRegex.hasMatch(value)) {
                         Settings().saveSetting(Settings.proxy, value);
                         dio.useProxy(value);
                         ScaffoldMessenger.of(context)
@@ -119,6 +116,19 @@ class _SettingsViewState extends State<SettingsView> {
                     setState(() {
                       Settings().saveSetting(Settings.keepPlayback, val);
                     });
+                  },
+                ),
+                SimpleSettingsTile(
+                  leading: const Icon(Icons.forward_30),
+                  title: const Text('Skip speed'),
+                  description: const Text('How many seconds are skipped forward/backward (in seconds).'),
+                  tileType: SettingsTileType.inputTile,
+                  initialValue: Settings().get(Settings.seekSpeed).toString(),
+                  formFieldHint: 'Seconds to skip',
+                  onSubmitted: (value) {
+                    if(value != null && value.isNotEmpty && value.isNumeric) {
+                      Settings().saveSetting(Settings.seekSpeed, int.parse(value));
+                    }
                   },
                 )
               ],

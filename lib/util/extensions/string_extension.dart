@@ -23,14 +23,24 @@ extension StringExtension on String {
     return md5.convert(utf8.encode(this)).toString();
   }
 
-  /// Taken from: https://pub.dev/documentation/eosdart/latest/eosdart/hexToUint8List.html
+  bool get isNumeric {
+    for (int i = 0; i < length; i++) {
+      int codeUnit = codeUnitAt(i);
+      if(codeUnit < 48 || codeUnit > 57) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /// Taken from: https://pub.dev/documentation/eosdart/latest/eosdart/hexToUint8List.html and modified
   Uint8List get hexToUint8List {
     if (length % 2 != 0) {
       throw 'Odd number of hex digits';
     }
-    var l = length ~/ 2;
-    var result = new Uint8List(l);
-    for (var i = 0; i < l; ++i) {
+    final int l = length ~/ 2;
+    final Uint8List result = Uint8List(l);
+    for (int i = 0; i < l; i++) {
       var x = int.parse(substring(i * 2, (2 * (i + 1))), radix: 16);
       if (x.isNaN) {
         throw 'Expected hex string';

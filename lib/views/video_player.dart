@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
@@ -12,6 +13,7 @@ import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
 import 'package:viddroid_flutter_desktop/util/capsules/option_item.dart';
 import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
 import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
+import 'package:viddroid_flutter_desktop/util/video_player_intents.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/option_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/playback_speed_dialog.dart';
 import 'package:viddroid_flutter_desktop/widgets/player/seek_bar_widget.dart';
@@ -44,36 +46,36 @@ class VideoPlayer extends StatefulWidget {
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  // Create a [Player] instance from `package:media_kit`.
+  /// Create a [Player] instance from `package:media_kit`. And configure it.
   final Player _player = Player(
-    configuration: const PlayerConfiguration(
-      logLevel: MPVLogLevel.warn,
-      title: 'Viddroid'
-    )
-  );
+      configuration: const PlayerConfiguration(logLevel: MPVLogLevel.warn, title: 'Viddroid'));
 
-  // Reference to the [VideoController] instance from `package:media_kit_video`.
+  /// Reference to the [VideoController] instance from `package:media_kit_video`.
   VideoController? _controller;
 
-  // List of all current Responses [LinkResponse] from the stream.
+  /// [List] of all current Responses [LinkResponse] from the stream.
   final List<LinkResponse> _responses = [];
 
-  // The current playback link.
+  /// The current playback link.
   LinkResponse? _currentLink;
 
-  // Hardcoded list of all the possible playback speeds
+  /// Hardcoded [List] of all the possible playback speeds
   static const List<double> _playbackSpeeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
 
-  // [Timer] instance which is triggered and reset to hide / display the overlay ui
+  /// [Timer] instance which is triggered and reset to hide / display the overlay ui
   Timer? _hideTimer;
 
   bool _hideOverlay = false;
   bool _playing = false;
 
-  final StreamController<SubtitleController> subtitleStream = StreamController();
+  /// [StreamController] which ensures that the selected subtitle is played. The controller is passed to the [SubtitleWidget]
+  final StreamController<SubtitleController> _subtitleStream = StreamController();
 
-  // [Duration] which is non-null if the source was changed.
+  /// [Duration] which is non-null if the source was changed.
   Duration? _lastPosition;
+
+  /// [Duration] pulled from the settings which determines how far to offset the player when skipping forward/backward
+  final Duration _seekDuration = Duration(seconds: Settings().get(Settings.seekSpeed, 5));
 
   @override
   void initState() {
@@ -142,7 +144,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
     Future.microtask(() async {
       // Release allocated resources back to the system.
-      await subtitleStream.close();
+      await _subtitleStream.close();
       await _controller?.dispose();
       await _player.dispose();
       if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
@@ -162,8 +164,20 @@ class _VideoPlayerState extends State<VideoPlayer> {
         elevation: 0,
       ),
       extendBodyBehindAppBar: true,
-      body: MouseRegion(
-        onHover: (event) => _cancelAndRestartTimer(),
+      body: FocusableActionDetector(
+        autofocus: true,
+        onShowHoverHighlight: (b) => _cancelAndRestartTimer(),
+        actions: {
+          SpaceIntent: CallbackAction<Intent>(onInvoke: (_) => _togglePlaying(player: true)),
+          SkipBackwardIntent:
+              CallbackAction<Intent>(onInvoke: (_) => _movePosition(-_seekDuration)),
+          SkipForwardIntent: CallbackAction<Intent>(onInvoke: (_) => _movePosition(_seekDuration)),
+        },
+        shortcuts: const {
+          SingleActivator(LogicalKeyboardKey.space): SpaceIntent(),
+          SingleActivator(LogicalKeyboardKey.arrowLeft): SkipBackwardIntent(),
+          SingleActivator(LogicalKeyboardKey.arrowRight): SkipForwardIntent(),
+        },
         child: GestureDetector(
           onTap: () => _cancelAndRestartTimer(),
           child: AbsorbPointer(
@@ -210,6 +224,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
     });
   }
 
+  void _movePosition(Duration offset) {
+    _player.seek(_player.state.position + offset);
+  }
+
   void _togglePlaying({bool? player}) {
     if (player != null && player) {
       _player.playOrPause();
@@ -235,7 +253,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       await player?.setProperty('user-agent', userAgent);
       await player?.setProperty('referrer', response.referer);
       await player?.setProperty('http-header-fields', properties);
- //     await player?.setProperty('demuxer-lavf-o', 'protocol_whitelist=[file,tcp,tls,https,crypto,data]');
+      //     await player?.setProperty('demuxer-lavf-o', 'protocol_whitelist=[file,tcp,tls,https,crypto,data]');
     }
 
     await _player.open(Playlist([
@@ -262,11 +280,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
       provider: SubtitleProvider.fromNetwork(url),
     );
     await subtitleController.initial();
-    subtitleStream.add(subtitleController);
+    _subtitleStream.add(subtitleController);
   }
 
   Widget _buildSubtitles() {
-    return SubtitleWidget(player: _player, subtitleStream: subtitleStream);
+    return SubtitleWidget(player: _player, subtitleStream: _subtitleStream);
   }
 
   Widget _buildHitArea() {
