@@ -66,6 +66,7 @@ class JSPacker {
 
         exp.allMatches(payload).forEach((element) {
           final String word = element.group(0)!;
+
           /// change code to value
           final x = unBase.unBase(word);
 

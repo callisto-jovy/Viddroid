@@ -30,7 +30,7 @@ class Settings {
     changeFullscreen: true,
     keepPlayback: true,
     seekSpeed: 5,
-    wakelock : true
+    wakelock: true
   };
 
   /// Initializes all the values asynchronously

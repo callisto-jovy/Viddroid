@@ -1,5 +1,3 @@
-
-
 enum TvType {
   movie,
   tv,

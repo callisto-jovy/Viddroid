@@ -1,5 +1,4 @@
 class Subtitle {
-
   final String language;
   final String name;
   final String url;

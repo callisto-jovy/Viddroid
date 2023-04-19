@@ -11,4 +11,3 @@ class SkipForwardIntent extends Intent {
 class SkipBackwardIntent extends Intent {
   const SkipBackwardIntent();
 }
-
