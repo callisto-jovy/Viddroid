@@ -84,10 +84,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _startHideTimer();
     try {
       Future.microtask(() async {
-        //TODO: Setting
         // Enable the wakelock
-        await Wakelock.enable();
-
+        if (Settings().get(Settings.wakelock)) {
+          await Wakelock.enable();
+        }
         if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
           await WindowManager.instance.setFullScreen(true);
         }
@@ -151,7 +151,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
         await WindowManager.instance.setFullScreen(false);
       }
       // Disable the Wakelock, as to not mess with the systems functionality.
-      await Wakelock.disable();
+      if (Settings().get(Settings.wakelock)) {
+        await Wakelock.disable();
+      }
     });
     super.dispose();
   }

@@ -106,9 +106,24 @@ class _SettingsViewState extends State<SettingsView> {
                   },
                 ),
                 SimpleSettingsTile(
+                  leading: const Icon(Icons.lightbulb),
+                  title: const Text('Wakelock'),
+                  description:
+                      const Text("Keeps the device's display awake during video playback."),
+                  onPressed: null,
+                  toggled: Settings().get(Settings.wakelock),
+                  tileType: SettingsTileType.switchTile,
+                  onToggle: (val) {
+                    setState(() {
+                      Settings().saveSetting(Settings.wakelock, val);
+                    });
+                  },
+                ),
+                SimpleSettingsTile(
                   leading: const Icon(Icons.save),
                   title: const Text('Save previous player state'),
-                  description: const Text('If enabled, the player\'s previous position will be saved. The next playback will start from that point on.'),
+                  description: const Text(
+                      "If enabled, the player's previous position will be saved. The next playback will start from that point on."),
                   onPressed: null,
                   toggled: Settings().get(Settings.keepPlayback),
                   tileType: SettingsTileType.switchTile,
@@ -121,12 +136,13 @@ class _SettingsViewState extends State<SettingsView> {
                 SimpleSettingsTile(
                   leading: const Icon(Icons.forward_30),
                   title: const Text('Skip speed'),
-                  description: const Text('How many seconds are skipped forward/backward (in seconds).'),
+                  description:
+                      const Text('How many seconds are skipped forward/backward (in seconds).'),
                   tileType: SettingsTileType.inputTile,
                   initialValue: Settings().get(Settings.seekSpeed).toString(),
                   formFieldHint: 'Seconds to skip',
                   onSubmitted: (value) {
-                    if(value != null && value.isNotEmpty && value.isNumeric) {
+                    if (value != null && value.isNotEmpty && value.isNumeric) {
                       Settings().saveSetting(Settings.seekSpeed, int.parse(value));
                     }
                   },
