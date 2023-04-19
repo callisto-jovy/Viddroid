@@ -19,14 +19,16 @@ class Settings {
   static const String changeFullscreen = 'windows_fullscreen';
   static const String keepPlayback = 'keep_playback';
   static const String proxy = 'custom_proxy';
+  static const String seekSpeed = 'seek_duration';
 
   late CollectionRef collectionRef;
 
   /// Map of all the settings. This map is actually written to disk.
-  Map<String, dynamic> settings = {
+  Map<String, dynamic> _settings = {
     selectedProviders: Providers().siteProviders,
     changeFullscreen: true,
     keepPlayback: true,
+    seekSpeed: 5
   };
 
   /// Initializes all the values asynchronously
@@ -34,18 +36,18 @@ class Settings {
     final Localstore db = Localstore.instance;
     collectionRef = db.collection('viddroid_settings');
 
-    settings = await collectionRef.doc(settingsKey).get() ?? settings;
+    _settings = await collectionRef.doc(settingsKey).get() ?? _settings;
   }
 
   Future<dynamic> getFromDiskIfPossible(String key) =>
-      collectionRef.doc(settingsKey).get().then((value) => value?[key] ?? settings[key]);
+      collectionRef.doc(settingsKey).get().then((value) => value?[key] ?? _settings[key]);
 
-  dynamic get(String key, [dynamic defaultValue]) => settings[key] ?? defaultValue;
+  dynamic get(String key, [dynamic defaultValue]) => _settings[key] ?? defaultValue;
 
   /// Updates the map and saves it to disk
   void saveSetting(String key, dynamic settingsValue) {
-    settings[key] = settingsValue;
-    _put(settingsKey, settings);
+    _settings[key] = settingsValue;
+    _put(settingsKey, _settings);
   }
 
   /// Writes the map to disk
