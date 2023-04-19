@@ -20,6 +20,7 @@ class Settings {
   static const String keepPlayback = 'keep_playback';
   static const String proxy = 'custom_proxy';
   static const String seekSpeed = 'seek_duration';
+  static const String wakelock = 'wakelock';
 
   late CollectionRef collectionRef;
 
@@ -28,7 +29,8 @@ class Settings {
     selectedProviders: Providers().siteProviders,
     changeFullscreen: true,
     keepPlayback: true,
-    seekSpeed: 5
+    seekSpeed: 5,
+    wakelock : true
   };
 
   /// Initializes all the values asynchronously
