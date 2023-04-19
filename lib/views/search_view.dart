@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:viddroid_flutter_desktop/util/extensions/iterable_extension.dart';
-import 'package:viddroid_flutter_desktop/widgets/cards/search_response_card.dart';
+import 'package:viddroid/util/extensions/iterable_extension.dart';
+import 'package:viddroid/widgets/cards/search_response_card.dart';
 
 import '../provider/providers.dart';
 import '../util/capsules/media.dart';

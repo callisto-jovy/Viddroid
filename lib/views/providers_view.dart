@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/provider/providers.dart';
-import 'package:viddroid_flutter_desktop/util/setting/settings.dart';
+import 'package:viddroid/provider/providers.dart';
+import 'package:viddroid/util/setting/settings.dart';
 
 import '../provider/provider.dart';
 
@@ -43,7 +43,7 @@ class _ProviderSelectionViewState extends State<ProviderSelectionView> {
             .map((e) => InkWell(
                   onTap: () {
                     setState(() {
-                      if(_selectedProviders.contains(e)) {
+                      if (_selectedProviders.contains(e)) {
                         _selectedProviders.remove(e);
                       } else {
                         _selectedProviders.add(e);

@@ -3,10 +3,10 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:pointycastle/export.dart'; // Only for Cipher*Stream
-import 'package:viddroid_flutter_desktop/constants.dart';
-import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
-import 'package:viddroid_flutter_desktop/util/extensions/string_extension.dart';
-import 'package:viddroid_flutter_desktop/util/hls/hls_util.dart';
+import 'package:viddroid/constants.dart';
+import 'package:viddroid/util/download/downloader.dart';
+import 'package:viddroid/util/extensions/string_extension.dart';
+import 'package:viddroid/util/hls/hls_util.dart';
 
 import '../file/file_util.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/widgets/settings/base_settings_tile.dart';
+import 'package:viddroid/widgets/settings/base_settings_tile.dart';
 
 import 'abstract_settings_tile.dart';
 

@@ -1,6 +1,6 @@
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/download/basic_downloader.dart';
-import 'package:viddroid_flutter_desktop/util/download/hls_downloader.dart';
+import 'package:viddroid/util/capsules/link.dart';
+import 'package:viddroid/util/download/basic_downloader.dart';
+import 'package:viddroid/util/download/hls_downloader.dart';
 
 abstract class Downloader {
   final LinkResponse url;

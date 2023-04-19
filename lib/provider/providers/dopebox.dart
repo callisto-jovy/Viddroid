@@ -1,4 +1,4 @@
-import 'package:viddroid_flutter_desktop/provider/providers/sflix.dart';
+import 'package:viddroid/provider/providers/sflix.dart';
 
 class DopeBox extends Sflix {
   @override

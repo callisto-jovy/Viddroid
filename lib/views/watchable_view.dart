@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/fetch.dart';
+import 'package:viddroid/util/capsules/fetch.dart';
 
 import '../widgets/half_page_image.dart';
 import '../widgets/movie_widget.dart';

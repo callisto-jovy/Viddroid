@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:viddroid_flutter_desktop/constants.dart';
-import 'package:viddroid_flutter_desktop/extractor/extractor.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/link.dart';
-import 'package:viddroid_flutter_desktop/util/capsules/media.dart';
+import 'package:viddroid/constants.dart';
+import 'package:viddroid/extractor/extractor.dart';
+import 'package:viddroid/util/capsules/link.dart';
+import 'package:viddroid/util/capsules/media.dart';
 
 class VidozaExtractor extends Extractor {
   VidozaExtractor() : super('Vidoza', 'https://vidoza.net', 'https://vidoza.net');

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:viddroid_flutter_desktop/util/download/downloader.dart';
+import 'package:viddroid/util/download/downloader.dart';
 
 class BasicDownloader extends Downloader {
   BasicDownloader(super.url, {required super.filePath});
@@ -17,6 +17,5 @@ class BasicDownloader extends Downloader {
         progressCallback(((count / total) * 100).toInt());
       },
     );
-    //print(await FileSaver.instance.saveFile(fileName, response.bodyBytes, 'mp4'));
   }
 }

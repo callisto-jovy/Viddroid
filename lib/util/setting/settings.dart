@@ -1,5 +1,5 @@
 import 'package:localstore/localstore.dart';
-import 'package:viddroid_flutter_desktop/provider/provider.dart';
+import 'package:viddroid/provider/provider.dart';
 
 import '../../provider/providers.dart';
 
