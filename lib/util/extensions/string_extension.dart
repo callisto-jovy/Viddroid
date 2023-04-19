@@ -26,7 +26,7 @@ extension StringExtension on String {
   bool get isNumeric {
     for (int i = 0; i < length; i++) {
       int codeUnit = codeUnitAt(i);
-      if(codeUnit < 48 || codeUnit > 57) {
+      if (codeUnit < 48 || codeUnit > 57) {
         return false;
       }
     }

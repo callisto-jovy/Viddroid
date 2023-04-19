@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 mixin SettingsTile {
-
   Widget buildSetting(final BuildContext context,
       {required SettingsTileAdditionalInfo additionalInfo,
       required bool enabled,

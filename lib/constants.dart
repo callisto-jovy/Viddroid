@@ -5,11 +5,9 @@ import 'package:logger/logger.dart';
 import 'package:viddroid/util/network/plugins/proxy_extension.dart';
 import 'package:viddroid/util/setting/settings.dart';
 
-
 /// [RegExp] for matching proxies with the format IP:port
 final RegExp proxyRegex = RegExp(
     r'(([1-9][0-9]{2}|[1-9][0-9]|[1-9])\.([1-9][0-9]|[1-9][0-9]{2}|[0-9]))\.([0-9]|[1-9][0-9]|[1-9][0-9]{2})\.([0-9]|[1-9][0-9]|[1-9][0-9]{2}):([1-9][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[1-9])');
-
 
 /// Global [Logger], configured to use colors and a timestamp
 Logger logger = Logger(

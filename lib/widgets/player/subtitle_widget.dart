@@ -66,7 +66,8 @@ class _SubtitleWidgetState extends State<SubtitleWidget> {
           child: Text(
             softWrap: true,
             subtitle?.data ?? '',
-            style: const TextStyle(backgroundColor: Colors.black54, fontSize: 25, color: Colors.white),
+            style:
+                const TextStyle(backgroundColor: Colors.black54, fontSize: 25, color: Colors.white),
           ),
         ),
       ],
