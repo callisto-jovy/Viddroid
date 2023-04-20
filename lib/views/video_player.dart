@@ -56,6 +56,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
   /// [List] of all current Responses [LinkResponse] from the stream.
   final List<LinkResponse> _responses = [];
 
+  /// [List] of all current video tracks [VideoTrack] available.
+
+  final List<VideoTrack> _videoTracks = [];
+
   /// The current playback link.
   LinkResponse? _currentLink;
 
@@ -108,6 +112,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
         _controller = await VideoController.create(_player);
 
+        // Listen for video tracks which may be selected.
+        _player.streams.tracks.listen((event) {
+          _videoTracks.addAll(event.video);
+        });
+
         // Listen to the streams; print occurring errors.
         _player.streams.playing.listen((event) => _playing = event);
         // Only needed to restore the player to its previous state. I haven't found another way for now.
@@ -137,8 +146,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
   void dispose() {
     _hideTimer?.cancel();
 
-    // Save the current state. TODO: dont save if close to end.
-    if (Settings().get(Settings.keepPlayback, true)) {
+    // Save the current state if keep_playback is toggled & more than 30 seconds are still left.
+    if (Settings().get(Settings.keepPlayback, true) &&
+        (_player.state.duration - _player.state.position).inSeconds > 30) {
       Watchables().saveTimestamp(widget.hash, _player.state.position);
     }
 
@@ -269,6 +279,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
     await _player.seek(previousPosition);
   }
 
+  void _changeVideoTrack(final VideoTrack selected) async {
+    await _player.setVideoTrack(selected);
+  }
+
   void _changePlaybackSpeed(final double? playbackSpeed) {
     if (playbackSpeed == null) {
       return;
@@ -372,6 +386,17 @@ class _VideoPlayerState extends State<VideoPlayer> {
             await showModalBottomSheet(
               context: context,
               isScrollControlled: true,
+              builder: (_) => _buildVideoTracksList(),
+            );
+          },
+          iconData: Icons.fullscreen,
+          title: 'Video track'),
+      OptionItem(
+          onTap: () async {
+            Navigator.pop(context);
+            await showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
               builder: (_) => _buildSubtitleList(),
             );
           },
@@ -426,7 +451,21 @@ class _VideoPlayerState extends State<VideoPlayer> {
     return OptionsDialog(options: options);
   }
 
-  // List view from all possible stream options
+  Widget _buildVideoTracksList() {
+    final List<OptionItem> options = _videoTracks
+        .map((e) => OptionItem(
+              onTap: () {
+                Navigator.pop(context);
+                _changeVideoTrack(e);
+              },
+              title: '${e.title}/${e.id}',
+              iconData: Icons.video_collection,
+            ))
+        .toList();
+    return OptionsDialog(options: options);
+  }
+
+  // List view from all possible subtitle options
   Widget _buildSubtitleList() {
     if (_currentLink?.subtitles == null) {
       return OptionsDialog(options: List.empty());
