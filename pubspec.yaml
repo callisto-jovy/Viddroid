@@ -72,7 +72,7 @@ dependencies:
       ref: main
       path: media_kit_libs_linux
 
-  media_kit_libs_macos_video: # Media_kit MacOS support
+  media_kit_libs_macos_video: # Media_kit macOS support
     git:
       url: https://github.com/alexmercerind/media_kit.git
       ref: main
@@ -97,7 +97,7 @@ dependencies:
   logger: ^1.3.0 # Logging package for easy logging and removal of print statements.
   subtitle: ^0.1.0-beta.3 # Used to decode the most used subtitle formats.
   wakelock: ^0.6.2 # Links to platform dependencies and stops the display from going to sleep. Used for the player.
-  crypto: ^3.0.2 # Direct dependency to crypto.
+  crypto: ^3.0.2 # Direct dependency for crypto.
   flutter_sticky_header: ^0.6.5
   dpad_container: ^2.0.3
 
@@ -142,10 +142,3 @@ flutter:
 #      fonts:
 #        - asset: assets/BebasNeue-Regular.ttf
 #          weight: 400
-
-
-msix_config:
-  display_name: Viddroid
-  publisher_display_name: yugata
-  msix_version: 1.0.0.0
-  capabilities: internetClient
