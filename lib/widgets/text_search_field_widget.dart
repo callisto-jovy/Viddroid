@@ -18,6 +18,7 @@ class TextSearchField extends StatelessWidget {
         child: TextFormField(
             key: formFieldKey,
             controller: controller,
+            autofocus: true,
             decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15.0)))),

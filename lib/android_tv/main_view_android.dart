@@ -1,5 +1,6 @@
 import 'package:dpad_container/dpad_container.dart';
 import 'package:flutter/material.dart';
+import 'package:viddroid/android_tv/search_view_android.dart';
 import 'package:viddroid/views/search_view.dart';
 import 'package:viddroid/views/settings_view.dart';
 import 'package:viddroid/widgets/watchables_list_widget.dart';
@@ -17,7 +18,7 @@ class _AndroidMainViewState extends State<AndroidMainView> {
   List<Widget> _buildButtons() {
     return [
       DpadContainer(
-        onClick: () => _pushRoute(const SearchView()),
+        onClick: () => _pushRoute(const AndroidSearchView()),
         onFocus: (isFocused) {},
         child:  IconButton(
           icon: const Icon(Icons.search),
