@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: a36ec4843dc30ea6bf652bf25e3448db6c5e8bcf4aa55f063a5d1dad216d8214
+      sha256: "8880b4cfe7b5b17d57c052a5a3a8cc1d4f546261c7cc8fbd717bd53f48db0568"
       url: "https://pub.dev"
     source: hosted
-    version: "58.0.0"
+    version: "59.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: cc4242565347e98424ce9945c819c192ec0838cb9d1f6aa4a97cc96becbc5b27
+      sha256: a89627f49b0e70e068130a36571409726b04dab12da7e5625941d2c8ec278b96
       url: "https://pub.dev"
     source: hosted
-    version: "5.10.0"
+    version: "5.11.1"
   archive:
     dependency: transitive
     description:
@@ -257,6 +257,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  dpad_container:
+    dependency: "direct main"
+    description:
+      name: dpad_container
+      sha256: fb953dd8e91364311525d3105cb48dcb6fd3b9185eae705309187883314c06a0
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   encrypt:
     dependency: "direct main"
     description:
@@ -326,6 +334,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
+  flutter_hooks:
+    dependency: transitive
+    description:
+      name: flutter_hooks
+      sha256: "6a126f703b89499818d73305e4ce1e3de33b4ae1c5512e3b8eab4b986f46774c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.6"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -343,10 +359,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_plugin_android_lifecycle
-      sha256: c224ac897bed083dabf11f238dd11a239809b446740be0c2044608c50029ffdf
+      sha256: "8ffe990dac54a4a5492747added38571a5ab474c8e5d196809ea08849c69b1bb"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.9"
+    version: "2.0.13"
   flutter_sticky_header:
     dependency: "direct main"
     description:
@@ -538,25 +554,25 @@ packages:
     description:
       path: media_kit
       ref: main
-      resolved-ref: a4f678b5006ad036a6bd82b300d8de8f04e803cf
+      resolved-ref: "8b8d8592a5e08d21b55a43e63a83472d27f8ebaa"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
-    version: "0.0.5+2"
+    version: "0.0.7+1"
   media_kit_libs_android_video:
     dependency: "direct main"
     description:
       path: media_kit_libs_android_video
       ref: main
-      resolved-ref: a4f678b5006ad036a6bd82b300d8de8f04e803cf
+      resolved-ref: "8b8d8592a5e08d21b55a43e63a83472d27f8ebaa"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
-    version: "1.0.0"
+    version: "1.0.3"
   media_kit_libs_linux:
     dependency: "direct main"
     description:
       path: media_kit_libs_linux
       ref: main
-      resolved-ref: a4f678b5006ad036a6bd82b300d8de8f04e803cf
+      resolved-ref: "8b8d8592a5e08d21b55a43e63a83472d27f8ebaa"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.2"
@@ -565,16 +581,16 @@ packages:
     description:
       path: media_kit_libs_macos_video
       ref: main
-      resolved-ref: a4f678b5006ad036a6bd82b300d8de8f04e803cf
+      resolved-ref: "8b8d8592a5e08d21b55a43e63a83472d27f8ebaa"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
-    version: "1.0.4"
+    version: "1.0.5"
   media_kit_libs_windows_video:
     dependency: "direct main"
     description:
       path: media_kit_libs_windows_video
       ref: main
-      resolved-ref: a4f678b5006ad036a6bd82b300d8de8f04e803cf
+      resolved-ref: "8b8d8592a5e08d21b55a43e63a83472d27f8ebaa"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.2"
@@ -583,7 +599,7 @@ packages:
     description:
       path: media_kit_native_event_loop
       ref: main
-      resolved-ref: a4f678b5006ad036a6bd82b300d8de8f04e803cf
+      resolved-ref: "8b8d8592a5e08d21b55a43e63a83472d27f8ebaa"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
     version: "1.0.3"
@@ -592,10 +608,10 @@ packages:
     description:
       path: media_kit_video
       ref: main
-      resolved-ref: a4f678b5006ad036a6bd82b300d8de8f04e803cf
+      resolved-ref: "8b8d8592a5e08d21b55a43e63a83472d27f8ebaa"
       url: "https://github.com/alexmercerind/media_kit.git"
     source: git
-    version: "0.0.7"
+    version: "0.0.9"
   meta:
     dependency: transitive
     description:
@@ -656,10 +672,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: da97262be945a72270513700a92b39dd2f4a54dad55d061687e2e37a6390366a
+      sha256: "2cec049d282c7f13c594b4a73976b0b4f2d7a1838a6dd5aaf7bd9719196bee86"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.25"
+    version: "2.0.27"
   path_provider_foundation:
     dependency: transitive
     description:
@@ -688,10 +704,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_windows
-      sha256: f53720498d5a543f9607db4b0e997c4b5438884de25b0f73098cc2671a51b130
+      sha256: d3f80b32e83ec208ac95253e0cd4d298e104fbc63cb29c5c69edaed43b0c69d6
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   pedantic:
     dependency: transitive
     description:
@@ -837,18 +853,18 @@ packages:
     dependency: transitive
     description:
       name: sqflite
-      sha256: e7dfb6482d5d02b661d0b2399efa72b98909e5aa7b8336e1fb37e226264ade00
+      sha256: "8453780d1f703ead201a39673deb93decf85d543f359f750e2afc4908b55533f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.7"
+    version: "2.2.8"
   sqflite_common:
     dependency: transitive
     description:
       name: sqflite_common
-      sha256: "220831bf0bd5333ff2445eee35ec131553b804e6b5d47a4a37ca6f5eb66e282c"
+      sha256: e77abf6ff961d69dfef41daccbb66b51e9983cdd5cb35bf30733598057401555
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.4"
+    version: "2.4.5"
   stack_trace:
     dependency: transitive
     description:
