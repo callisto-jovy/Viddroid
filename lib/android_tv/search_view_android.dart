@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:viddroid/util/extensions/iterable_extension.dart';
@@ -11,6 +12,7 @@ import '../provider/providers.dart';
 import '../util/capsules/media.dart';
 import '../util/capsules/search.dart';
 import '../widgets/snackbars.dart';
+import '../widgets/text_search_field_widget.dart';
 
 class AndroidSearchView extends StatefulWidget {
   const AndroidSearchView({Key? key}) : super(key: key);
@@ -36,45 +38,41 @@ class _AndroidSearchViewState extends State<AndroidSearchView> {
     super.dispose();
   }
 
-  Widget _buildSearchField() {
-    final MediaQueryData mediaQuery = MediaQuery.of(context);
 
-    return MediaQuery(
-      data: MediaQueryData(
-        navigationMode: NavigationMode.directional,
-        accessibleNavigation: mediaQuery.accessibleNavigation,
-        displayFeatures: mediaQuery.displayFeatures,
-      ),
-      child: Flexible(
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: TextFormField(
-              autofocus: true,
-              key: _formFieldKey,
-              controller: _searchController,
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  border:
-                      OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15.0)))),
-              validator: (String? val) =>
-                  (val == null || val.isEmpty) ? 'Please enter a search term first.' : null,
-              onFieldSubmitted: (value) {
-                if (_formFieldKey.currentState != null && _formFieldKey.currentState!.validate()) {
-                  final List<SearchResponse> totalResponses = [];
-                  Providers().search(value, _currentSelectedValues).listen((event) {
-                    totalResponses.addAll(event);
-                    _searchResults.add(totalResponses);
-                  }).onError((error, stackTrace) {
-                    ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
-                    if (kDebugMode) {
-                      print(stackTrace);
-                    }
-                  });
-                }
-              }),
-        ),
+  Widget _buildSearchField() {
+    return Focus(
+      canRequestFocus: false,
+      onKey: _handleKeyEvent,
+      child: TextSearchField(
+        controller: _searchController,
+        onSubmitted: (text) {
+          final List<SearchResponse> totalResponses = [];
+          Providers().search(text, _currentSelectedValues).listen((event) {
+            totalResponses.addAll(event);
+            _searchResults.add(totalResponses);
+          }).onError((error, stackTrace) {
+            ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
+            if (kDebugMode) {
+              print(stackTrace);
+            }
+          });
+        },
+        formFieldKey: _formFieldKey,
       ),
     );
+  }
+
+  KeyEventResult _handleKeyEvent(FocusNode node, RawKeyEvent event) {
+    if (LogicalKeyboardKey.arrowLeft == event.logicalKey) {
+      FocusManager.instance.primaryFocus!.focusInDirection(TraversalDirection.left);
+    } else if (LogicalKeyboardKey.arrowRight == event.logicalKey) {
+      FocusManager.instance.primaryFocus!.focusInDirection(TraversalDirection.right);
+    } else if (LogicalKeyboardKey.arrowUp == event.logicalKey) {
+      FocusManager.instance.primaryFocus!.focusInDirection(TraversalDirection.up);
+    } else if (LogicalKeyboardKey.arrowDown == event.logicalKey) {
+      FocusManager.instance.primaryFocus!.focusInDirection(TraversalDirection.down);
+    }
+    return KeyEventResult.handled;
   }
 
   Widget _buildSearchStreamBuilder() {
