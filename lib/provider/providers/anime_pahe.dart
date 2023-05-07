@@ -80,7 +80,7 @@ class AnimePahe extends SiteProvider {
       final String referral = document.querySelector('.play')!.text;
 
       // final String sessionId = responseJson['data'][0]['session'];
-      return MovieFetchResponse(title, referral, name, TvType.movie, referral,
+      return MovieFetchResponse(title, referral, name, searchResponse.type, referral,
           backgroundImage: backgroundImage,
           thumbnail: thumbnail,
           description: description,
@@ -110,7 +110,7 @@ class AnimePahe extends SiteProvider {
         }
       }
 
-      return TvFetchResponse(title, 'url', name, TvType.movie, '',
+      return TvFetchResponse(title, 'url', name, searchResponse.type, '',
           seasons: 1,
           episodes: episodes,
           backgroundImage: backgroundImage,
