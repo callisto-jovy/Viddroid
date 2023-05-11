@@ -6,9 +6,6 @@ By itself, Viddroid includes some streaming providers. However, it is planned to
 which would enable users to include custom providers. But, before this enhancement, the app has to be in a stable and
 semi-finished state.
 
-If you are searching for an extensive Android application which accomplishes the same feat, have a look
-at [Cloudstream](https://github.com/recloudstream/cloudstream).
-
 As this project could get pretty big, help is always appreciated.
 
 ## Platforms
