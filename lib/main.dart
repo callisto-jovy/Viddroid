@@ -31,14 +31,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Viddroid',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorSchemeSeed: Colors.blueGrey,
-        useMaterial3: true,
-      ),
+      theme: ThemeData(colorSchemeSeed: Colors.blueGrey, useMaterial3: true),
       darkTheme: ThemeData(
+        useMaterial3: true,
         colorSchemeSeed: Colors.blueGrey,
         brightness: Brightness.dark,
-        useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
       scrollBehavior: CustomScrollBehaviour(),
