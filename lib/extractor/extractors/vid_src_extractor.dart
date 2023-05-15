@@ -10,7 +10,7 @@ import '../../constants.dart';
 import '../extractor.dart';
 
 class VidSrcExtractor extends Extractor {
-  VidSrcExtractor() : super('VidSrc', 'https://v2.vidsrc.me/', 'https://v2.vidsrc.me/embed');
+  VidSrcExtractor() : super('VidSrc', 'https://v2.vidsrc.me', 'https://v2.vidsrc.me/embed');
 
   @override
   Stream<LinkResponse> extract(String url, {Map<String, String>? headers}) async* {
@@ -23,23 +23,25 @@ class VidSrcExtractor extends Extractor {
       return;
     }
 
-    final Response response = await simpleGet('$mainUrl/$playerUrl', headers: headers);
-    final Document document = parse(response.data);
-
-    for (final Element element in document.querySelectorAll('.source')) {
+    for (final Element element in document0.querySelectorAll('.source')) {
       final String? dataHash = element.attributes['data-hash'];
       if (dataHash != null && dataHash.isNotEmpty) {
-        final Response resp = await simpleGet('${mainUrl}srcrcp/$dataHash',
-            headers: {'referer': 'https://rcp.vidsrc.me/'});
-
-        servers.add(resp.requestOptions.uri.toString());
+        try {
+          final Response resp = await simpleGet('$mainUrl/srcrcp/$dataHash',
+              headers: {'referer': 'https://rcp.vidsrc.me/'});
+          servers.add(resp.realUri.toString());
+        } catch (e) {
+          logger.e(e);
+        }
       }
     }
+
+   // print(servers);
 
     for (final String server in servers) {
       final String fixedLink = server.replaceAll('https://vidsrc.xyz/', 'https://embedsito.com/');
 
-      if (fixedLink.contains('/srcrcp/')) {
+      if (fixedLink.contains('/prorcp')) {
         final Response srcResp = await simpleGet(server, headers: {'referer': mainUrl});
         final String respBody = srcResp.data;
 
