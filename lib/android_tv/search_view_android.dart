@@ -38,7 +38,6 @@ class _AndroidSearchViewState extends State<AndroidSearchView> {
     super.dispose();
   }
 
-
   Widget _buildSearchField() {
     return Focus(
       canRequestFocus: false,
