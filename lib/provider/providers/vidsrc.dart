@@ -49,11 +49,11 @@ class VidSrc extends SiteProvider {
 
   @override
   Stream<LinkResponse> load(LoadRequest loadRequest) async* {
-    //TODO: Extractor classes
     //https://vidsrc.me/embed/tt0944947/2-3/
     if (loadRequest is TvLoadRequest) {
+      //TODO: Handle special cases
       yield* VidSrcExtractor().extract(
-          '$mainUrl/embed/${loadRequest.data}/${loadRequest.season}-${loadRequest.episode}',
+          '$mainUrl/embed/${loadRequest.data}/${loadRequest.season + 1}-${loadRequest.episode + 1}',
           headers: loadRequest.headers);
     } else if (loadRequest is MovieLoadRequest) {
       yield* VidSrcExtractor()

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -108,6 +109,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
         }).onError((error, stackTrace) {
           ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
           logger.e(error.toString(), error, stackTrace);
+          if (error is DioError) {
+            logger.i(error.response?.realUri);
+            logger.i(error.response?.data);
+          }
         }); // Display message on error.
 
         _controller = await VideoController.create(_player);

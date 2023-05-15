@@ -1,5 +1,4 @@
 import 'package:cookie_jar/cookie_jar.dart';
-
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:logger/logger.dart';
@@ -49,7 +48,10 @@ Future<Response<T>> advancedGet<T>(final String url,
     {Map<String, String>? headers,
     Interceptor? interceptor,
     ResponseType responseType = ResponseType.json}) {
-  final Dio singleInstance = Dio(BaseOptions(headers: {'User-Agent': userAgent}));
+  final Dio singleInstance = Dio(BaseOptions(headers: {'User-Agent': userAgent}))
+    ..useProxy(Settings().get(Settings.proxy))
+    ..interceptors.add(CookieManager(cookieJar));
+
   if (interceptor != null) {
     singleInstance.interceptors.add(interceptor);
   }
