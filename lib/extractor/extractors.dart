@@ -7,6 +7,8 @@ import 'package:viddroid/extractor/extractors/stream_tape_extractor.dart';
 import 'package:viddroid/extractor/extractors/vid_src_extractor.dart';
 import 'package:viddroid/extractor/extractors/vidoza_extractor.dart';
 
+import 'extractors/dood_stream_extractor.dart';
+
 class Extractors {
   static final Extractors _instance = Extractors.inst();
 
@@ -18,7 +20,7 @@ class Extractors {
 
   final List<Extractor> extractors = [
     VidSrcExtractor(),
-    //  DoodStreamExtractor(),
+    DoodStreamExtractor(),
     DokiCloudExtractor(),
     StreamTapeExtractor(),
     MixDropExtractor(),
