@@ -52,9 +52,6 @@ class HLSDownloader extends Downloader {
       if (url.isEmpty) {
         continue;
       }
-
-      //TODO: Handle errors
-
       try {
         if (isEncrypted) {
           await writeFromEncryptedStreamToStream(
