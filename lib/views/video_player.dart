@@ -48,11 +48,11 @@ class VideoPlayer extends StatefulWidget {
 
 class _VideoPlayerState extends State<VideoPlayer> {
   /// Create a [Player] instance from `package:media_kit`. And configure it.
-  final Player _player = Player(
+  late final Player _player = Player(
       configuration: const PlayerConfiguration(logLevel: MPVLogLevel.warn, title: 'Viddroid'));
 
   /// Reference to the [VideoController] instance from `package:media_kit_video`.
-  VideoController? _controller;
+  late final VideoController _controller = VideoController(_player);
 
   /// [List] of all current Responses [LinkResponse] from the stream.
   final List<LinkResponse> _responses = [];
@@ -115,8 +115,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
           }
         }); // Display message on error.
 
-        _controller = await VideoController.create(_player);
-
         // Listen for video tracks which may be selected.
         _player.streams.tracks.listen((event) {
           _videoTracks.addAll(event.video);
@@ -160,7 +158,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
     Future.microtask(() async {
       // Release allocated resources back to the system.
       await _subtitleStream.close();
-      await _controller?.dispose();
       await _player.dispose();
       if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
         await WindowManager.instance.setFullScreen(false);

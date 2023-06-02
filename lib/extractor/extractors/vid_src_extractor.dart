@@ -36,8 +36,6 @@ class VidSrcExtractor extends Extractor {
       }
     }
 
-   // print(servers);
-
     for (final String server in servers) {
       final String fixedLink = server.replaceAll('https://vidsrc.xyz/', 'https://embedsito.com/');
 
