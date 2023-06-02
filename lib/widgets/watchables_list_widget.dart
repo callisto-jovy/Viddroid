@@ -9,7 +9,6 @@ class WatchablesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Watchable list
     final Size size = MediaQuery.of(context).size;
     return SizedBox(
       height: size.height / 1.2,
