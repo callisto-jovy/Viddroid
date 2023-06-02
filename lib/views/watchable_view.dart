@@ -30,7 +30,6 @@ class _WatchableViewState extends State<WatchableView> {
     );
   }
 
-  //TODO: Image shadow
   Widget _buildThumbnail() {
     return widget._fetchResponse.thumbnail == null
         ? const Icon(Icons.error)

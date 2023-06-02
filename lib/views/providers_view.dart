@@ -50,7 +50,6 @@ class _ProviderSelectionViewState extends State<ProviderSelectionView> {
                       }
                     });
                   },
-                  // TODO: Add provider to selected providers, save in setting.
                   child: Card(
                     child: Container(
                       padding: const EdgeInsets.all(10),

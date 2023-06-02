@@ -45,7 +45,6 @@ class _TvWidgetState extends State<TvWidget> {
   }
 
   void _displayVideoPlayer(final Episode episode) {
-    //TODO: Move to util
     // Hash calculated with The provider, the tv title, the season and the index.
     final String episodeHash =
         '${widget._fetchResponse.apiName}${widget._fetchResponse.title}${episode.season}${episode.index}'
