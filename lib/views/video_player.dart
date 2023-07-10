@@ -17,9 +17,8 @@ import 'package:viddroid/util/extensions/string_extension.dart';
 import 'package:viddroid/util/video_player_intents.dart';
 import 'package:viddroid/widgets/player/option_dialog.dart';
 import 'package:viddroid/widgets/player/playback_speed_dialog.dart';
-import 'package:viddroid/widgets/player/seek_bar_widget.dart';
 import 'package:viddroid/widgets/player/subtitle_widget.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../util/capsules/subtitle.dart' as internal;
@@ -89,13 +88,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _startHideTimer();
     try {
       Future.microtask(() async {
-        // Enable the wakelock
-        if (Settings().get(Settings.wakelock, true)) {
-          await Wakelock.enable();
-        }
-        if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
-          await WindowManager.instance.setFullScreen(true);
-        }
+
         // Create a [VideoController] instance from `package:media_kit_video`.
         // Pass the [handle] of the [Player] from `package:media_kit` to the [VideoController] constructor.
         widget.stream.asBroadcastStream().listen((event) {
@@ -159,13 +152,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
       // Release allocated resources back to the system.
       await _subtitleStream.close();
       await _player.dispose();
-      if (Platform.isWindows && Settings().get(Settings.changeFullscreen)) {
-        await WindowManager.instance.setFullScreen(false);
-      }
-      // Disable the Wakelock, as to not mess with the systems functionality.
-      if (Settings().get(Settings.wakelock, true)) {
-        await Wakelock.disable();
-      }
     });
     super.dispose();
   }
@@ -200,16 +186,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
               children: [
                 Video(
                   controller: _controller,
+                  wakelock: Settings().get(Settings.wakelock, true),
                 ),
                 //  _buildHitArea(), NOTE: Removed for now.
                 _buildSubtitles(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    _buildSeekbar(),
-                    //Place for subtitles
-                  ],
-                ),
                 //SeekBar(player: _player),
                 //const SizedBox(height: 32.0),
               ],
@@ -258,21 +238,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
       _lastPosition = previousPosition;
     }
 
-    if (_player.platform is libmpvPlayer) {
-      final String properties =
-          response.header?.entries.map((e) => "'${e.key}: ${e.value}'").join(',') ?? '';
-
-      final libmpvPlayer? player = _player.platform as libmpvPlayer?;
-
-      await player?.setProperty('user-agent', userAgent);
-      await player?.setProperty('referrer', response.referer);
-      await player?.setProperty('http-header-fields', properties);
-      //     await player?.setProperty('demuxer-lavf-o', 'protocol_whitelist=[file,tcp,tls,https,crypto,data]');
-    }
-
     await _player.open(Playlist([
       Media(
         response.url,
+        httpHeaders: {'user-agent': userAgent, 'referrer': response.referer, ...?response.header},
       ),
     ]));
     //The player is definitely playing at this point
@@ -321,22 +290,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
         show: !_hideOverlay,
         //  onPressed: () => _togglePlaying(player: true),
       ),
-    );
-  }
-
-  Widget _buildSeekbar() {
-    return AnimatedOpacity(
-      opacity: _hideOverlay ? 0 : 1,
-      duration: const Duration(milliseconds: 300),
-      child: Container(
-          padding: const EdgeInsets.only(top: 50),
-          child: SafeArea(
-              child: Row(
-            children: [
-              Expanded(child: SeekBar(player: _player)),
-              _buildMenuButton(),
-            ],
-          ))),
     );
   }
 
