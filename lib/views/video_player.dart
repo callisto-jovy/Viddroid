@@ -21,7 +21,6 @@ import 'package:viddroid/widgets/player/subtitle_widget.dart';
 import '../util/capsules/subtitle.dart' as internal;
 import '../util/setting/settings.dart';
 import '../util/watchable/watchables.dart';
-import '../widgets/player/center_play_button.dart';
 import '../widgets/snackbars.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -63,10 +62,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   /// Hardcoded [List] of all the possible playback speeds
   static const List<double> _playbackSpeeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
 
-  /// [Timer] instance which is triggered and reset to hide / display the overlay ui
-  Timer? _hideTimer;
-
-  bool _hideOverlay = false;
+  /// [bool] which indicates whether the player is playing something right now. Used for autoplay
   bool _playing = false;
 
   /// [StreamController] which ensures that the selected subtitle is played. The controller is passed to the [SubtitleWidget]
@@ -81,8 +77,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   void initState() {
     super.initState();
-    //Timers
-    _startHideTimer();
+
     try {
       Future.microtask(() async {
         // Create a [VideoController] instance from `package:media_kit_video`.
@@ -136,8 +131,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   void dispose() {
-    _hideTimer?.cancel();
-
     // Save the current state if keep_playback is toggled & more than 30 seconds are still left.
     if (Settings().get(Settings.keepPlayback, true) &&
         (_player.state.duration - _player.state.position).inSeconds > 30) {
@@ -155,14 +148,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      extendBodyBehindAppBar: true,
       body: FocusableActionDetector(
         autofocus: true,
-        onShowHoverHighlight: (b) => _cancelAndRestartTimer(),
         actions: {
           SpaceIntent: CallbackAction<Intent>(onInvoke: (_) => _togglePlaying(player: true)),
           SkipBackwardIntent:
@@ -174,44 +161,17 @@ class _VideoPlayerState extends State<VideoPlayer> {
           SingleActivator(LogicalKeyboardKey.arrowLeft): SkipBackwardIntent(),
           SingleActivator(LogicalKeyboardKey.arrowRight): SkipForwardIntent(),
         },
-        child: GestureDetector(
-          onTap: () => _cancelAndRestartTimer(),
-          child: AbsorbPointer(
-            absorbing: _hideOverlay,
-            child: Stack(
-              children: [
-                Video(
-                  controller: _controller,
-                  wakelock: Settings().get(Settings.wakelock, true),
-                ),
-                //  _buildHitArea(), NOTE: Removed for now.
-                _buildSubtitles(),
-                //SeekBar(player: _player),
-                //const SizedBox(height: 32.0),
-              ],
-            ),
-          ),
+        child: Stack(
+          children: [
+            _buildVideo(),
+            //  _buildHitArea(), NOTE: Removed for now.
+            _buildSubtitles()
+            //SeekBar(player: _player),
+            //const SizedBox(height: 32.0),
+          ],
         ),
       ),
     );
-  }
-
-  void _startHideTimer() {
-    //TODO: Timer duration
-    _hideTimer = Timer(const Duration(milliseconds: 500, seconds: 1), () {
-      setState(() {
-        _hideOverlay = true;
-      });
-    });
-  }
-
-  void _cancelAndRestartTimer() {
-    _hideTimer?.cancel();
-    _startHideTimer();
-
-    setState(() {
-      _hideOverlay = false;
-    });
   }
 
   void _movePosition(Duration offset) {
@@ -232,12 +192,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
     final Duration previousPosition = _player.state.position;
     if (previousPosition.inSeconds != 0) {
       _lastPosition = previousPosition;
-    }
-
-
-    if (_player.platform is libmpvPlayer) {
-      (_player.platform as libmpvPlayer?)
-          ?.setProperty('sub-files', _currentLink!.subtitles![0].url);
     }
 
     await _player.open(Playlist([
@@ -276,42 +230,50 @@ class _VideoPlayerState extends State<VideoPlayer> {
     return SubtitleWidget(player: _player, subtitleStream: _subtitleStream);
   }
 
-  Widget _buildHitArea() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _togglePlaying(player: true);
-          _hideOverlay = true;
-        });
-      },
-      child: CenterPlayButton(
-        backgroundColor: Colors.black54,
-        iconColor: Colors.white,
-        isFinished: false,
-        isPlaying: _playing,
-        show: !_hideOverlay,
-        //  onPressed: () => _togglePlaying(player: true),
+  Widget _buildVideo() {
+    return MaterialDesktopVideoControlsTheme(
+      normal: MaterialDesktopVideoControlsThemeData(
+        // Modify theme options:
+        buttonBarButtonSize: 24.0,
+        buttonBarButtonColor: Colors.white,
+        // Modify top button bar:
+        topButtonBar: [_buildBackButton(), const Spacer(), _buildMenuButton()],
+      ),
+      fullscreen: const MaterialDesktopVideoControlsThemeData(
+        // Modify theme options:
+        displaySeekBar: false,
+        automaticallyImplySkipNextButton: false,
+        automaticallyImplySkipPreviousButton: false,
+      ),
+      child: Scaffold(
+        body: Video(
+          controller: _controller,
+          wakelock: Settings().get(Settings.wakelock, true),
+        ),
       ),
     );
   }
 
   Widget _buildMenuButton() {
-    return AnimatedOpacity(
-      opacity: _hideOverlay ? 0 : 1,
-      duration: const Duration(milliseconds: 300),
-      child: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () async {
-          await showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (_) => _buildMenuList(),
-          );
-        },
-      ),
+    return MaterialDesktopCustomButton(
+      icon: const Icon(Icons.menu),
+      onPressed: () async {
+        await showModalBottomSheet(
+          context: context,
+          shape: const BeveledRectangleBorder(),
+          isScrollControlled: true,
+          constraints: const BoxConstraints.tightForFinite(height: 300),
+          builder: (_) => _buildMenuList(),
+        );
+      },
     );
   }
 
+  Widget _buildBackButton() {
+    return const BackButton(color: Colors.white);
+  }
+
+  /// TODO: Move bottom modal sheet to its own method with a function callback
   Widget _buildMenuList() {
     return OptionsDialog(options: [
       OptionItem(
@@ -320,7 +282,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
             Navigator.pop(context);
             _changePlaybackSpeed(await showModalBottomSheet<double>(
               context: context,
+              shape: const BeveledRectangleBorder(),
               isScrollControlled: true,
+              constraints: const BoxConstraints.tightForFinite(height: 300),
               builder: (_) => const PlaybackSpeedDialog(speeds: _playbackSpeeds, selected: 1.0),
             ));
           },
@@ -331,7 +295,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
             Navigator.pop(context);
             await showModalBottomSheet(
               context: context,
+              shape: const BeveledRectangleBorder(),
               isScrollControlled: true,
+              constraints: const BoxConstraints.tightForFinite(height: 300),
               builder: (_) => _buildStreamerList(),
             );
           },
@@ -342,7 +308,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
             Navigator.pop(context);
             await showModalBottomSheet(
               context: context,
+              shape: const BeveledRectangleBorder(),
               isScrollControlled: true,
+              constraints: const BoxConstraints.tightForFinite(height: 300),
               builder: (_) => _buildVideoTracksList(),
             );
           },
@@ -353,7 +321,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
             Navigator.pop(context);
             await showModalBottomSheet(
               context: context,
+              shape: const BeveledRectangleBorder(),
               isScrollControlled: true,
+              constraints: const BoxConstraints.tightForFinite(height: 300),
               builder: (_) => _buildSubtitleList(),
             );
           },

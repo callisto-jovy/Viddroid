@@ -1,6 +1,9 @@
+import 'dart:io' show Platform;
+
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:logger/logger.dart';
 import 'package:viddroid/util/network/plugins/proxy_extension.dart';
 import 'package:viddroid/util/setting/settings.dart';
@@ -67,3 +70,20 @@ Future<Response> simplePost(String url, Object? body,
       options: Options(headers: {...?headers}, responseType: responseType),
       data: body,
     );
+
+
+bool get isMobile {
+  if (kIsWeb) {
+    return false;
+  } else {
+    return Platform.isIOS || Platform.isAndroid;
+  }
+}
+
+bool get isDesktop {
+  if (kIsWeb) {
+    return false;
+  } else {
+    return Platform.isLinux || Platform.isFuchsia || Platform.isWindows || Platform.isMacOS;
+  }
+}
