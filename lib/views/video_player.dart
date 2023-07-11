@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,8 +17,6 @@ import 'package:viddroid/util/video_player_intents.dart';
 import 'package:viddroid/widgets/player/option_dialog.dart';
 import 'package:viddroid/widgets/player/playback_speed_dialog.dart';
 import 'package:viddroid/widgets/player/subtitle_widget.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
-import 'package:window_manager/window_manager.dart';
 
 import '../util/capsules/subtitle.dart' as internal;
 import '../util/setting/settings.dart';
@@ -88,7 +85,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _startHideTimer();
     try {
       Future.microtask(() async {
-
         // Create a [VideoController] instance from `package:media_kit_video`.
         // Pass the [handle] of the [Player] from `package:media_kit` to the [VideoController] constructor.
         widget.stream.asBroadcastStream().listen((event) {
@@ -109,15 +105,15 @@ class _VideoPlayerState extends State<VideoPlayer> {
         }); // Display message on error.
 
         // Listen for video tracks which may be selected.
-        _player.streams.tracks.listen((event) {
+        _player.stream.tracks.listen((event) {
           _videoTracks.addAll(event.video);
         });
 
         // Listen to the streams; print occurring errors.
-        _player.streams.playing.listen((event) => _playing = event);
+        _player.stream.playing.listen((event) => _playing = event);
         // Only needed to restore the player to its previous state. I haven't found another way for now.
         // This unfortunately also applies whenever the stream is switched.
-        _player.streams.duration.listen((event) {
+        _player.stream.duration.listen((event) {
           // Load the previous state if possible
           if (Settings().get(Settings.keepPlayback, true) && _lastPosition == null) {
             final Duration? previousState = Watchables().getTimestamp(widget.hash);
@@ -236,6 +232,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
     final Duration previousPosition = _player.state.position;
     if (previousPosition.inSeconds != 0) {
       _lastPosition = previousPosition;
+    }
+
+
+    if (_player.platform is libmpvPlayer) {
+      (_player.platform as libmpvPlayer?)
+          ?.setProperty('sub-files', _currentLink!.subtitles![0].url);
     }
 
     await _player.open(Playlist([
