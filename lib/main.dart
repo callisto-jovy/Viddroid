@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:media_kit/media_kit.dart';
@@ -9,11 +7,14 @@ import 'package:viddroid/util/setting/settings.dart';
 import 'package:viddroid/util/watchable/watchables.dart';
 import 'package:viddroid/views/main_view.dart';
 
+import 'constants.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
   await Settings().init();
   await Watchables().init();
+  /// Local notifier does not work for the web, obviously
   await localNotifier.setup(
     appName: 'Viddroid',
     // The parameter shortcutPolicy only works on Windows
@@ -39,9 +40,7 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.system,
       scrollBehavior: CustomScrollBehaviour(),
-      home: Platform.isAndroid
-          ? const AndroidMainView(title: 'Viddroid')
-          : const MainView(title: 'Viddroid'),
+      home: isMobile ? const AndroidMainView(title: 'Viddroid') : const MainView(title: 'Viddroid'),
     );
   }
 }
