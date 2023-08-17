@@ -93,7 +93,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         }).onError((error, stackTrace) {
           ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
           logger.e(error.toString(), error, stackTrace);
-          if (error is DioError) {
+          if (error is DioException) {
             logger.i(error.response?.realUri);
             logger.i(error.response?.data);
           }
