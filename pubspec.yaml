@@ -45,51 +45,17 @@ dependencies:
   puppeteer: ^2.22.0 # Not really used atm; will be needed for headless browsers later on
   encrypt: ^5.0.1 # As dart does not offer an easy-to-use api & I'm too lazy to actually figure it out.
   dio: ^5.0.0 # Replacement for the request package, used to handle http
+
+  media_kit: ^1.1.4                              # Primary package.
+  media_kit_video: ^1.1.5                        # For video rendering.
+  media_kit_native_event_loop: ^1.0.7            # Support for higher number of concurrent instances & better performance.
+  media_kit_libs_android_video: ^1.3.2           # Android package for video native libraries.
+  media_kit_libs_ios_video: ^1.1.3               # iOS package for video native libraries.
+  media_kit_libs_macos_video: ^1.1.3             # macOS package for video native libraries.
+  media_kit_libs_windows_video: ^1.0.7           # Windows package for video native libraries.
+  media_kit_libs_linux: ^1.1.1                   # GNU/Linux dependency package.
+
   window_manager: ^0.3.0 # Used to resize the window, links into the native bindings.
-
-  # Needed to play any video with hardware acceleration. Even though media_kit is on pub.dev,
-  # the freshest installments are not published directly.
-  media_kit: # Media kit from GitHub, in order to receive the newest changes.
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit
-
-  media_kit_video:
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit_video
-
-  media_kit_native_event_loop: # Media_kit video support
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit_native_event_loop
-
-  media_kit_libs_linux: # Media_kit linux support
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit_libs_linux
-
-  media_kit_libs_macos_video: # Media_kit macOS support
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit_libs_macos_video
-
-  media_kit_libs_windows_video: # Media_kit windows support
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit_libs_windows_video
-
-  media_kit_libs_android_video: # Media_kit early android support
-    git:
-      url: https://github.com/alexmercerind/media_kit.git
-      ref: main
-      path: media_kit_libs_android_video
 
   dio_cookie_manager: ^2.1.0 # Manages the cookies for dio, as requests is no longer used
   jovial_misc: ^0.8.5 # Library which provides a crypto input stream to download encrypted hls
