@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
-import 'package:subtitle/subtitle.dart';
 import 'package:viddroid/constants.dart';
 import 'package:viddroid/util/capsules/link.dart';
 import 'package:viddroid/util/capsules/option_item.dart';
@@ -65,8 +64,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
   /// [bool] which indicates whether the player is playing something right now. Used for autoplay
   bool _playing = false;
 
-  /// [StreamController] which ensures that the selected subtitle is played. The controller is passed to the [SubtitleWidget]
-  final StreamController<SubtitleController> _subtitleStream = StreamController();
 
   /// [Duration] which is non-null if the source was changed.
   Duration? _lastPosition;
@@ -139,7 +136,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
     Future.microtask(() async {
       // Release allocated resources back to the system.
-      await _subtitleStream.close();
       await _player.dispose();
     });
     super.dispose();
@@ -165,7 +161,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
           children: [
             _buildVideo(),
             //  _buildHitArea(), NOTE: Removed for now.
-            _buildSubtitles()
             //SeekBar(player: _player),
             //const SizedBox(height: 32.0),
           ],
@@ -218,16 +213,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   void _changeSubtitle(final internal.Subtitle subtitle) async {
-    final Uri url = Uri.parse(subtitle.url);
-    SubtitleController subtitleController = SubtitleController(
-      provider: SubtitleProvider.fromNetwork(url),
-    );
-    await subtitleController.initial();
-    _subtitleStream.add(subtitleController);
-  }
-
-  Widget _buildSubtitles() {
-    return SubtitleWidget(player: _player, subtitleStream: _subtitleStream);
+    _player.setSubtitleTrack(
+        SubtitleTrack.uri(subtitle.url, title: subtitle.name, language: subtitle.language));
   }
 
   Widget _buildVideo() {

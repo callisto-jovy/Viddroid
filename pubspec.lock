@@ -568,11 +568,10 @@ packages:
   media_kit:
     dependency: "direct main"
     description:
-      path: media_kit
-      ref: main
-      resolved-ref: d4100553068b56c48d8ab1eaa0f19620fc01f796
-      url: "https://github.com/alexmercerind/media_kit.git"
-    source: git
+      name: media_kit
+      sha256: "0a89e7037002a62701ec319c375586849f9ef8e681820e1dd4a4ff7b843f7542"
+      url: "https://pub.dev"
+    source: hosted
     version: "1.1.4+1"
   media_kit_libs_android_video:
     dependency: "direct main"
