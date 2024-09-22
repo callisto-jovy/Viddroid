@@ -56,25 +56,21 @@ class Providers {
           final List<SearchResponse> searchResponses = await provider.search(query);
           yield searchResponses;
         } catch (e, trace) {
-          if (e is DioError) {
+          if (e is DioException) {
             logger.e('Error while searching the url: ${e.response?.realUri}.');
           }
-          logger.e('An error occurred while searching one of the providers.', e, trace);
+          logger.e('An error occurred while searching one of the providers.', error: e, stackTrace: trace);
         }
       }
     }
   }
 
   Future<FetchResponse> fetch(final SearchResponse searchResponse) async {
-    return siteProviders
-        .firstWhere((element) => element.name == searchResponse.apiName)
-        .fetch(searchResponse);
+    return siteProviders.firstWhere((element) => element.name == searchResponse.apiName).fetch(searchResponse);
   }
 
   Stream<LinkResponse> load(final LoadRequest loadRequest) async* {
-    await for (LinkResponse lr in siteProviders
-        .firstWhere((element) => element.name == loadRequest.apiName)
-        .load(loadRequest)) {
+    await for (LinkResponse lr in siteProviders.firstWhere((element) => element.name == loadRequest.apiName).load(loadRequest)) {
       yield lr;
     }
   }

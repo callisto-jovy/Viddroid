@@ -36,13 +36,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   #uuid: ^3.0.7 # Not used atm
   awesome_snackbar_content: ^0.1.0 # UI enhancement
-  file_picker: ^5.2.4 # Needed for desktop file-system-dialoges
+  file_picker: ^8.0.5 # Needed for desktop file-system-dialoges
   html: ^0.15.1 # HTML parser, similar to Jsoup
   cached_network_image: ^3.2.3 # Cached network images, very nice.
   loading_animation_widget: ^1.2.0+4 # Not used atm, could be useful in the future.
-  shimmer: ^2.0.0 # UI enhancement, provides a shimmer with gradients
+  shimmer: ^3.0.0 # UI enhancement, provides a shimmer with gradients
   sticky_headers: ^0.3.0+2 # Enhancement for the gridview
-  puppeteer: ^2.22.0 # Not really used atm; will be needed for headless browsers later on
+  puppeteer: ^3.14.0 # Not really used atm; will be needed for headless browsers later on
   encrypt: ^5.0.1 # As dart does not offer an easy-to-use api & I'm too lazy to actually figure it out.
   dio: ^5.0.0 # Replacement for the request package, used to handle http
 
@@ -55,13 +55,13 @@ dependencies:
   media_kit_libs_windows_video: ^1.0.7           # Windows package for video native libraries.
   media_kit_libs_linux: ^1.1.1                   # GNU/Linux dependency package.
 
-  window_manager: ^0.3.0 # Used to resize the window, links into the native bindings.
+  window_manager: ^0.4.2 # Used to resize the window, links into the native bindings.
 
-  dio_cookie_manager: ^2.1.0 # Manages the cookies for dio, as requests is no longer used
+  dio_cookie_manager: ^3.1.1 # Manages the cookies for dio, as requests is no longer used
   jovial_misc: ^0.8.5 # Library which provides a crypto input stream to download encrypted hls
   local_notifier: ^0.1.5 # Used to display local (desktop) notifications, as this binds to native dependencies
   localstore: ^1.3.5 # Used to read and write data
-  logger: ^1.3.0 # Logging package for easy logging and removal of print statements.
+  logger: ^2.4.0 # Logging package for easy logging and removal of print statements.
   subtitle: ^0.1.0-beta.3 # Used to decode the most used subtitle formats.
   wakelock_plus: ^1.1.0 # Links to platform dependencies and stops the display from going to sleep. Used for the player.
   crypto: ^3.0.2 # Direct dependency for crypto.
@@ -78,7 +78,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
   build_runner: ^2.3.3
 
 
