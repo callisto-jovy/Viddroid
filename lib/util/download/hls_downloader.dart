@@ -30,9 +30,7 @@ class HLSDownloader extends Downloader {
     if (isEncrypted) {
       //TODO: Key not from url (not supported by any players, therefore low priority)
 
-      final Uint8List key =
-          await simpleGet(scanner.encKeyUri!, headers: headers, responseType: ResponseType.bytes)
-              .then((value) => value.data);
+      final Uint8List key = await simpleGet(scanner.encKeyUri!, headers: headers, responseType: ResponseType.bytes).then((value) => value.data);
 
       final Uint8List iv = scanner.encIv?.hexToUint8List ?? Uint8List(16);
 
@@ -69,7 +67,7 @@ class HLSDownloader extends Downloader {
           );
         }
       } catch (e, s) {
-        logger.e('An error occurred while downloading a HLS segment', e, s);
+        logger.e('An error occurred while downloading a HLS segment', error: e, stackTrace: s);
         continue;
       }
       progressCallback.call(((i / totalSegments) * 100).toInt());

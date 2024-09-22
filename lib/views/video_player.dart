@@ -42,8 +42,7 @@ class VideoPlayer extends StatefulWidget {
 
 class _VideoPlayerState extends State<VideoPlayer> {
   /// Create a [Player] instance from `package:media_kit`. And configure it.
-  late final Player _player = Player(
-      configuration: const PlayerConfiguration(logLevel: MPVLogLevel.warn, title: 'Viddroid'));
+  late final Player _player = Player(configuration: const PlayerConfiguration(logLevel: MPVLogLevel.warn, title: 'Viddroid'));
 
   /// Reference to the [VideoController] instance from `package:media_kit_video`.
   late final VideoController _controller = VideoController(_player);
@@ -63,7 +62,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   /// [bool] which indicates whether the player is playing something right now. Used for autoplay
   bool _playing = false;
-
 
   /// [Duration] which is non-null if the source was changed.
   Duration? _lastPosition;
@@ -89,7 +87,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
           }
         }).onError((error, stackTrace) {
           ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
-          logger.e(error.toString(), error, stackTrace);
+          logger.e(error.toString(), error: error, stackTrace: stackTrace);
           if (error is DioException) {
             logger.i(error.response?.realUri);
             logger.i(error.response?.data);
@@ -122,15 +120,14 @@ class _VideoPlayerState extends State<VideoPlayer> {
         setState(() {});
       });
     } catch (e, s) {
-      logger.e('An error occurred in the video_player init', e, s);
+      logger.e('An error occurred in the video_player init', error:  e, stackTrace:  s);
     }
   }
 
   @override
   void dispose() {
     // Save the current state if keep_playback is toggled & more than 30 seconds are still left.
-    if (Settings().get(Settings.keepPlayback, true) &&
-        (_player.state.duration - _player.state.position).inSeconds > 30) {
+    if (Settings().get(Settings.keepPlayback, true) && (_player.state.duration - _player.state.position).inSeconds > 30) {
       Watchables().saveTimestamp(widget.hash, _player.state.position);
     }
 
@@ -148,8 +145,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         autofocus: true,
         actions: {
           SpaceIntent: CallbackAction<Intent>(onInvoke: (_) => _togglePlaying(player: true)),
-          SkipBackwardIntent:
-              CallbackAction<Intent>(onInvoke: (_) => _movePosition(-_seekDuration)),
+          SkipBackwardIntent: CallbackAction<Intent>(onInvoke: (_) => _movePosition(-_seekDuration)),
           SkipForwardIntent: CallbackAction<Intent>(onInvoke: (_) => _movePosition(_seekDuration)),
         },
         shortcuts: const {
@@ -213,8 +209,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   void _changeSubtitle(final internal.Subtitle subtitle) async {
-    _player.setSubtitleTrack(
-        SubtitleTrack.uri(subtitle.url, title: subtitle.name, language: subtitle.language));
+    _player.setSubtitleTrack(SubtitleTrack.uri(subtitle.url, title: subtitle.name, language: subtitle.language));
   }
 
   Widget _buildVideo() {
@@ -322,9 +317,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
             //Pause the player
             _togglePlaying(player: true);
 
-            final String? result = await FilePicker.platform.saveFile(
-                dialogTitle: 'Please select where to save the file.',
-                fileName: widget.title.cleanWindows);
+            final String? result =
+                await FilePicker.platform.saveFile(dialogTitle: 'Please select where to save the file.', fileName: widget.title.cleanWindows);
 
             // Dialog has been aborted
             if (result == null || _currentLink == null) {
@@ -342,8 +336,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
                 ?.download(
                   (p0) => logger.i('Downloading with process $p0'),
                 )
-                .onError((error, stackTrace) =>
-                    LocalNotification(title: "Download", body: error.toString()).show());
+                .onError((error, stackTrace) => LocalNotification(title: "Download", body: error.toString()).show());
           },
           iconData: Icons.download,
           title: 'Download')
