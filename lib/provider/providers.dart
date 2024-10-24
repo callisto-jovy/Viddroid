@@ -33,7 +33,6 @@ class Providers {
     Sflix(),
     VidSrc(),
     AllMoviesForYou(),
-    Aniflix(),
     AnimePahe(),
     DopeBox(),
     HdToday(),

@@ -21,7 +21,10 @@ class AnimePahe extends SiteProvider {
 
   @override
   Future<List<SearchResponse>> search(String query) async {
-    final Response response = await simpleGet('$mainUrl/api?m=search&q=$query');
+    final Response response = await simpleGet('$mainUrl/api?m=search&q=$query', headers: {
+      'referer': mainUrl,
+    });
+
     final dynamic entries = response.data['data'];
 
     final List<SearchResponse> responses = [];
