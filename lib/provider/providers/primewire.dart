@@ -60,15 +60,12 @@ class PrimeWire extends SiteProvider {
     //Background url
     final RegExp backgroundUrlPattern = RegExp(r'(?<=url\()[^)]+');
     final String? backgroundCss = document.querySelector('.dp-w-cover')?.attributes['style'];
-    final String? backgroundUrl =
-        backgroundCss == null ? null : backgroundUrlPattern.firstMatch(backgroundCss)?.group(0);
+    final String? backgroundUrl = backgroundCss == null ? null : backgroundUrlPattern.firstMatch(backgroundCss)?.group(0);
     final Element? thumbnailElement = document.querySelector('.film-poster-img');
 
     final List<Element> detailsElements = document.querySelectorAll('.dp-elements');
 
-    final String dataId =
-        document.querySelector('watching.detail_page-watch')?.attributes['data-id'] ??
-            url.substring(url.lastIndexOf('-') + 1);
+    final String dataId = document.querySelector('watching.detail_page-watch')?.attributes['data-id'] ?? url.substring(url.lastIndexOf('-') + 1);
 
     // Meta-data
     final String? thumbnail = thumbnailElement?.attributes['src'];
@@ -83,17 +80,12 @@ class PrimeWire extends SiteProvider {
 
     if (isMovie) {
       return MovieFetchResponse(title, url, name, TvType.movie, dataId,
-          thumbnail: thumbnail,
-          duration: duration,
-          year: year,
-          backgroundImage: backgroundUrl,
-          description: description);
+          thumbnail: thumbnail, duration: duration, year: year, backgroundImage: backgroundUrl, description: description);
     } else {
       final Response apiSeasons = await simpleGet('$mainUrl/ajax/v2/tv/seasons/$dataId');
       final Document seasonsDocument = parse(apiSeasons.data);
 
-      List<Element> seasonElements =
-          seasonsDocument.querySelectorAll('div.dropdown-menu.dropdown-menu-new > a');
+      List<Element> seasonElements = seasonsDocument.querySelectorAll('div.dropdown-menu.dropdown-menu-new > a');
 
       if (seasonElements.isEmpty) {
         seasonElements = seasonsDocument.querySelectorAll('div.dropdown-menu > a.dropdown-item');
@@ -103,8 +95,8 @@ class PrimeWire extends SiteProvider {
 
       for (int i = 0; i < seasonElements.length; i++) {
         final Element value = seasonElements[i];
-        final String? seasonId = value
-            .attributes['data-id']; //Data-id has to be given. If not, the seasons would be invalid
+        final String? seasonId = value.attributes['data-id']; //Data-id has to be given. If not, the seasons would be invalid
+
         if (seasonId == null) {
           continue;
         }
@@ -141,27 +133,21 @@ class PrimeWire extends SiteProvider {
 
   @override
   Stream<LinkResponse> load(LoadRequest loadRequest) async* {
-    final String url = loadRequest.type == TvType.movie
-        ? '$mainUrl/ajax/movie/episodes/${loadRequest.data}'
-        : '$mainUrl/ajax/v2/episode/servers/${loadRequest.data}';
+    final String url =
+        loadRequest.type == TvType.movie ? '$mainUrl/ajax/movie/episodes/${loadRequest.data}' : '$mainUrl/ajax/v2/episode/servers/${loadRequest.data}';
 
     final Response response = await simpleGet(url);
     final Document document = parse(response.data);
 
-    final String attributeKey =
-        loadRequest.type == TvType.movie ? 'data-linkid' : 'data-id'; //Whyyyyyy?
+    final String attributeKey = loadRequest.type == TvType.movie ? 'data-linkid' : 'data-id'; //Whyyyyyy?
 
-    final List<String> ids = document
-        .querySelectorAll('a')
-        .where((element) => element.attributes[attributeKey] != null)
-        .map((e) {
+    final List<String> ids = document.querySelectorAll('a').where((element) => element.attributes[attributeKey] != null).map((e) {
       final String dataId = e.attributes[attributeKey]!;
       return dataId;
     }).toList();
 
     for (String serverId in ids) {
-      final Response response =
-          await simpleGet('$mainUrl/ajax/get_link/$serverId', responseType: ResponseType.plain);
+      final Response response = await simpleGet('$mainUrl/ajax/get_link/$serverId', responseType: ResponseType.plain);
 
       final Map<String, dynamic> json = jsonDecode(response.data);
       final String? link = json['link'];

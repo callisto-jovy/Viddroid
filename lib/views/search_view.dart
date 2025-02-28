@@ -14,7 +14,7 @@ import '../widgets/snackbars.dart';
 import '../widgets/text_search_field_widget.dart';
 
 class SearchView extends StatefulWidget {
-  const SearchView({Key? key}) : super(key: key);
+  const SearchView({super.key});
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -24,8 +24,7 @@ class _SearchViewState extends State<SearchView> {
   final TextEditingController _searchController = TextEditingController();
   final List<TvType> _currentSelectedValues = [TvType.movie, TvType.tv];
 
-  final StreamController<List<SearchResponse>> _searchResults =
-      StreamController<List<SearchResponse>>();
+  final StreamController<List<SearchResponse>> _searchResults = StreamController<List<SearchResponse>>();
 
   final GlobalKey<FormFieldState> _formFieldKey = GlobalKey<FormFieldState>();
 
@@ -45,6 +44,10 @@ class _SearchViewState extends State<SearchView> {
           totalResponses.addAll(event);
           _searchResults.add(totalResponses);
         }).onError((error, stackTrace) {
+          if (!context.mounted) {
+            return;
+          }
+
           ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
           if (kDebugMode) {
             print(stackTrace);
@@ -70,17 +73,14 @@ class _SearchViewState extends State<SearchView> {
             scrollDirection: Axis.vertical,
 //            controller: ScrollController(),
             slivers: validProviders.map((provider) {
-              List<SearchResponse> resp =
-                  snapshot.data!.where((element) => element.apiName == provider).toList();
+              List<SearchResponse> resp = snapshot.data!.where((element) => element.apiName == provider).toList();
 
               return SliverStickyHeader(
                 header: Container(
                   padding: const EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                   margin: const EdgeInsets.only(left: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Theme.of(context).colorScheme.secondaryContainer),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Theme.of(context).colorScheme.secondaryContainer),
                   child: Text(
                     provider,
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),

@@ -6,7 +6,7 @@ import '../../util/capsules/fetch.dart';
 class EpisodeCard extends StatelessWidget {
   final Episode _episode;
 
-  const EpisodeCard(this._episode, {Key? key}) : super(key: key);
+  const EpisodeCard(this._episode, {super.key});
 
   Widget _buildErrorImage() {
     return const Image(

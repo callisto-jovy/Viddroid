@@ -6,8 +6,8 @@ class SettingsList extends StatefulWidget {
     required this.sections,
     this.physics,
     this.contentPadding,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ScrollPhysics? physics;
   final EdgeInsetsGeometry? contentPadding;

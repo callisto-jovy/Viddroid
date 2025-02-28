@@ -8,8 +8,7 @@ class HalfPageImage extends StatelessWidget {
   final String? imageURL;
   final Map<String, String>? headers;
 
-  const HalfPageImage({Key? key, required this.tag, required this.imageURL, this.headers})
-      : super(key: key);
+  const HalfPageImage({super.key, required this.tag, required this.imageURL, this.headers});
 
   Widget _buildImage(BuildContext context) {
     return imageURL == null
@@ -30,7 +29,7 @@ class HalfPageImage extends StatelessWidget {
       child: ImageFiltered(
         imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5, tileMode: TileMode.mirror),
         child: ColorFiltered(
-          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
+          colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.2), BlendMode.dstATop),
           child: Image(
             image: imageProvider,
             fit: BoxFit.cover,

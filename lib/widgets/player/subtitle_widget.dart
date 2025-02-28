@@ -9,8 +9,7 @@ class SubtitleWidget extends StatefulWidget {
 
   final StreamController<SubtitleController> subtitleStream;
 
-  const SubtitleWidget({Key? key, required this.player, required this.subtitleStream})
-      : super(key: key);
+  const SubtitleWidget({super.key, required this.player, required this.subtitleStream});
 
   @override
   State<SubtitleWidget> createState() => _SubtitleWidgetState();
@@ -37,7 +36,7 @@ class _SubtitleWidgetState extends State<SubtitleWidget> {
           });
         }),
         //TODO: Just increment; this is inefficient for now.
-        widget.player.streams.position.listen((event) {
+        widget.player.stream.position.listen((event) {
           setState(() {
             position = event;
             subtitle = subtitleController?.durationSearch(position);

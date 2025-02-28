@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:viddroid/constants.dart';
 import 'package:viddroid/provider/provider.dart';
 import 'package:viddroid/provider/providers/allmoviesforyou.dart';
-import 'package:viddroid/provider/providers/aniflix.dart';
 import 'package:viddroid/provider/providers/anime_pahe.dart';
 import 'package:viddroid/provider/providers/dopebox.dart';
 import 'package:viddroid/provider/providers/goku.dart';

@@ -7,8 +7,7 @@ class TextSearchField extends StatelessWidget {
   final GlobalKey<FormFieldState> formFieldKey;
 
   const TextSearchField(
-      {Key? key, this.controller, required this.onSubmitted, required this.formFieldKey})
-      : super(key: key);
+      {super.key, this.controller, required this.onSubmitted, required this.formFieldKey});
 
   @override
   Widget build(BuildContext context) {

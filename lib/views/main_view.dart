@@ -6,7 +6,7 @@ import 'package:viddroid/widgets/watchables_list_widget.dart';
 class MainView extends StatefulWidget {
   final String title;
 
-  const MainView({Key? key, required this.title}) : super(key: key);
+  const MainView({super.key, required this.title});
 
   @override
   State<MainView> createState() => _MainViewState();

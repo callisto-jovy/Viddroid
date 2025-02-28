@@ -9,8 +9,8 @@ class SettingsSection extends StatelessWidget {
     this.margin,
     required this.title,
     required this.icon,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<SimpleSettingsTile> tiles;
   final EdgeInsetsDirectional? margin;

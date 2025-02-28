@@ -9,7 +9,7 @@ import '../widgets/tv_widget.dart';
 class WatchableView extends StatefulWidget {
   final FetchResponse _fetchResponse;
 
-  const WatchableView(this._fetchResponse, {Key? key}) : super(key: key);
+  const WatchableView(this._fetchResponse, {super.key});
 
   @override
   State<WatchableView> createState() => _WatchableViewState();
@@ -43,7 +43,7 @@ class _WatchableViewState extends State<WatchableView> {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black12.withOpacity(0.5),
+                        color: Colors.black12.withValues(alpha: 0.5),
                         spreadRadius: 5,
                         blurRadius: 7,
                         offset: const Offset(0, 6),
