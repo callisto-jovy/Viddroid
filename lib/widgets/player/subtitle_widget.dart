@@ -9,8 +9,7 @@ class SubtitleWidget extends StatefulWidget {
 
   final StreamController<SubtitleController> subtitleStream;
 
-  const SubtitleWidget({Key? key, required this.player, required this.subtitleStream})
-      : super(key: key);
+  const SubtitleWidget({super.key, required this.player, required this.subtitleStream});
 
   @override
   State<SubtitleWidget> createState() => _SubtitleWidgetState();

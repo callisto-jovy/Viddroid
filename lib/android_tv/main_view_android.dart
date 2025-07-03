@@ -1,14 +1,13 @@
 import 'package:dpad_container/dpad_container.dart';
 import 'package:flutter/material.dart';
 import 'package:viddroid/android_tv/search_view_android.dart';
-import 'package:viddroid/views/search_view.dart';
 import 'package:viddroid/views/settings_view.dart';
 import 'package:viddroid/widgets/watchables_list_widget.dart';
 
 class AndroidMainView extends StatefulWidget {
   final String title;
 
-  const AndroidMainView({Key? key, required this.title}) : super(key: key);
+  const AndroidMainView({super.key, required this.title});
 
   @override
   State<AndroidMainView> createState() => _AndroidMainViewState();

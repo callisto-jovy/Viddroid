@@ -65,8 +65,8 @@ class SettingsTileAdditionalInfo extends InheritedWidget {
     required this.needToShowDivider,
     required this.enableTopBorderRadius,
     required this.enableBottomBorderRadius,
-    required Widget child,
-  }) : super(child: child);
+    required super.child,
+  });
 
   @override
   bool updateShouldNotify(SettingsTileAdditionalInfo oldWidget) => true;

@@ -12,14 +12,13 @@ class SelectionSettingsTile extends StatefulWidget {
   final Function()? onTap;
 
   const SelectionSettingsTile(
-      {Key? key,
+      {super.key,
       required this.items,
       this.onTap,
       required this.title,
       this.description,
       this.leading,
-      this.trailing})
-      : super(key: key);
+      this.trailing});
 
   @override
   State<SelectionSettingsTile> createState() => _SelectionSettingsTileState();

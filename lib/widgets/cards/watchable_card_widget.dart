@@ -6,7 +6,7 @@ import '../../util/watchable/watchable.dart';
 class WatchableCard extends StatelessWidget {
   final Watchable _watchable;
 
-  const WatchableCard(this._watchable, {Key? key}) : super(key: key);
+  const WatchableCard(this._watchable, {super.key});
 
   @override
   Widget build(BuildContext context) {

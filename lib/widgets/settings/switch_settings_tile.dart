@@ -4,10 +4,10 @@ class SwitchSettingsTile extends StatelessWidget {
   final Function(bool value)? onToggle;
   final bool? toggled;
 
-  final MaterialStateProperty<Icon?> thumbIcon = MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
+  final WidgetStateProperty<Icon?> thumbIcon = WidgetStateProperty.resolveWith<Icon?>(
+    (Set<WidgetState> states) {
       // Thumb icon when the switch is selected.
-      if (states.contains(MaterialState.selected)) {
+      if (states.contains(WidgetState.selected)) {
         return const Icon(Icons.check);
       }
       return const Icon(Icons.close);

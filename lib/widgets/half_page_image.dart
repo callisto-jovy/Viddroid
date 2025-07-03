@@ -8,8 +8,7 @@ class HalfPageImage extends StatelessWidget {
   final String? imageURL;
   final Map<String, String>? headers;
 
-  const HalfPageImage({Key? key, required this.tag, required this.imageURL, this.headers})
-      : super(key: key);
+  const HalfPageImage({super.key, required this.tag, required this.imageURL, this.headers});
 
   Widget _buildImage(BuildContext context) {
     return imageURL == null

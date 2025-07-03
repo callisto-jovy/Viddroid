@@ -11,7 +11,7 @@ import '../widgets/settings/settings_section.dart';
 import '../widgets/snackbars.dart';
 
 class SettingsView extends StatefulWidget {
-  const SettingsView({Key? key}) : super(key: key);
+  const SettingsView({super.key});
 
   @override
   State<SettingsView> createState() => _SettingsViewState();

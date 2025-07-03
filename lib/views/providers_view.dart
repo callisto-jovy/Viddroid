@@ -5,7 +5,7 @@ import 'package:viddroid/util/setting/settings.dart';
 import '../provider/provider.dart';
 
 class ProviderSelectionView extends StatefulWidget {
-  const ProviderSelectionView({Key? key}) : super(key: key);
+  const ProviderSelectionView({super.key});
 
   @override
   State<ProviderSelectionView> createState() => _ProviderSelectionViewState();

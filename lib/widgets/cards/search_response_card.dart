@@ -7,7 +7,7 @@ import 'package:viddroid/views/watchable_view.dart';
 class SearchResponseCard extends StatelessWidget {
   final SearchResponse _searchResponse;
 
-  const SearchResponseCard(this._searchResponse, {Key? key}) : super(key: key);
+  const SearchResponseCard(this._searchResponse, {super.key});
 
   @override
   Widget build(BuildContext context) {

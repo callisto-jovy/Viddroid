@@ -5,7 +5,7 @@ import '../util/watchable/watchable.dart';
 class WatchablesList extends StatelessWidget {
   final List<Watchable> _list;
 
-  const WatchablesList(this._list, {Key? key}) : super(key: key);
+  const WatchablesList(this._list, {super.key});
 
   @override
   Widget build(BuildContext context) {

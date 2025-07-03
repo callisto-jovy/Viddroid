@@ -15,7 +15,6 @@ import 'package:viddroid/util/extensions/string_extension.dart';
 import 'package:viddroid/util/video_player_intents.dart';
 import 'package:viddroid/widgets/player/option_dialog.dart';
 import 'package:viddroid/widgets/player/playback_speed_dialog.dart';
-import 'package:viddroid/widgets/player/subtitle_widget.dart';
 
 import '../util/capsules/subtitle.dart' as internal;
 import '../util/setting/settings.dart';
@@ -30,11 +29,11 @@ class VideoPlayer extends StatefulWidget {
   final String hash;
 
   const VideoPlayer({
-    Key? key,
+    super.key,
     required this.stream,
     required this.title,
     required this.hash,
-  }) : super(key: key);
+  });
 
   @override
   State<VideoPlayer> createState() => _VideoPlayerState();
@@ -86,6 +85,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
             _changeVideoSource(event);
           }
         }).onError((error, stackTrace) {
+          if (!context.mounted) {
+            return;
+          }
+
           ScaffoldMessenger.of(context).showSnackBar(errorSnackbar(error.toString()));
           logger.e(error.toString(), error: error, stackTrace: stackTrace);
           if (error is DioException) {
@@ -120,7 +123,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         setState(() {});
       });
     } catch (e, s) {
-      logger.e('An error occurred in the video_player init', error:  e, stackTrace:  s);
+      logger.e('An error occurred in the video_player init', error: e, stackTrace: s);
     }
   }
 

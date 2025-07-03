@@ -11,7 +11,7 @@ class TvWidget extends StatefulWidget {
 
   late final List<DropdownMenuItem<int>> _seasons;
 
-  TvWidget(this._fetchResponse, {Key? key}) : super(key: key) {
+  TvWidget(this._fetchResponse, {super.key}) {
     _seasons = List.generate(_fetchResponse.seasons, (index) => index)
         .map((index) => DropdownMenuItem(value: index, child: Text('Season $index')))
         .toList();

@@ -9,7 +9,7 @@ import '../provider/providers.dart';
 class MovieWidget extends StatefulWidget {
   final MovieFetchResponse _fetchResponse;
 
-  const MovieWidget(this._fetchResponse, {Key? key}) : super(key: key);
+  const MovieWidget(this._fetchResponse, {super.key});
 
   @override
   State<MovieWidget> createState() => _MovieWidgetState();

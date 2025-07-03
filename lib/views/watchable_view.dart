@@ -9,7 +9,7 @@ import '../widgets/tv_widget.dart';
 class WatchableView extends StatefulWidget {
   final FetchResponse _fetchResponse;
 
-  const WatchableView(this._fetchResponse, {Key? key}) : super(key: key);
+  const WatchableView(this._fetchResponse, {super.key});
 
   @override
   State<WatchableView> createState() => _WatchableViewState();

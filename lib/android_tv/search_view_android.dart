@@ -15,7 +15,7 @@ import '../widgets/snackbars.dart';
 import '../widgets/text_search_field_widget.dart';
 
 class AndroidSearchView extends StatefulWidget {
-  const AndroidSearchView({Key? key}) : super(key: key);
+  const AndroidSearchView({super.key});
 
   @override
   State<AndroidSearchView> createState() => _AndroidSearchViewState();

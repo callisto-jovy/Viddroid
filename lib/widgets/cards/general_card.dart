@@ -10,8 +10,7 @@ class GeneralPurposeCard extends StatelessWidget {
   final Function onTap;
 
   const GeneralPurposeCard(
-      {Key? key, required this.title, this.lowerCaption, this.thumbnail, required this.onTap})
-      : super(key: key);
+      {super.key, required this.title, this.lowerCaption, this.thumbnail, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

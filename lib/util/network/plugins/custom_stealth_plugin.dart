@@ -45,7 +45,7 @@ class CustomStealthPlugin extends Plugin {
 }
 
 //language=js
-final _chromeRuntime = '''
+const _chromeRuntime = '''
 function _() {
   window.chrome = {
     runtime: {}
@@ -54,7 +54,7 @@ function _() {
 ''';
 
 //language=js
-final _consoleDebug = '''
+const _consoleDebug = '''
 function _() {
   window.console.debug = () => {
     return null
@@ -63,7 +63,7 @@ function _() {
 ''';
 
 //language=js
-final _navigatorLanguages = '''
+const _navigatorLanguages = '''
 function _() {
   // Overwrite the `plugins` property to use a custom getter.
   Object.defineProperty(navigator, 'languages', {
@@ -73,7 +73,7 @@ function _() {
 ''';
 
 //language=js
-final _navigatorPermission = '''
+const _navigatorPermission = '''
 function _() {
   const originalQuery = window.navigator.permissions.query;
   // eslint-disable-next-line
@@ -108,7 +108,7 @@ function _() {
 ''';
 
 //language=js
-final _navigatorPlugin = r'''
+const _navigatorPlugin = r'''
 function _() {
   function mockPluginsAndMimeTypes () {
     /* global MimeType MimeTypeArray PluginArray */
@@ -292,7 +292,7 @@ function _() {
 ''';
 
 //language=js
-final _navigatorWebdriver = '''
+const _navigatorWebdriver = '''
 function _() {
   // eslint-disable-next-line
   const newProto = navigator.__proto__;
@@ -303,7 +303,7 @@ function _() {
 ''';
 
 //language=js
-final _webglVendor = '''
+const _webglVendor = '''
 function _() {
   try {
     /* global WebGLRenderingContext */
@@ -324,7 +324,7 @@ function _() {
 ''';
 
 //language=js
-final _windowOuterDimensions = '''
+const _windowOuterDimensions = '''
 function _() {
   try {
     if (window.outerWidth && window.outerHeight) {

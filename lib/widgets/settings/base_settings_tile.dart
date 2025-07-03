@@ -23,8 +23,8 @@ class SimpleSettingsTile extends StatefulWidget {
     this.formFieldHint,
     this.initialValue,
     required this.tileType,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget title;
   final Widget? description;
