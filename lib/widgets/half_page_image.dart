@@ -29,7 +29,7 @@ class HalfPageImage extends StatelessWidget {
       child: ImageFiltered(
         imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5, tileMode: TileMode.mirror),
         child: ColorFiltered(
-          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
+          colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.2), BlendMode.dstATop),
           child: Image(
             image: imageProvider,
             fit: BoxFit.cover,

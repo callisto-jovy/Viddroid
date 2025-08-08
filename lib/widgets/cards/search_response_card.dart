@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:viddroid/provider/providers.dart';
+import 'package:viddroid/util/capsules/fetch.dart';
 import 'package:viddroid/util/capsules/search.dart';
 import 'package:viddroid/views/watchable_view.dart';
 
@@ -13,19 +14,16 @@ class SearchResponseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: () {
-          //Fetch data and navigate
-          Providers().fetch(_searchResponse).then((value) => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => WatchableView(value),
-                ),
-              ));
+        onTap: () async {
+          final FetchResponse response = await Providers().fetch(_searchResponse);
+
+          if (!context.mounted) {
+            return;
+          }
+          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchableView(response)));
         },
         child: Container(
-          decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(color: Theme.of(context).colorScheme.primaryContainer, borderRadius: BorderRadius.circular(10)),
           child: Column(
             children: [
               _searchResponse.thumbnail == null
@@ -33,14 +31,13 @@ class SearchResponseCard extends StatelessWidget {
                   : Expanded(
                       child: CachedNetworkImage(
                         imageUrl: _searchResponse.thumbnail!,
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            CircularProgressIndicator(value: downloadProgress.progress),
+                        progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
                         imageBuilder: (context, imageProvider) {
                           return Container(
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black12.withOpacity(0.5),
+                                    color: Colors.black12.withValues(alpha: 0.5),
                                     spreadRadius: 2,
                                     blurRadius: 7,
                                     offset: const Offset(0, 6),

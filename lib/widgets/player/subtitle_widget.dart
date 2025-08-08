@@ -36,7 +36,7 @@ class _SubtitleWidgetState extends State<SubtitleWidget> {
           });
         }),
         //TODO: Just increment; this is inefficient for now.
-        widget.player.streams.position.listen((event) {
+        widget.player.stream.position.listen((event) {
           setState(() {
             position = event;
             subtitle = subtitleController?.durationSearch(position);

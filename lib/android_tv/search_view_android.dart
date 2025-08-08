@@ -41,7 +41,7 @@ class _AndroidSearchViewState extends State<AndroidSearchView> {
   Widget _buildSearchField() {
     return Focus(
       canRequestFocus: false,
-      onKey: _handleKeyEvent,
+      onKeyEvent: _handleKeyEvent,
       child: TextSearchField(
         controller: _searchController,
         onSubmitted: (text) {
@@ -61,7 +61,7 @@ class _AndroidSearchViewState extends State<AndroidSearchView> {
     );
   }
 
-  KeyEventResult _handleKeyEvent(FocusNode node, RawKeyEvent event) {
+  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
     if (LogicalKeyboardKey.arrowLeft == event.logicalKey) {
       FocusManager.instance.primaryFocus!.focusInDirection(TraversalDirection.left);
     } else if (LogicalKeyboardKey.arrowRight == event.logicalKey) {

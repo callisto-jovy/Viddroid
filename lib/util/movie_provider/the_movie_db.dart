@@ -42,15 +42,12 @@ const String apiv3Endpoint = 'https://api.themoviedb.org/3';
 String formatEndpointSearchRequest(TheMovieDBAPIEndpoints dbapiEndpoint, String query) =>
     '$apiv3Endpoint${dbapiEndpoint.getEndpoint()}?api_key=$apiKey&page=1&query=${Uri.encodeFull(query)}';
 
-String formatRequest(TheMovieDBAPIEndpoints dbapiEndpoint, String query,
-        {String appendToResponse = '', List<String> appends = const <String>[]}) =>
+String formatRequest(TheMovieDBAPIEndpoints dbapiEndpoint, String query, {String appendToResponse = '', List<String> appends = const <String>[]}) =>
     '$apiv3Endpoint${dbapiEndpoint.getEndpoint()}/$query?api_key=$apiKey&append_to_response=${appendToResponse + appends.join(',')}';
 
-String formatPosterPath(TheMovieDBAPIImageWidth imageWidth, final String posterPath) =>
-    'https://image.tmdb.org/t/p/${imageWidth.getDimension()}$posterPath';
+String formatPosterPath(TheMovieDBAPIImageWidth imageWidth, final String posterPath) => 'https://image.tmdb.org/t/p/${imageWidth.getDimension()}$posterPath';
 
-String formatSeasonsApi(final String tvId, final int seasonIndex) =>
-    '$apiv3Endpoint/tv/$tvId/season/$seasonIndex?api_key=$apiKey';
+String formatSeasonsApi(final String tvId, final int seasonIndex) => '$apiv3Endpoint/tv/$tvId/season/$seasonIndex?api_key=$apiKey';
 
 class TheMovieDbApi {
   static final TheMovieDbApi _instance = TheMovieDbApi.ctor();
@@ -78,17 +75,12 @@ class TheMovieDbApi {
       }
 
       //Ping the different apis based on the media-type
-      final String requestUrl = formatRequest(
-          mediaType == 'tv'
-              ? TheMovieDBAPIEndpoints.tvDetails
-              : TheMovieDBAPIEndpoints.movieDetails,
-          id.toString());
+      final String requestUrl = formatRequest(mediaType == 'tv' ? TheMovieDBAPIEndpoints.tvDetails : TheMovieDBAPIEndpoints.movieDetails, id.toString());
 
       final dynamic detailedResult = await simpleGet(requestUrl).then((value) => value.data);
 
-      final String? thumbnail = detailedResult['poster_path'] != null
-          ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, detailedResult['poster_path']!)
-          : null;
+      final String? thumbnail =
+          detailedResult['poster_path'] != null ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, detailedResult['poster_path']!) : null;
 
       if (mediaType == 'tv') {
         responses.add(TvSearchResponse(
@@ -138,14 +130,8 @@ class TheMovieDbApi {
           continue;
         }
 
-        episodes.add(Episode(
-            episode['name'] ?? 'N/A',
-            j,
-            (i != 0 ? i - 1 : i),
-            episode['still_path'] != null
-                ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, episode['still_path'])
-                : null,
-            id));
+        episodes.add(Episode(episode['name'] ?? 'N/A', j, (i != 0 ? i - 1 : i),
+            episode['still_path'] != null ? formatPosterPath(TheMovieDBAPIImageWidth.originalSize, episode['still_path']) : null, id));
       }
     }
 
