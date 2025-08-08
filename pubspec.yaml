@@ -67,10 +67,10 @@ dependencies:
   crypto: ^3.0.2 # Direct dependency for crypto.
   flutter_sticky_header: ^0.6.5
   dpad_container: ^2.0.3
-
-
   pointycastle: any
   cookie_jar: any
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
