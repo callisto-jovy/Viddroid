@@ -128,9 +128,10 @@ class Sflix extends SiteProvider {
 
   @override
   Stream<LinkResponse> load(LoadRequest loadRequest) async* {
+    //https://sflix.to/ajax/episode/servers/9743
     final String url = loadRequest.type == TvType.movie
-        ? '$mainUrl/ajax/movie/episodes/${loadRequest.data}'
-        : '$mainUrl/ajax/v2/episode/servers/${loadRequest.data}';
+        ? '$mainUrl/ajax/episode/list/${loadRequest.data}'
+        : '$mainUrl/ajax/episode/servers/${loadRequest.data}';
 
     final Response response = await simpleGet(url);
     final Document document = parse(response.data);
@@ -143,9 +144,10 @@ class Sflix extends SiteProvider {
       return dataId;
     }).toList();
 
+
     for (String serverId in ids) {
       final Response response =
-          await simpleGet('$mainUrl/ajax/get_link/$serverId', responseType: ResponseType.plain);
+          await simpleGet('$mainUrl/ajax/episode/sources/$serverId', responseType: ResponseType.plain);
 
       // if (response.data.isEmpty) return;
 
